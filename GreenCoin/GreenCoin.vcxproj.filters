@@ -13,10 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="BlockChain">
+      <UniqueIdentifier>{6831f06b-b26c-4b67-9d10-05492dc1d4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Wallet">
+      <UniqueIdentifier>{46bb6c35-5155-4a02-aa6d-4cf7e365f3c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GreenCoin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\BlockChain\BlockChain.c">
+      <Filter>BlockChain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BlockChain\Transaction.c">
+      <Filter>BlockChain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Wallet\Wallet.c">
+      <Filter>Wallet</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\BlockChain\BlockChain.h">
+      <Filter>BlockChain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BlockChain\Transaction.h">
+      <Filter>BlockChain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Wallet\Wallet.h">
+      <Filter>Wallet</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
