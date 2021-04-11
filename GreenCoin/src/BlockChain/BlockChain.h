@@ -1,8 +1,6 @@
 #pragma once
 
-#define MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER 1024
-
-#include <stdint.h>
+#define MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER 8
 
 #include "Transaction.h"
 
@@ -41,10 +39,18 @@ struct _Block {
 	*/
 	_Hash Previous_Block_Hash;
 
+
 	/*
 	*	An array of the transactions on the ledger.
 	*/
 	_Transaction Transactions[MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER];
+
+
+	/*
+	*	256 bit number which is used in order to "control" the resulting hash
+	*/
+	uint64_t Block_Validation;
+
 
 	/*
 	*	A linked chain of blocks, as Unary Nodes.

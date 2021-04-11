@@ -19,6 +19,21 @@
     <Filter Include="Wallet">
       <UniqueIdentifier>{46bb6c35-5155-4a02-aa6d-4cf7e365f3c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECDSA">
+      <UniqueIdentifier>{a2666201-3911-4d32-a574-c3e30cfb5ccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECDSA\HighMath">
+      <UniqueIdentifier>{09837767-4d50-4048-a9cd-e3a4bcd3afbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECDSA\Curve">
+      <UniqueIdentifier>{cf6bebe6-efc2-47e0-a51c-f2da6981e37b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECDSA\DSA">
+      <UniqueIdentifier>{7a51c52b-8c12-4ce5-b5e6-39dd52df9803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECDSA\DSA\Math">
+      <UniqueIdentifier>{da4b233e-7930-4eac-ac34-b487ee4435ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GreenCoin.cpp">
@@ -33,6 +48,24 @@
     <ClCompile Include="src\Wallet\Wallet.c">
       <Filter>Wallet</Filter>
     </ClCompile>
+    <ClCompile Include="src\ECDSA\Curve\Cruve.c">
+      <Filter>ECDSA\Curve</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ECDSA\DSA\Math\BitMath.c">
+      <Filter>ECDSA\DSA\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ECDSA\ECDSA.c">
+      <Filter>ECDSA</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ECDSA\DSA\DSA.c">
+      <Filter>ECDSA\DSA</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ECDSA\SHA256.c">
+      <Filter>ECDSA</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BlockChain\BlockChain.h">
@@ -43,6 +76,24 @@
     </ClInclude>
     <ClInclude Include="src\Wallet\Wallet.h">
       <Filter>Wallet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECDSA\ECDSA.h">
+      <Filter>ECDSA</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECDSA\SHA256.h">
+      <Filter>ECDSA</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECDSA\HighMath\HighMath.h">
+      <Filter>ECDSA\HighMath</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECDSA\Curve\Curve.h">
+      <Filter>ECDSA\Curve</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECDSA\DSA\DSA.h">
+      <Filter>ECDSA\DSA</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ECDSA\DSA\Math\BitMath.h">
+      <Filter>ECDSA\DSA\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

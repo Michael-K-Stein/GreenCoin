@@ -1,14 +1,11 @@
 
 #include <iostream>
 
-#include "src/BlockChain/BlockChain.h"
+
+extern "C" void main_c(); // one way
 
 int main()
 {
-
-	_Block Block;
-
-	printf("_Block size: %d\n", sizeof(_Block));
-
+	main_c();
     std::cout << "Hello World!\n";
 }

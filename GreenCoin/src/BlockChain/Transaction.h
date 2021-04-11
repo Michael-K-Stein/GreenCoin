@@ -1,12 +1,9 @@
 #pragma once
 
+#ifndef __TRANSACTION_H
+#define __TRANSACTION_H
+
 #include "../Wallet/Wallet.h"
-
-#include <stdint.h>
-
-typedef struct _Signature {
-	unsigned char Signature[73];
-} _Signature;
 
 typedef struct _Transaction {
 	// Index of the transaction on the ledger
@@ -24,3 +21,5 @@ typedef struct _Transaction {
 	// Signature in order to validate sender
 	_Signature Signature;
 } _Transaction;
+
+#endif // !__TRANSACTION_H
