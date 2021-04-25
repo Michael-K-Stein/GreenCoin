@@ -96,16 +96,15 @@ void DSA_Free_Signature(DSA_Signature * signature) {
 }
 
 void DSA_Generate_P(uint p, uint q, uint_t L) {
-	uint64_t qb = q->data[0];
+	BN_Add_Int(p, q, 1);
 
-	uint64_t pt = qb + 1;
-	int m = 2;
+	int_t m = 2;
 
-	while (!BN_Is_Prime(pt)) {
-		pt = ((m++)*qb) + 1;
+	while (!BN_Is_Prime(p)) {
+		BN_Mul_Int(p, q, m);
+		BN_Add_Int(p, p, 1);
+		m++;
 	}
-
-	BN_Set_Value(p, pt);
 }
 
 void DSA_Generate_G(uint G, uint p, uint q, uint h) {
@@ -275,13 +274,7 @@ error_t DSA_Verify_Signature(const DSA_Public_Key * key, const uint8_t * message
 	TRACE_DEBUG("  v:\r\n");
 	TRACE_DEBUG_MPI("    ", &v);
 
-	if (BN_Compare(&v, r) == 0) {
-		/* VALID! */
-		printf("Valid signature!\n");
-	}
-	else {
-		printf("Invalid Signature!\n");
-	}
+	int valid = (BN_Compare(&v, r) == 0);
 
 	free(w.data);
 	free(z.data);
@@ -289,5 +282,9 @@ error_t DSA_Verify_Signature(const DSA_Public_Key * key, const uint8_t * message
 	free(u2.data);
 	free(v.data);
 
-	return 0;
+	if (valid) {
+		return SIGNATURE_VALID;
+	}
+
+	return SIGNATURE_INVALID;
 }

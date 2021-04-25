@@ -1263,11 +1263,45 @@ error_t BN_Import(BN * r, const uint8_t * data, uint_t length, BN_ENDIAN_FORMAT 
 	return error;
 }
 
-int BN_Is_Prime(uint64_t r) {
+int BN_Is_Prime(BN * r) {
 
-	for (int i = 2; i < sqrt(r); i++) {
-		if (r%i == 0) { return 0; }
+	uint_t order = BN_Get_Bit_Length(r);
+	uint_t sqrt_order = ceil_div(order, 2);
+
+	BN sqr;
+	BN_Init_Stack(&sqr);
+
+	for (int i = 0; i < sqrt_order; i++) {
+		BN_Set_Bit_Value(&sqr, i, 1);
 	}
+
+	BN c;
+	BN_Init_Stack(&c);
+	BN_Set_Value(&c, 2);
+
+	BN q;
+	BN rem;
+	BN_Init_Stack(&q);
+	BN_Init_Stack(&rem);
+
+	while (BN_Compare(&c, &sqr) <= 0) {
+		BN_Div(&q, &rem, r, &c);
+
+		if (BN_Compare_Int(&rem, 0) == 0) {
+			free(sqr.data);
+			free(c.data);
+			free(q.data);
+			free(rem.data);
+			return 0;
+		}
+
+		BN_Add_Int(&c, &c, 1);
+	}
+
+	free(sqr.data);
+	free(c.data);
+	free(q.data);
+	free(rem.data);
 
 	return 1;
 }

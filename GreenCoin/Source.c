@@ -18,8 +18,29 @@ int main_c() {
 	uint_t N = 5;
 	uint_t L = 31;
 
-	BN_Set_Value(q, 11);
-	DSA_Generate_P(p, q, L);
+	//BN_Set_Value(q, 6071717768788351249);
+	//DSA_Generate_P(p, q, L);
+
+	char * q_file_path = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\q.hex";
+	char * p_file_path = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\p.hex";
+
+	FILE * fq;
+	FILE * fp;
+	fopen_s(&fq, q_file_path, "rb");
+	fopen_s(&fp, p_file_path, "rb");
+
+	char q_bin[20];
+	char p_bin[128];
+
+	fread(q_bin, sizeof(char), 20, fq);
+	fread(p_bin, sizeof(char), 128, fp);
+
+	fclose(fq);
+	fclose(fp);
+
+	BN_Import(q, q_bin, 20, BN_BIG_ENDIAN);
+	BN_Import(p, p_bin, 128, BN_BIG_ENDIAN);
+
 
 	uint G; BN_Init(&G);
 	uint h; BN_Init(&h);
@@ -50,14 +71,11 @@ int main_c() {
 
 	DSA_Generate_Signature(priv_key, message_digest, 256, signature);
 
-	DSA_Verify_Signature(pub_key, message_digest, 256, signature);
-
-	/*
-	_Signature * signature = Create_Signature(message, 3, private_key, G, q, p);
-
-	printf("Valid signature: %d\n", Validate_Signature(message, 3, signature, public_key, G, q, p));
-
-	free(p);
-	free(q);
-	*/
+	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, message_digest, 256, signature);
+	if (valid == SIGNATURE_VALID) {
+		printf("Valid signature!\n");
+	}
+	else {
+		printf("Invalid signature!\n");
+	}
 }
