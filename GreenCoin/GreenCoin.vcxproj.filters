@@ -19,20 +19,23 @@
     <Filter Include="Wallet">
       <UniqueIdentifier>{46bb6c35-5155-4a02-aa6d-4cf7e365f3c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECDSA">
-      <UniqueIdentifier>{a2666201-3911-4d32-a574-c3e30cfb5ccc}</UniqueIdentifier>
+    <Filter Include="Source Files\Cryptography">
+      <UniqueIdentifier>{18f0304e-dea9-4ba8-80a2-0a7e02fed293}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECDSA\HighMath">
-      <UniqueIdentifier>{09837767-4d50-4048-a9cd-e3a4bcd3afbb}</UniqueIdentifier>
+    <Filter Include="Source Files\Cryptography\BN_Math">
+      <UniqueIdentifier>{2eaa83a4-9f2d-4fae-9881-bcbdac4a24d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECDSA\Curve">
-      <UniqueIdentifier>{cf6bebe6-efc2-47e0-a51c-f2da6981e37b}</UniqueIdentifier>
+    <Filter Include="Source Files\Cryptography\DSA">
+      <UniqueIdentifier>{52c2e340-5dcd-415b-923a-5facf3f82e7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECDSA\DSA">
-      <UniqueIdentifier>{7a51c52b-8c12-4ce5-b5e6-39dd52df9803}</UniqueIdentifier>
+    <Filter Include="Source Files\Cryptography\ECDSA">
+      <UniqueIdentifier>{b45ec81a-87e1-4b41-a027-0b7f93ed7aed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECDSA\DSA\Math">
-      <UniqueIdentifier>{da4b233e-7930-4eac-ac34-b487ee4435ee}</UniqueIdentifier>
+    <Filter Include="Source Files\Cryptography\Hash">
+      <UniqueIdentifier>{b700b522-7ed0-4525-852b-0b0a3e551ef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cryptography\ECDSA\Curve">
+      <UniqueIdentifier>{5d798cb5-bf0a-4047-a8eb-842f436956ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -48,23 +51,23 @@
     <ClCompile Include="src\Wallet\Wallet.c">
       <Filter>Wallet</Filter>
     </ClCompile>
-    <ClCompile Include="src\ECDSA\Curve\Cruve.c">
-      <Filter>ECDSA\Curve</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ECDSA\DSA\Math\BitMath.c">
-      <Filter>ECDSA\DSA\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Source.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ECDSA\ECDSA.c">
-      <Filter>ECDSA</Filter>
+    <ClCompile Include="src\Cryptography\BNMath\BNMath.c">
+      <Filter>Source Files\Cryptography\BN_Math</Filter>
     </ClCompile>
-    <ClCompile Include="src\ECDSA\DSA\DSA.c">
-      <Filter>ECDSA\DSA</Filter>
+    <ClCompile Include="src\Cryptography\DSA\DSA.c">
+      <Filter>Source Files\Cryptography\DSA</Filter>
     </ClCompile>
-    <ClCompile Include="src\ECDSA\SHA256.c">
-      <Filter>ECDSA</Filter>
+    <ClCompile Include="src\Cryptography\ECDSA\ECDSA.c">
+      <Filter>Source Files\Cryptography\ECDSA</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cryptography\Hash\SHA256.c">
+      <Filter>Source Files\Cryptography\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cryptography\ECDSA\Curve\Cruve.c">
+      <Filter>Source Files\Cryptography\ECDSA\Curve</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,23 +80,23 @@
     <ClInclude Include="src\Wallet\Wallet.h">
       <Filter>Wallet</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECDSA\ECDSA.h">
-      <Filter>ECDSA</Filter>
+    <ClInclude Include="src\Cryptography\BNMath\BNMath.h">
+      <Filter>Source Files\Cryptography\BN_Math</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECDSA\SHA256.h">
-      <Filter>ECDSA</Filter>
+    <ClInclude Include="src\Cryptography\DSA\DSA.h">
+      <Filter>Source Files\Cryptography\DSA</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECDSA\HighMath\HighMath.h">
-      <Filter>ECDSA\HighMath</Filter>
+    <ClInclude Include="src\Cryptography\ECDSA\ECDSA.h">
+      <Filter>Source Files\Cryptography\ECDSA</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECDSA\Curve\Curve.h">
-      <Filter>ECDSA\Curve</Filter>
+    <ClInclude Include="src\Cryptography\Hash\SHA256.h">
+      <Filter>Source Files\Cryptography\Hash</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECDSA\DSA\DSA.h">
-      <Filter>ECDSA\DSA</Filter>
+    <ClInclude Include="src\Cryptography\ECDSA\Curve\Curve.h">
+      <Filter>Source Files\Cryptography\ECDSA\Curve</Filter>
     </ClInclude>
-    <ClInclude Include="src\ECDSA\DSA\Math\BitMath.h">
-      <Filter>ECDSA\DSA\Math</Filter>
+    <ClInclude Include="src\General\debug.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

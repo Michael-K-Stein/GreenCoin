@@ -155,22 +155,22 @@
     <ClCompile Include="Source.c" />
     <ClCompile Include="src\BlockChain\BlockChain.c" />
     <ClCompile Include="src\BlockChain\Transaction.c" />
-    <ClCompile Include="src\ECDSA\Curve\Cruve.c" />
-    <ClCompile Include="src\ECDSA\DSA\DSA.c" />
-    <ClCompile Include="src\ECDSA\DSA\Math\BitMath.c" />
-    <ClCompile Include="src\ECDSA\ECDSA.c" />
-    <ClCompile Include="src\ECDSA\SHA256.c" />
+    <ClCompile Include="src\Cryptography\BNMath\BNMath.c" />
+    <ClCompile Include="src\Cryptography\DSA\DSA.c" />
+    <ClCompile Include="src\Cryptography\ECDSA\Curve\Cruve.c" />
+    <ClCompile Include="src\Cryptography\ECDSA\ECDSA.c" />
+    <ClCompile Include="src\Cryptography\Hash\SHA256.c" />
     <ClCompile Include="src\Wallet\Wallet.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BlockChain\BlockChain.h" />
     <ClInclude Include="src\BlockChain\Transaction.h" />
-    <ClInclude Include="src\ECDSA\Curve\Curve.h" />
-    <ClInclude Include="src\ECDSA\DSA\DSA.h" />
-    <ClInclude Include="src\ECDSA\DSA\Math\BitMath.h" />
-    <ClInclude Include="src\ECDSA\ECDSA.h" />
-    <ClInclude Include="src\ECDSA\HighMath\HighMath.h" />
-    <ClInclude Include="src\ECDSA\SHA256.h" />
+    <ClInclude Include="src\Cryptography\BNMath\BNMath.h" />
+    <ClInclude Include="src\Cryptography\DSA\DSA.h" />
+    <ClInclude Include="src\Cryptography\ECDSA\Curve\Curve.h" />
+    <ClInclude Include="src\Cryptography\ECDSA\ECDSA.h" />
+    <ClInclude Include="src\Cryptography\Hash\SHA256.h" />
+    <ClInclude Include="src\General\debug.h" />
     <ClInclude Include="src\Wallet\Wallet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

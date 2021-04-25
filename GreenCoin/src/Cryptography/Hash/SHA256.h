@@ -1,7 +1,6 @@
 #pragma once
 
-#include "HighMath/HighMath.h"
-#include "DSA/Math/BitMath.h"
+#include <stdint.h>
 #include <string.h>
 
 typedef uint32_t	t_4_uint32[4];
@@ -86,7 +85,7 @@ void	sha256_run_ops(t_8_uint32 buffers, unsigned char *formatted_msg, size_t msg
 char * build_hash(uint32_t *buffers, size_t buffer_count);
 // The SHA-256 hash algorithm
 char * Hash_SHA256(char * message, size_t message_len);
-
+/*
 void SHA256_to_uint256(char * inp, uint256_t * out) {
 	int hash_len = 64;
 
@@ -109,4 +108,4 @@ void SHA256_to_uint256(char * inp, uint256_t * out) {
 		out->bits[i] = part;
 
 	}
-}
+}*/

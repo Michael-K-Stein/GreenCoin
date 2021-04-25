@@ -4,7 +4,7 @@
 #define __WALLET_H
 
 
-#include "../ECDSA/ECDSA.h"
+#include "../Cryptography/ECDSA/ECDSA.h"
 
 #define ECDSA_SECURITY_LEVEL 128
 #define ECDSA_PRIVATE_KEY_LENGTH (ECDSA_SECURITY_LEVEL*2)

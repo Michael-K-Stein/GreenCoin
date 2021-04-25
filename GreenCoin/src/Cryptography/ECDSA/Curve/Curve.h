@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "../../BNMath/BNMath.h"
+
 typedef uint32_t _n_t;
 
 typedef struct _Point _Point;

@@ -1,10 +1,6 @@
 
 #include "SHA256.h"
 
-#pragma once
-
-#include "HighMath/HighMath.h"
-
 // Format a message into a standard 512bit block
 size_t format_message(char * message, size_t message_len, unsigned char ** output_message_ptr) {
 

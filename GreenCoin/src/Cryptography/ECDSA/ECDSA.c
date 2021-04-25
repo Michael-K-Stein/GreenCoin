@@ -1,8 +1,8 @@
 
 #include "ECDSA.h"
 #define min(a,b) (a>b)?b:a
-
-_Signature * Create_Signature(void * message, size_t message_len, uint64_t private_key, uint2048_t G_b, uint2048_t q_b, uint2048_t p_b) {
+/*
+_Signature * Create_Signature(void * message, size_t message_len, uint64_t private_key, BN * G_b, BN * q_b, BN * p_b) {
 
 	uint64_t p = (*p_b)[0];
 	uint64_t q = (*q_b)[0];
@@ -55,7 +55,7 @@ _Signature * Create_Signature(void * message, size_t message_len, uint64_t priva
 	return signature;
 }
 
-int Validate_Signature(void * message, size_t message_len, _Signature * signature, uint2048_t public_key, uint2048_t G_b, uint2048_t q_b, uint2048_t p_b) {
+int Validate_Signature(void * message, size_t message_len, _Signature * signature, BN * public_key, BN * G_b, BN * q_b, BN * p_b) {
 
 	uint64_t p = (*p_b)[0];
 	uint64_t q = (*q_b)[0];
@@ -68,7 +68,7 @@ int Validate_Signature(void * message, size_t message_len, _Signature * signatur
 
 	int n = ceil(log2(q + 1));
 
-	if (!(0 < r && r < q && 0 < s && s < q)) { /* Signature is invalid! */return 0; }
+	if (!(0 < r && r < q && 0 < s && s < q)) { return 0; }
 
 	uint64_t w = Inv_64(s, q);
 
@@ -94,4 +94,4 @@ int Validate_Signature(void * message, size_t message_len, _Signature * signatur
 	Mod(v, q_b, v);
 
 	return ((*v)[0] == r);
-}
+}*/

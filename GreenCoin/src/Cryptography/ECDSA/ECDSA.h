@@ -4,9 +4,7 @@
 #define __ECDSA_H
 
 
-//#include "SHA256.h"
-#include "DSA/Math/BitMath.h"
-//#include "Curve/Curve.h"
+#include "Curve/Curve.h"
 #include <time.h>
 
 #define SHA256_LENGTH_IN_BYTES (256/8)
@@ -17,8 +15,8 @@ struct _Signature {
 	uint64_t s;
 };
 
-_Signature * Create_Signature(void * message, size_t message_len, uint64_t private_key, uint2048_t G, uint2048_t q, uint2048_t p);
-int Validate_Signature(void * message, size_t message_len, _Signature * signature, uint2048_t public_key, uint2048_t G, uint2048_t q, uint2048_t p);
+_Signature * Create_Signature(void * message, size_t message_len, uint64_t private_key, BN * G, BN * q, BN * p);
+int Validate_Signature(void * message, size_t message_len, _Signature * signature, BN * public_key, BN * G, BN * q, BN * p);
 /*void Create_Signature(void * message, size_t message_len, int private_key) {
 	/*int n = 1 % 7;
 	uint64_t d = private_key;
