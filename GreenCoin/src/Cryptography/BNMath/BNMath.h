@@ -22,7 +22,7 @@ typedef enum  {
 
 typedef struct {
 	int_t sign;		// Positive or negative
-	uint_t size;	// Bit size of the number
+	uint_t size;	// Bit size of the number - as multiples of uint_t
 	uint_t * data;	// The actual bit value of the number
 } BN;
 
@@ -31,8 +31,8 @@ typedef struct {
 #define BN_Is_Even(a)		!BN_Get_Bit_Value(a, 0)
 #define BN_Is_Odd(a)		BN_Get_Bit_Value(a, 0)
 
-int_t max(int_t a, int_t b);
-int_t min(int_t a, int_t b);
+int_t MAX(int_t a, int_t b);
+int_t MIN(int_t a, int_t b);
 
 void BN_Init(BN ** r); // Initialize a bit number;
 void BN_Init_Stack(BN * r); // Initialize a bit number onto the stack. No memory allocation

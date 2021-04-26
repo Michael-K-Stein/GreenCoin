@@ -3,6 +3,7 @@
 #ifndef __DEBUG_H
 #define __DEBUG_H
 
+#include "General.h"
 #include "../Cryptography/BNMath/BNMath.h"
 
 #include <stdio.h>
@@ -18,7 +19,7 @@
 
 //Default trace level
 #ifndef TRACE_LEVEL
-#define TRACE_LEVEL TRACE_LEVEL_DEBUG
+#define TRACE_LEVEL TRACE_LEVEL_OFF
 #endif
 
 //Trace output redirection

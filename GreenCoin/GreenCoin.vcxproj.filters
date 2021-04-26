@@ -37,6 +37,15 @@
     <Filter Include="Source Files\Cryptography\ECDSA\Curve">
       <UniqueIdentifier>{5d798cb5-bf0a-4047-a8eb-842f436956ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\CommandLine">
+      <UniqueIdentifier>{f6a89bc2-f48a-440e-a33c-493501d8cebf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\General">
+      <UniqueIdentifier>{cb42b120-cc73-4318-b716-9ea86a8b4e69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\General\Base64">
+      <UniqueIdentifier>{b2b69a66-f860-47d9-8f98-4f44f5f84a81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GreenCoin.cpp">
@@ -69,6 +78,21 @@
     <ClCompile Include="src\Cryptography\ECDSA\Curve\Cruve.c">
       <Filter>Source Files\Cryptography\ECDSA\Curve</Filter>
     </ClCompile>
+    <ClCompile Include="src\CommandLine\ExternalCommandLine.c">
+      <Filter>Source Files\CommandLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CommandLine\GeneralCommandLine.c">
+      <Filter>Source Files\CommandLine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\General\General.c">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="src\General\FileIO.c">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="src\General\Base64\Base64.c">
+      <Filter>Source Files\General\Base64</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BlockChain\BlockChain.h">
@@ -97,6 +121,21 @@
     </ClInclude>
     <ClInclude Include="src\General\debug.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CommandLine\ExternalCommandLine.h">
+      <Filter>Source Files\CommandLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CommandLine\GeneralCommandLine.h">
+      <Filter>Source Files\CommandLine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\General\General.h">
+      <Filter>Source Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="src\General\FileIO.h">
+      <Filter>Source Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="src\General\Base64\Base64.h">
+      <Filter>Source Files\General\Base64</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

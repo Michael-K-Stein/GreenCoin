@@ -1,16 +1,16 @@
-//#include "src/BlockChain/BlockChain.h"
-//#include "src/ECDSA/Curve/Curve.h"
 
-
-#include "src/Cryptography/ECDSA/ECDSA.h"
-#include "src/Cryptography/DSA/DSA.h"
+#include "src/BlockChain/BlockChain.h"
+#include "src/CommandLine/ExternalCommandLine.h"
 
 #include <stdio.h>
 
+int Demo() {
 
-int main_c() {
+	Print_Demo_Keys();
 
-	srand(time(NULL));
+	Transaction_Demo();
+
+	/*srand(time(NULL));
 
 	uint p; BN_Init(&p);
 	uint q; BN_Init(&q);
@@ -53,7 +53,7 @@ int main_c() {
 
 	DSA_Init_Private_Key(&priv_key);
 	DSA_Init_Public_Key(&pub_key);
-	
+
 	DSA_Load_Private_Key(priv_key, p, q, G);
 	DSA_Load_Public_Key(pub_key, p, q, G);
 
@@ -63,19 +63,58 @@ int main_c() {
 	TRACE_DEBUG("  y:\r\n");
 	TRACE_DEBUG_MPI("    ", (pub_key->y));
 
-	char * message = "abc";
-	char * message_digest = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
-	
+
+
+
+
+	_Transaction transaction;
+	transaction.Index = 0;
+	memset(transaction.Reciever, 0, sizeof(_Wallet_Address));
+	memcpy(transaction.Sender, pub_key->y->data, sizeof(_Wallet_Address));
+	transaction.Value = 10;
+	transaction.Fee = 0;
+
+	char * transaction_info = (char*)malloc(sizeof(_Transaction) - sizeof(_Signature));
+	memcpy(transaction_info, &transaction, sizeof(_Transaction) - sizeof(_Signature));
+
+	//char * message = "abc";
+	char * message_digest = Hash_SHA256(transaction_info, sizeof(_Transaction) - sizeof(_Signature));//"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+
+	printf("Hash: %s\n", message_digest);
+
 	DSA_Signature * signature = 0;
 	DSA_Init_Signature(&signature);
 
 	DSA_Generate_Signature(priv_key, message_digest, 256, signature);
 
-	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, message_digest, 256, signature);
-	if (valid == SIGNATURE_VALID) {
-		printf("Valid signature!\n");
-	}
+	_Signature sig;
+	memcpy((sig.r), signature->r->data, 5 * sizeof(uint_t));
+	memcpy((sig.s), signature->s->data, 5 * sizeof(uint_t));
+
+	memcpy(&(transaction.Signature), &sig, sizeof(_Signature));
+
+	Transaction_Export_To_File("C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Transaction_Test1.GCT", &transaction);
+
+	DSA_Domain_Parameters params;
+	params.G = priv_key->G;
+	params.p = priv_key->p;
+	params.q = priv_key->q;
+
+	Print_Transaction(&params, &transaction);*/
+}
+
+int main_c(int argc, char ** argv) {
+
+	if (argc > 1) { Execute_External_Commands(argc, argv); }
+	
+	
+	
 	else {
-		printf("Invalid signature!\n");
+		Demo();
+	}
+	
+	if (argc > 1) {
+		printf("Press ENTER to close.\n");
+		getchar();
 	}
 }

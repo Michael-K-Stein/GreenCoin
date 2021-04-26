@@ -1,10 +1,14 @@
 
 #include "BNMath.h"
 
-int_t max(int_t a, int_t b) {
+//int arraysize(BN * a)		(sizeof(a) / sizeof(a[0]))
+//int BN_Is_Even(BN * a)		!BN_Get_Bit_Value(a, 0)
+//int BN_Is_Odd(BN * a)		BN_Get_Bit_Value(a, 0)
+
+int_t MAX(int_t a, int_t b) {
 	return (a > b) ? a : b;
 }
-int_t min(int_t a, int_t b) {
+int_t MIN(int_t a, int_t b) {
 	return (a < b) ? a : b;
 }
 int_t ceil_div(float a, float q) {
@@ -42,7 +46,7 @@ void BN_Free(BN * r) {
 error_t BN_Resize_Decrease(BN * r, uint_t size) {
 	uint_t * data;
 
-	size = (uint_t)fmax(size, 1); // Override if size < 1
+	size = (uint_t)MAX(size, 1); // Override if size < 1
 
 	data = calloc(size * BN_INT_SIZE);
 	if (data == 0) { /* Could not allocate memory! */ return ERROR_FAILED; }
@@ -64,7 +68,7 @@ error_t BN_Resize_Decrease(BN * r, uint_t size) {
 error_t BN_Resize(BN * r, uint_t size) {
 	uint_t * data;
 
-	size = (uint_t)fmax(size, 1); // Override if size < 1
+	size = (uint_t)MAX(size, 1); // Override if size < 1
 
 	if (r->size == size) { return ERROR_NONE; }
 	else if (r->size > size) {
@@ -896,7 +900,7 @@ error_t BN_Exp_Mod(BN * r, const BN * a, const BN * e, const BN * p) {
 			else
 			{
 				//Find the longest window
-				n = max(i - d + 1, 0);
+				n = MAX(i - d + 1, 0);
 
 				//The least significant bit of the window must be equal to 1
 				while (!BN_Get_Bit_Value(e, n)) n++;
@@ -971,7 +975,7 @@ error_t BN_Exp_Mod(BN * r, const BN * a, const BN * e, const BN * p) {
 			else
 			{
 				//Find the longest window
-				n = max(i - d + 1, 0);
+				n = MAX(i - d + 1, 0);
 
 				//The least significant bit of the window must be equal to 1
 				while (!BN_Get_Bit_Value(e, n)) n++;
@@ -1088,7 +1092,7 @@ error_t BN_Montgomery_Mul(BN * r, const BN * a, const BN * b, uint_t k, const BN
 	m = ~m + 1;
 
 	//We assume that B is always less than 2^k
-	n = min(b->size, k);
+	n = MIN(b->size, k);
 
 	//Make sure T is large enough
 	BN_Resize(t, 2 * k + 1);

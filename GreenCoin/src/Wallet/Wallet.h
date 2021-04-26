@@ -4,7 +4,10 @@
 #define __WALLET_H
 
 
-#include "../Cryptography/ECDSA/ECDSA.h"
+//#include "../Cryptography/ECDSA/ECDSA.h"
+#include "../Cryptography/DSA/DSA.h"
+#include "../General/Base64/Base64.h"
+//#include "../Cryptography/Hash/SHA256.h"
 
 #define ECDSA_SECURITY_LEVEL 128
 #define ECDSA_PRIVATE_KEY_LENGTH (ECDSA_SECURITY_LEVEL*2)
@@ -16,6 +19,8 @@ typedef struct _Public_Keys {
 	unsigned char y[ECDSA_PRIVATE_KEY_LENGTH_BYTES];
 } _Public_Keys;
 
-typedef struct _Public_Keys _Wallet_Address;
+typedef uint_t _Wallet_Address[32];
+
+void Print_Demo_Keys();
 
 #endif // !__WALLET_H

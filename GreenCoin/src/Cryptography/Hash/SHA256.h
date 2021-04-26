@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef __SHA256_H
+#define __SHA256_H
+
 #include <stdint.h>
 #include <string.h>
 
@@ -10,9 +13,6 @@ typedef uint32_t	t_16_uint32[16];
 typedef uint32_t	t_64_uint32[64];
 typedef uint64_t	t_80_uint32[80];
 typedef uint64_t	t_80_uint64[80];
-
-// Format a message into a standard 512bit block
-size_t format_message(char * message, size_t message_len, unsigned char ** output_message_ptr);
 
 #define DEC(x) (x-1)
 
@@ -47,6 +47,8 @@ const uint32_t g_sha256_default_buffers[8] = {
 	0x5be0cd19
 };
 
+// Format a message into a standard 512bit block
+size_t format_message(char * message, size_t message_len, unsigned char ** output_message_ptr);
 
 char * ft_sha256(const char *msg, size_t msg_len);
 
@@ -109,3 +111,5 @@ void SHA256_to_uint256(char * inp, uint256_t * out) {
 
 	}
 }*/
+
+#endif // !__SHA256_H

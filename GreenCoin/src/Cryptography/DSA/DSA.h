@@ -38,17 +38,17 @@ typedef enum {
 	SIGNATURE_INVALID
 } SIGNATURE_VALID_STATE;
 
-void DSA_Init_Public_Key(DSA_Public_Key * key);
+void DSA_Init_Public_Key(DSA_Public_Key ** key);
 void DSA_Free_Public_Key(DSA_Public_Key * key);
 void DSA_Load_Public_Key(DSA_Public_Key * key, uint p, uint q, uint G);
 
-void DSA_Init_Private_Key(DSA_Private_Key * key);
+void DSA_Init_Private_Key(DSA_Private_Key ** key);
 void DSA_Free_Private_Key(DSA_Private_Key * key);
 void DSA_Load_Private_Key(DSA_Private_Key * key, uint p, uint q, uint G);
 
 error_t DSA_Create_Keys(DSA_Private_Key * priv_key, DSA_Public_Key * pub_key);
 
-void DSA_Init_Signature(DSA_Signature * signature);
+void DSA_Init_Signature(DSA_Signature ** signature);
 void DSA_Free_Signature(DSA_Signature * signature);
 
 void DSA_Generate_P(uint p, uint q, uint_t L);
