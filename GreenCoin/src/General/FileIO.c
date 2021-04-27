@@ -11,6 +11,7 @@ int File_Valid(char * file_path) {
 long Get_File_Size(char * file_path) {
 	FILE * f;
 	fopen_s(&f, file_path, "r");
+	if (f == NULL) { return -1; }
 	fseek(f, 0, SEEK_END);
 	long size = ftell(f);
 	fclose(f);

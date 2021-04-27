@@ -11,8 +11,17 @@ typedef struct _Signature {
 } _Signature;
 
 typedef struct _Transaction {
+	// Index of the block in the chain
+	uint64_t Block_Index;
+
 	// Index of the transaction on the ledger
 	uint32_t Index;
+
+	/*
+		The combination of the block_index and the index are completely unique in the chain,
+		 and therefore protect the signature from being compied either again on the same block
+		 or at the same position on a different block.
+	*/
 
 	// Address of the sender
 	_Wallet_Address Sender;
@@ -29,14 +38,16 @@ typedef struct _Transaction {
 	// Signature in order to validate sender
 	_Signature Signature;
 } _Transaction;
-void Print_Transaction_Signature_Part(uint_t * q);
-void Print_Transaction_Wallet_Address(uint_t * q);
-void Print_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction);
+void Print_Transaction_Signature_Part(FILE * fstream, uint_t * q);
+void Print_Transaction_Wallet_Address(FILE * fstream, uint_t * q);
+void Print_Transaction(FILE * fstream, DSA_Domain_Parameters * params, _Transaction * transaction);
 
 void Transaction_Export(FILE * fstream, _Transaction * transaction);
 void Transaction_Export_To_File(char * file_path, _Transaction * transaction);
 
 void Sign_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction, BN * priv_key);
+
+SIGNATURE_VALID_STATE Verify_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction);
 
 void Transaction_Demo();
 

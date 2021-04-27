@@ -27,6 +27,8 @@ typedef struct {
 } BN;
 
 
+static const signed char HEX_REVERSE_SEQUENCE[256];
+
 #define arraysize(a)		(sizeof(a) / sizeof(a[0]))
 #define BN_Is_Even(a)		!BN_Get_Bit_Value(a, 0)
 #define BN_Is_Odd(a)		BN_Get_Bit_Value(a, 0)
@@ -58,6 +60,7 @@ error_t BN_Set_Value(BN * r, long long int a);
 error_t BN_Randomize(BN * r, uint_t length);
 
 error_t BN_Import(BN * r, const uint8_t * data, uint_t length, BN_ENDIAN_FORMAT format);
+error_t BN_Import_Hex_String(BN * r, char * data, uint_t length, BN_ENDIAN_FORMAT format);
 error_t BN_Export();
 
 error_t BN_Add(BN * r, const BN * a, const BN * b);				// Adds a and b into r. r = a + b
@@ -91,6 +94,6 @@ void BN_Mul_Core(uint_t *r, const uint_t *a, int_t m, const uint_t b);
 
 void BN_Dump(FILE * stream, const char * prepend, const BN * a);
 
-int BN_Is_Prime(uint64_t r);
+int BN_Is_Prime(BN * r);
 
 #endif // !___BNMath_H

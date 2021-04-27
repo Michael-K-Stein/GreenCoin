@@ -5,6 +5,25 @@
 //int BN_Is_Even(BN * a)		!BN_Get_Bit_Value(a, 0)
 //int BN_Is_Odd(BN * a)		BN_Get_Bit_Value(a, 0)
 
+static const signed char HEX_REVERSE_SEQUENCE[256] = {
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+0,	 1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1,
+-1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+};
+
 int_t MAX(int_t a, int_t b) {
 	return (a > b) ? a : b;
 }
@@ -1262,6 +1281,39 @@ error_t BN_Import(BN * r, const uint8_t * data, uint_t length, BN_ENDIAN_FORMAT 
 	else
 	{
 		error = ERROR_FAILED;
+	}
+
+	return error;
+}
+error_t BN_Import_Hex_String(BN * r, char * data, uint_t length, BN_ENDIAN_FORMAT format) {
+	error_t error;
+	uint_t i;
+	
+	//Skip leading zeroes
+	/*while (length > 1 && *data == 0)
+	{
+		data++;
+		length--;
+	}*/
+
+	error = BN_Resize(r, (length + (2*BN_INT_SIZE) - 1) / (2*BN_INT_SIZE));
+
+	if (!error)
+	{
+		memset(r->data, 0, r->size * BN_INT_SIZE);
+		r->sign = 1;
+
+		//Start from the least significant byte
+		data += length - 1;
+
+		//Import data
+		for (i = 0; i < length/(BN_INT_SIZE*2); i++)
+		{
+			for (int a = 0; a < (2 * BN_INT_SIZE); a++) {
+				r->data[i] |= HEX_REVERSE_SEQUENCE [*data] << (a*4);
+				data--;
+			}
+		}
 	}
 
 	return error;

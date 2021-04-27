@@ -4,7 +4,7 @@
 #define __GENERAL_COMMAND_LINE_H
 
 #include "../General/General.h"
-#include "../BlockChain/Transaction.h"
+#include "../BlockChain/BlockChain.h"
 
 void Preview_Item(byte * buffer);
 

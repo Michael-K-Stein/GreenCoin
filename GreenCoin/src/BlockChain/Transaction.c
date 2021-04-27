@@ -1,33 +1,34 @@
 
 #include "Transaction.h"
 
-void Print_Transaction_Signature_Part(uint_t * q) {
+void Print_Transaction_Signature_Part(FILE * fstream, uint_t * q) {
 	for (int i = 4; i >= 0; i--) {
-		printf("%.8X ", q[i]);
+		fprintf(fstream, "%.8X ", q[i]);
 	}
-	printf("\n");
+	fprintf(fstream, "\n");
 }
-void Print_Transaction_Wallet_Address(uint_t * q) {
+void Print_Transaction_Wallet_Address(FILE * fstream, uint_t * q) {
+	fprintf(fstream, "  ");
 	for (int i = 31; i >= 0; i--) {
-		printf("%.8X ", q[i]);
-		if (i % 4 == 0) { printf("\n  "); }
+		fprintf(fstream, "%.8X ", q[i]);
+		if (i % 4 == 0) { fprintf(fstream, "\n  "); }
 	}
-	printf("\n");
+	fprintf(fstream, "\n");
 }
-void Print_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction) {
-	printf("=== === === Transaction #%u === === ===\n", transaction->Index);
-	printf("\tSender: \n  ");
-	Print_Transaction_Wallet_Address(transaction->Sender);
-	printf("\tReciever: \n  ");
-	Print_Transaction_Wallet_Address(transaction->Reciever);
-	printf("\tValue: %.2f GC\n", transaction->Value);
-	printf("\tFees: %.4f GC\n", transaction->Fee);
-	printf("\tTotal Value: %.4f GC\n", transaction->Value + transaction->Fee);
-	printf("\n\t--- Signature ---\n");
-	printf("\tr:\n  ");
-	Print_Transaction_Signature_Part(transaction->Signature.r);
-	printf("\ts:\n  ");
-	Print_Transaction_Signature_Part(transaction->Signature.s);
+void Print_Transaction(FILE * fstream, DSA_Domain_Parameters * params, _Transaction * transaction) {
+	fprintf(fstream, "=== === === Transaction #%u === === ===\n", transaction->Index);
+	fprintf(fstream, "\tSender: \n");
+	Print_Transaction_Wallet_Address(fstream, transaction->Sender);
+	fprintf(fstream, "\tReciever: \n");
+	Print_Transaction_Wallet_Address(fstream, transaction->Reciever);
+	fprintf(fstream, "\tValue: %.2f GC\n", transaction->Value);
+	fprintf(fstream, "\tFees: %.4f GC\n", transaction->Fee);
+	fprintf(fstream, "\tTotal Value: %.4f GC\n", transaction->Value + transaction->Fee);
+	fprintf(fstream, "\n\t--- Signature ---\n");
+	fprintf(fstream, "\tr:\n  ");
+	Print_Transaction_Signature_Part(fstream, transaction->Signature.r);
+	fprintf(fstream, "\ts:\n  ");
+	Print_Transaction_Signature_Part(fstream, transaction->Signature.s);
 
 	DSA_Public_Key * pub_key;
 	DSA_Init_Public_Key(&pub_key);
@@ -44,16 +45,16 @@ void Print_Transaction(DSA_Domain_Parameters * params, _Transaction * transactio
 
 	char * digest = Hash_SHA256(transaction, sizeof(_Transaction) - sizeof(_Signature));
 
-	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, digest, 256, sign);
+	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, digest, 64, sign);
 	if (valid == SIGNATURE_VALID) {
-		printf("\tValid signature!\n");
+		fprintf(fstream, "\tValid signature!\n");
 	}
 	else {
-		printf("\n\t+++ +++ +++ +++ +++\n\tInvalid signature!\n\t+++ +++ +++ +++ +++\n");
+		fprintf(fstream, "\n\t+++ +++ +++ +++ +++\n\tInvalid signature!\n\t+++ +++ +++ +++ +++\n");
 	}
 
 
-	printf("=== === === End Transaction #%u === === ===\n", transaction->Index);
+	fprintf(fstream, "=== === === End Transaction #%u === === ===\n", transaction->Index);
 }
 
 void Transaction_Export(FILE * fstream, _Transaction * transaction) {
@@ -91,7 +92,7 @@ void Sign_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction
 	priv_key->q = params->q;
 	priv_key->x = pk;
 
-	DSA_Generate_Signature(priv_key, message_digest, 256, signature);
+	DSA_Generate_Signature(priv_key, message_digest, 32, signature);
 
 	_Signature sig;
 	memcpy((sig.r), signature->r->data, 5 * sizeof(uint_t));
@@ -101,6 +102,30 @@ void Sign_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction
 
 	free(transaction_info);
 	//DSA_Free_Private_Key(priv_key);
+}
+
+SIGNATURE_VALID_STATE Verify_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction) {
+	DSA_Public_Key * pub_key;
+	DSA_Init_Public_Key(&pub_key);
+	DSA_Load_Public_Key(pub_key, params->p, params->q, params->G);
+	BN_Resize(pub_key->y, 32);
+	memcpy(pub_key->y->data, transaction->Sender, 32 * sizeof(uint_t));
+
+	DSA_Signature * sign;
+	DSA_Init_Signature(&sign);
+	BN_Resize(sign->r, 5);
+	BN_Resize(sign->s, 5);
+	memcpy(sign->r->data, transaction->Signature.r, 5 * sizeof(uint_t));
+	memcpy(sign->s->data, transaction->Signature.s, 5 * sizeof(uint_t));
+
+	char * digest = Hash_SHA256(transaction, sizeof(_Transaction) - sizeof(_Signature));
+
+	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, digest, 64, sign);
+
+	DSA_Free_Public_Key(pub_key);
+	DSA_Free_Signature(sign);
+
+	return valid;
 }
 
 void Transaction_Demo() {
@@ -156,11 +181,28 @@ void Transaction_Demo() {
 
 	printf("Transaction signed!\n");
 
-	Print_Transaction(params, &transaction);
+	printf("\n\n\n");
+	printf("Transaction summary: \n");
 
-	char * export_path = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
+	Print_Transaction(stderr, params, &transaction);
+	printf("\n\n\n");
 
-	printf("Now exporting to: '%s'\n", export_path);
+	printf("Type 'EXECUTE' to continue, otherwise cancel the transaction.\n");
 
-	Transaction_Export_To_File(export_path, &transaction);
+	char * EXECUTE = "EXECUTE";
+	fgets(buffer, 64, stdin); buffer[strlen(EXECUTE)] = 0x0;
+
+	if (strcmp(buffer, EXECUTE) == 0) {
+		printf("Transaction executed!\n");
+
+		char export_path[256];// = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
+		sprintf_s(export_path, 256, "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Demo_Transactions\\Test_%u.GCT", transaction.Index);
+
+		printf("Now exporting to: '%s'\n", export_path);
+
+		Transaction_Export_To_File(export_path, &transaction);
+	}
+	else {
+		printf("Transaction has been cancelled!\n");
+	}
 }

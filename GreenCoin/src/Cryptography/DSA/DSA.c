@@ -163,7 +163,7 @@ error_t DSA_Generate_Signature(const DSA_Private_Key * key, const uint8_t * mess
 	n = min(n, message_len * 8);
 
 	//Convert the digest to a multiple precision integer
-	BN_Import(&z, message_digest, (n + 7) / 8, BN_BIG_ENDIAN);
+	BN_Import_Hex_String(&z, message_digest, (n + 7) / 8, BN_BIG_ENDIAN);
 
 	//Keep the leftmost N bits of the hash value
 	if ((n % 8) != 0)
@@ -247,7 +247,7 @@ error_t DSA_Verify_Signature(const DSA_Public_Key * key, const uint8_t * message
 
 	uint_t n = BN_Get_Bit_Length((key->q));
 	n = min(n, message_len * 8);
-	BN_Import(&z, message_digest, (n + 7) / 8, BN_BIG_ENDIAN);
+	BN_Import_Hex_String(&z, message_digest, (n + 7) / 8, BN_BIG_ENDIAN);
 	if ((n % 8) != 0)
 	{
 		BN_Shift_Right(&z, 8 - (n % 8));

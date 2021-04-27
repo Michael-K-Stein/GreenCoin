@@ -3,14 +3,22 @@
 #define MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER 8
 
 #include "Transaction.h"
+#include "../General/FileIO.h"
+#include <time.h>
 
 typedef struct _TimeStamp {
 	uint32_t Unix_Time;
 } _TimeStamp;
+static char DateTimeBuffer[128];
+char * HumanFormatDateTime(_TimeStamp * timestamp);
 
 typedef struct _Hash {
-	unsigned char Bytes[32];
+	uint32_t Bytes[8];
 } _Hash;
+void Print_Hash(FILE * fstream, _Hash * hash);
+
+typedef uint32_t uint256_t[8];
+void Print_uint256(FILE * fstream, uint256_t * r);
 
 typedef struct _Block _Block;
 
@@ -45,15 +53,36 @@ struct _Block {
 	*/
 	_Transaction Transactions[MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER];
 
+	/*
+	*	The wallet address of the notary who verified and signed the current block.
+	*	This address will be awarded all the fees from the transactions on this block.
+	*/
+	_Wallet_Address Notary_Address;
+
 
 	/*
 	*	256 bit number which is used in order to "control" the resulting hash
 	*/
-	uint64_t Block_Validation;
+	uint256_t Block_Validation;
 
 
-	/*
-	*	A linked chain of blocks, as Unary Nodes.
-	*/
-	_Block * Next_Block;
+	///*
+	//*	A linked chain of blocks, as Unary Nodes.
+	//*/
+	//_Block * Next_Block;
 };
+
+uint64_t Calculate_Block_Strength(_Block * block);
+
+_Block * Create_Block(uint64_t new_block_index);
+
+error_t Validate_Block(_Block * block, BN * y, uint64_t desired_strength);
+
+error_t Append_Transaction(_Block * block, _Transaction * transaction, DSA_Domain_Parameters * params);
+
+void Print_Block(FILE * fstream, DSA_Domain_Parameters * params, _Block * block);
+
+error_t Export_Block(FILE * fstream, _Block * block);
+error_t Export_To_File(char * dir_path, _Block * block);
+
+void BlockChain_Demo();

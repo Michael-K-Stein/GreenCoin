@@ -6,9 +6,11 @@
 
 int Demo() {
 
-	Print_Demo_Keys();
+	BlockChain_Demo();
 
-	Transaction_Demo();
+	//Print_Demo_Keys();
+
+	//Transaction_Demo();
 
 	/*srand(time(NULL));
 
@@ -82,6 +84,12 @@ int Demo() {
 
 	printf("Hash: %s\n", message_digest);
 
+	BN aaa; BN_Init_Stack(&aaa);
+	BN_Import_Hex_String(&aaa, message_digest, 64, BN_BIG_ENDIAN);
+	_Hash has;
+	memcpy(has.Bytes, aaa.data, 8 * sizeof(uint32_t));
+	Print_Hash(stderr, has.Bytes);
+
 	DSA_Signature * signature = 0;
 	DSA_Init_Signature(&signature);
 
@@ -100,7 +108,7 @@ int Demo() {
 	params.p = priv_key->p;
 	params.q = priv_key->q;
 
-	Print_Transaction(&params, &transaction);*/
+	Print_Transaction(stderr, &params, &transaction);*/
 }
 
 int main_c(int argc, char ** argv) {
