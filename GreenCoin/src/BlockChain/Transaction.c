@@ -30,11 +30,11 @@ void Print_Transaction(FILE * fstream, DSA_Domain_Parameters * params, _Transact
 	fprintf(fstream, "\ts:\n  ");
 	Print_Transaction_Signature_Part(fstream, transaction->Signature.s);
 
-	DSA_Public_Key * pub_key;
+	DSA_Public_Key * pub_key=0;
 	DSA_Init_Public_Key(&pub_key);
-	DSA_Load_Public_Key(pub_key, params->p, params->q, params->G);
-	BN_Resize(pub_key->y, 32);
-	memcpy(pub_key->y->data, transaction->Sender, 32 * sizeof(uint_t));
+	//DSA_Load_Public_Key(pub_key, params->p, params->q, params->G);
+	BN_Resize(pub_key, 32);
+	memcpy(pub_key->data, transaction->Sender, 32 * sizeof(uint_t));
 
 	DSA_Signature * sign;
 	DSA_Init_Signature(&sign);
@@ -45,7 +45,7 @@ void Print_Transaction(FILE * fstream, DSA_Domain_Parameters * params, _Transact
 
 	char * digest = Hash_SHA256(transaction, sizeof(_Transaction) - sizeof(_Signature));
 
-	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, digest, 64, sign);
+	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(params, pub_key, digest, 64, sign);
 	if (valid == SIGNATURE_VALID) {
 		fprintf(fstream, "\tValid signature!\n");
 	}
@@ -86,13 +86,9 @@ void Sign_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction
 	DSA_Init_Signature(&signature);
 
 	DSA_Private_Key * priv_key;
-	DSA_Init_Private_Key(&priv_key);
-	priv_key->G = params->G;
-	priv_key->p = params->p;
-	priv_key->q = params->q;
-	priv_key->x = pk;
+	priv_key = pk;
 
-	DSA_Generate_Signature(priv_key, message_digest, 32, signature);
+	DSA_Generate_Signature(params, priv_key, message_digest, 64, signature);
 
 	_Signature sig;
 	memcpy((sig.r), signature->r->data, 5 * sizeof(uint_t));
@@ -105,11 +101,10 @@ void Sign_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction
 }
 
 SIGNATURE_VALID_STATE Verify_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction) {
-	DSA_Public_Key * pub_key;
+	DSA_Public_Key * pub_key = 0;
 	DSA_Init_Public_Key(&pub_key);
-	DSA_Load_Public_Key(pub_key, params->p, params->q, params->G);
-	BN_Resize(pub_key->y, 32);
-	memcpy(pub_key->y->data, transaction->Sender, 32 * sizeof(uint_t));
+	BN_Resize(pub_key, 32);
+	memcpy(pub_key->data, transaction->Sender, 32 * sizeof(uint_t));
 
 	DSA_Signature * sign;
 	DSA_Init_Signature(&sign);
@@ -120,12 +115,25 @@ SIGNATURE_VALID_STATE Verify_Transaction(DSA_Domain_Parameters * params, _Transa
 
 	char * digest = Hash_SHA256(transaction, sizeof(_Transaction) - sizeof(_Signature));
 
-	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, digest, 64, sign);
+	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(params, pub_key, digest, 64, sign);
 
 	DSA_Free_Public_Key(pub_key);
 	DSA_Free_Signature(sign);
 
 	return valid;
+}
+
+double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Wallet_Address pk) {
+	if (memcmp(transaction->Sender, pk, 32 * sizeof(uint_t)) == 0) {
+		return -(transaction->Value + transaction->Fee);
+	}
+	else if (memcmp(transaction->Reciever, pk, 32 * sizeof(uint_t)) == 0) {
+		return transaction->Value;
+	}
+	else {
+		return 0;
+	}
+	return 0;
 }
 
 void Transaction_Demo() {
@@ -145,8 +153,12 @@ void Transaction_Demo() {
 
 	_Transaction transaction;
 
-	printf("Transaction #?\n");
+	printf("Block #?\n");
 	char buffer[64]; fgets(buffer, 64, stdin);
+	transaction.Block_Index = strtol(buffer, NULL, 10);
+
+	printf("Transaction #?\n");
+	fgets(buffer, 64, stdin);
 	transaction.Index = strtol(buffer, NULL, 10);
 
 	printf("Please enter your public key (as base64): \n");

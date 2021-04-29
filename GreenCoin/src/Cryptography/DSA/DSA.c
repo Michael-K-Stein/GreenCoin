@@ -2,58 +2,83 @@
 #include "DSA.h"
 
 void DSA_Init_Public_Key(DSA_Public_Key ** key) {
-	*key = (DSA_Public_Key*)malloc(sizeof(DSA_Public_Key));
+	BN_Init(key);
+	/**key = (DSA_Public_Key*)malloc(sizeof(DSA_Public_Key));
 	DSA_Public_Key * key_addr = *key;
-	BN_Init(&(key_addr->p));
+	/*BN_Init(&(key_addr->p));
 	BN_Init(&(key_addr->q));
 	BN_Init(&(key_addr->G));
+	BN_Init(&(key_addr->y));*/
+}
+/*void DSA_Load_Public_Key_From_Params(DSA_Public_Key ** key, DSA_Domain_Parameters * params) {
+	*key = (DSA_Public_Key*)malloc(sizeof(DSA_Public_Key));
+	DSA_Public_Key * key_addr = *key;
+	key_addr->p = params->p;
+	key_addr->q = params->q;
+	key_addr->G = params->G;
 	BN_Init(&(key_addr->y));
 }
+void DSA_Load_Public_Key_Domain_Params(DSA_Public_Key * key, DSA_Domain_Parameters * params) {
+	if (key->p != NULL) { memcpy(key->p, params->p, params->p->size + 2); }
+	else {
+		key->p = params->p;
+	}
+	if (key->q != NULL) { memcpy(key->q, params->q, params->q->size + 2); }
+	else {
+		key->q = params->q;
+	}
+	if (key->G != NULL) { memcpy(key->G, params->G, params->G->size + 2); }
+	else {
+		key->G = params->G;
+	}	
+}*/
 void DSA_Free_Public_Key(DSA_Public_Key * key) {
-	BN_Free(&(key->p));
+	/*BN_Free(&(key->p));
 	BN_Free(&(key->q));
 	BN_Free(&(key->G));
-	BN_Free(&(key->y));
-	free(key);
+	BN_Free(&(key->y));*/
+	BN_Free(key);
 }
-void DSA_Load_Public_Key(DSA_Public_Key * key, uint p, uint q, uint G) {
+/*void DSA_Load_Public_Key(DSA_Public_Key * key, uint p, uint q, uint G) {
 	key->p = p;
 	key->q = q;
 	key->G = G;
-}
+}*/
 
 void DSA_Init_Private_Key(DSA_Private_Key ** key) {
+	BN_Init(key);
+	/*
 	*key = (DSA_Private_Key*)malloc(sizeof(DSA_Private_Key));
 	DSA_Private_Key * key_addr = *key;
 	BN_Init(&(key_addr->p));
 	BN_Init(&(key_addr->q));
 	BN_Init(&(key_addr->G));
-	BN_Init(&(key_addr->x));
+	BN_Init(&(key_addr->x));*/
 }
 void DSA_Free_Private_Key(DSA_Private_Key * key) {
-	BN_Free(&(key->p));
+	/*BN_Free(&(key->p));
 	BN_Free(&(key->q));
 	BN_Free(&(key->G));
-	BN_Free(&(key->x));
-	free(key);
+	BN_Free(&(key->x));*/
+	BN_Free(key);
 }
-void DSA_Load_Private_Key(DSA_Private_Key * key, uint p, uint q, uint G) {
+/*void DSA_Load_Private_Key(DSA_Private_Key * key, uint p, uint q, uint G) {
 	key->p = p;
 	key->q = q;
 	key->G = G;
-}
+}*/
 
-error_t DSA_Create_Keys(DSA_Private_Key * priv_key, DSA_Public_Key * pub_key) {
+error_t DSA_Create_Keys(DSA_Domain_Parameters * params, DSA_Private_Key * priv_key, DSA_Public_Key * pub_key) {
 	BN * p;
 	BN * q;
 	BN * G;
-	if (BN_Compare(priv_key->p, pub_key->p) != 0) { return ERROR_FAILED; }
+	/*if (BN_Compare(priv_key->p, pub_key->p) != 0) { return ERROR_FAILED; }
 	if (BN_Compare(priv_key->q, pub_key->q) != 0) { return ERROR_FAILED; }
-	if (BN_Compare(priv_key->G, pub_key->G) != 0) { return ERROR_FAILED; }
+	if (BN_Compare(priv_key->G, pub_key->G) != 0) { return ERROR_FAILED; }*/
 
-	p = priv_key->p;
-	q = priv_key->q;
-	G = priv_key->G;
+	p = params->p;
+	q = params->q;
+	G = params->G;
 
 	uint_t N;
 	uint_t L;
@@ -73,9 +98,9 @@ error_t DSA_Create_Keys(DSA_Private_Key * priv_key, DSA_Public_Key * pub_key) {
 	BN_Sub_Int(&qt, q, 1);
 
 	BN_Mod(&c, &c1, &qt);
-	BN_Add_Int(priv_key->x, &c, 1);
+	BN_Add_Int(priv_key, &c, 1);
 
-	BN_Exp_Mod(pub_key->y, G, priv_key->x, p);
+	BN_Exp_Mod(pub_key, G, priv_key, p);
 
 	free(c1.data);
 	free(c.data);
@@ -90,9 +115,9 @@ void DSA_Init_Signature(DSA_Signature ** signature) {
 	BN_Init(&(sig_addr->s));
 }
 void DSA_Free_Signature(DSA_Signature * signature) {
-	BN_Free(&(signature->r));
-	BN_Free(&(signature->s));
-	free(signature);
+	BN_Free((signature->r));
+	BN_Free((signature->s));
+	//free(signature);
 }
 
 void DSA_Generate_P(uint p, uint q, uint_t L) {
@@ -128,7 +153,7 @@ void DSA_Generate_G(uint G, uint p, uint q, uint h) {
 	BN_Free(r);
 }
 
-error_t DSA_Generate_Signature(const DSA_Private_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature) {
+error_t DSA_Generate_Signature(DSA_Domain_Parameters * params, const DSA_Private_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature) {
 	error_t error = 0;
 	uint_t n;
 	BN k;
@@ -157,13 +182,13 @@ error_t DSA_Generate_Signature(const DSA_Private_Key * key, const uint8_t * mess
 	BN_Init_Stack(&z);
 
 	//Let N be the bit length of q
-	n = BN_Get_Bit_Length((key->q));
+	n = BN_Get_Bit_Length((params->q));
 
 	//Compute N = MIN(N, outlen)
-	n = min(n, message_len * 8);
+	n = min(n, message_len * 4);
 
 	//Convert the digest to a multiple precision integer
-	BN_Import_Hex_String(&z, message_digest, (n + 7) / 8, BN_BIG_ENDIAN);
+	BN_Import_Hex_String(&z, message_digest, (n + 3) / 4, BN_BIG_ENDIAN);
 
 	//Keep the leftmost N bits of the hash value
 	if ((n % 8) != 0)
@@ -182,21 +207,21 @@ error_t DSA_Generate_Signature(const DSA_Private_Key * key, const uint8_t * mess
 		BN_Randomize(&k, n);
 
 		//Make sure that 0 < k < q
-		if (BN_Compare(&k, (key->q)) >= 0)
+		if (BN_Compare(&k, (params->q)) >= 0)
 			BN_Shift_Right(&k, 1);
 
 		//Compute r = (g ^ k mod p) mod q
-		BN_Exp_Mod((signature->r), (key->G), &k, (key->p));
-		BN_Mod((signature->r), (signature->r), (key->q));
+		BN_Exp_Mod((signature->r), (params->G), &k, (params->p));
+		BN_Mod((signature->r), (signature->r), (params->q));
 
 		//Compute k ^ -1 mod q
-		BN_Inv_Mod(&k, &k, key->q);
+		BN_Inv_Mod(&k, &k, params->q);
 
 		//Compute s = k ^ -1 * (z + x * r) mod q
-		BN_Mul((signature->s), (key->x), (signature->r));
+		BN_Mul((signature->s), (key), (signature->r));
 		BN_Add((signature->s), (signature->s), &z);
 		//BN_Mod((signature->s), (signature->s), (key->q));
-		BN_Mul_Mod((signature->s), (signature->s), &k, (key->q));
+		BN_Mul_Mod((signature->s), (signature->s), &k, (params->q));
 	} while ((BN_Compare_Int(signature->r, 0) == 0 || BN_Compare_Int(signature->s, 0) == 0));
 
 	//Dump DSA signature
@@ -218,15 +243,15 @@ error_t DSA_Generate_Signature(const DSA_Private_Key * key, const uint8_t * mess
 
 	return error;
 }
-error_t DSA_Verify_Signature(const DSA_Public_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature) {
+error_t DSA_Verify_Signature(DSA_Domain_Parameters * params, const DSA_Public_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature) {
 
 	BN * r = signature->r;
 	BN * s = signature->s;
 
-	BN * p = key->p;
-	BN * q = key->q;
-	BN * G = key->G;
-	BN * y = key->y;
+	BN * p = params->p;
+	BN * q = params->q;
+	BN * G = params->G;
+	BN * y = key;
 
 	if (!(BN_Compare_Int(r, 0) > 0 && BN_Compare(r, q) < 0)) { return SIGNATURE_INVALID; }
 	if (!(BN_Compare_Int(s, 0) > 0 && BN_Compare(s, q) < 0)) { return SIGNATURE_INVALID; }
@@ -245,9 +270,9 @@ error_t DSA_Verify_Signature(const DSA_Public_Key * key, const uint8_t * message
 	BN_Inv_Mod(&w, s, q);
 
 
-	uint_t n = BN_Get_Bit_Length((key->q));
-	n = min(n, message_len * 8);
-	BN_Import_Hex_String(&z, message_digest, (n + 7) / 8, BN_BIG_ENDIAN);
+	uint_t n = BN_Get_Bit_Length(q);
+	n = min(n, message_len * 4);
+	BN_Import_Hex_String(&z, message_digest, (n + 3) / 4, BN_BIG_ENDIAN);
 	if ((n % 8) != 0)
 	{
 		BN_Shift_Right(&z, 8 - (n % 8));

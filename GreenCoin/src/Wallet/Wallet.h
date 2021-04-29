@@ -21,6 +21,10 @@ typedef struct _Public_Keys {
 
 typedef uint_t _Wallet_Address[32];
 
+
+double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index);
+
+
 void Print_Demo_Keys();
 
 DSA_Public_Key * Get_Random_Public_Key();

@@ -6,6 +6,18 @@
 
 int Demo() {
 
+	srand(time(NULL));
+
+	char * b64 = "abA7k6jWAjTs+2hRSlSCYJNIpVle4l2HHgsh4XlJehTPJ6TeEWVGlU57bTkiBf9eBtbnp93iul/1aOW51Qje1H6SdZePeJfGneh/5eMp5Kh7MBZ5yrBxP5wWz6e+8aNgdByBXbMGzI+jMQf0Y9Jl35MKnExpEht9YzBYgltxKxE=";
+	byte * out;
+	B64_Decode(b64, &out);
+	_Wallet_Address pk;
+	memcpy(pk, out, sizeof(_Wallet_Address));
+
+	double val = Calculate_Wallet_Value("C:\\Users\\stein\\Desktop\\GreenCoin\\Demo\\Blocks", pk, -1);
+
+	//Transaction_Demo();
+
 	BlockChain_Demo();
 
 	//Print_Demo_Keys();

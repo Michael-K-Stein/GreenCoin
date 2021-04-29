@@ -1,10 +1,20 @@
 #pragma once
 
-#define MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER 8
+#ifndef __BLOCKCHAIN_H
+#define __BLOCKCHAIN_H
+
+
+#define MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER 64
+//const uint16_t MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER = 64;
 
 #include "Transaction.h"
 #include "../General/FileIO.h"
 #include <time.h>
+
+#define INITIAL_BLOCK_MINING_FEE	300
+//const uint16_t INITIAL_BLOCK_MINING_FEE = 300;
+#define MINING_FEE_DECAY			0.9999997
+//const double MINING_FEE_DECAY = 0.9999997;
 
 typedef struct _TimeStamp {
 	uint32_t Unix_Time;
@@ -74,11 +84,13 @@ struct _Block {
 
 uint64_t Calculate_Block_Strength(_Block * block);
 
-_Block * Create_Block(uint64_t new_block_index);
+_Block * Create_Block(uint64_t new_block_index, char * previous_block_hash_ptr);
 
 error_t Validate_Block(_Block * block, BN * y, uint64_t desired_strength);
 
 error_t Append_Transaction(_Block * block, _Transaction * transaction, DSA_Domain_Parameters * params);
+
+double Calculate_Block_Total_Miner_Fees(_Block * block);
 
 void Print_Block(FILE * fstream, DSA_Domain_Parameters * params, _Block * block);
 
@@ -86,3 +98,5 @@ error_t Export_Block(FILE * fstream, _Block * block);
 error_t Export_To_File(char * dir_path, _Block * block);
 
 void BlockChain_Demo();
+
+#endif // !__BLOCKCHAIN_H

@@ -1,6 +1,8 @@
 
 #include "BlockChain.h"
 
+#include "../Wallet/Wallet.h"
+
 char * HumanFormatDateTime(_TimeStamp * timestamp) {
 	time_t rawtime = timestamp->Unix_Time;
 	struct tm  ts;
@@ -50,13 +52,15 @@ _Block * Create_Block(uint64_t new_block_index, char * previous_block_hash_ptr) 
 	BN_Import_Hex_String(&hs, previous_block_hash_ptr, 64, BN_BIG_ENDIAN);
 	memcpy(block->Previous_Block_Hash.Bytes, hs.data, 8 * sizeof(uint32_t));
 
+	free(hs.data);
+
 	memset(block->Block_Validation, 0, sizeof(uint256_t));
 
 	return block;
 }
 
 error_t Validate_Block(_Block * block, BN * y, uint64_t desired_strength) {
-	
+
 	memcpy(block->Notary_Address, y->data, y->size * BN_INT_SIZE);
 
 	BN c;
@@ -85,15 +89,31 @@ error_t Append_Transaction(_Block * block, _Transaction * transaction, DSA_Domai
 
 	_Transaction * target = &(block->Transactions[transaction_index]);
 
-	_Transaction zero_transaction;
+	_Transaction zero_transaction; memset(&zero_transaction, 0, sizeof(_Transaction));
 
 	if (memcmp(target, &zero_transaction, sizeof(_Transaction)) != 0) { return ERROR_BLOCK_TRANSACTION_SLOT_IN_USE; }
 
 	if (Verify_Transaction(params, transaction) != SIGNATURE_VALID) { return ERROR_BLOCK_TRANSACTION_SIGNATURE_INVALID; }
 
+	double value = Calculate_Wallet_Value("C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Demo_Transactions", transaction->Sender, block->Block_Index - 1);
+
+	if (value < target->Value + target->Fee) { return ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS; }
+
 	memcpy(target, transaction, sizeof(_Transaction));
 
 	return ERROR_BLOCK_TRANSACTION_NONE;
+}
+
+double Calculate_Block_Total_Miner_Fees(_Block * block) {
+	double total = 0;
+	double mining_fee = (double)INITIAL_BLOCK_MINING_FEE * pow((double)MINING_FEE_DECAY, block->Block_Index - 1);
+	total += mining_fee;
+	
+	for (int i = 0; i < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; i++) {
+		total += block->Transactions[i].Fee;
+	}
+
+	return total;
 }
 
 void Print_Block(FILE * fstream, DSA_Domain_Parameters * params, _Block * block) {
@@ -123,33 +143,52 @@ void BlockChain_Demo() {
 	DSA_Domain_Parameters * params = Get_Domain_Parameters();
 
 	char * prev_block_hash = Hash_SHA256("", 0);
+	char prev_block_hash_data[64];// = Hash_SHA256("", 0);
 
-	DSA_Public_Key * pub_key = Get_Random_Public_Key();
+	printf("Please enter your public key (as base64): \n");
+	char key_64[180]; fgets(key_64, 180, stdin);
 
-	uint64_t c = 0;
+	byte * key;
+	B64_Decode(key_64, &key);
+
+	DSA_Public_Key * pub_key=0; DSA_Init_Public_Key(&pub_key);
+	BN_Resize(pub_key, 32);
+	memcpy(pub_key->data, key, sizeof(_Wallet_Address));
+	free(key);
+
+	
+	char file_path[256];
+	char * buffer;
+	_Block * block;
+	_Transaction transaction_tmp;
+	size_t length = 0;
+
+	uint64_t c = 303;
 	while (1) {
-		_Block * block = Create_Block(c++, prev_block_hash);
+		block = Create_Block(c++, prev_block_hash);
 		free(prev_block_hash);
 
-		char file_path[256];
-		char * buffer;
-		_Transaction transaction_tmp;
 		for (uint32_t i = 0; i < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; i++) {
 			sprintf_s(file_path, 256, "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Demo_Transactions\\Test_%u.GCT", i);
-
-			size_t length = Load_File(file_path, &buffer);
+			
+			length = Load_File(file_path, &buffer);
 			if (length != -1) {
 				memcpy(&transaction_tmp, buffer + 4, sizeof(_Transaction));
 
 				Append_Transaction(block, &transaction_tmp, params);
+
+				free(buffer);
 			}
+
 		}
-
-		Validate_Block(block, pub_key->y, 12);
-
+		
+		Validate_Block(block, pub_key, 1);
+		
 		Export_To_File("C:\\Users\\stein\\Desktop\\GreenCoin\\Demo\\Blocks", block);
 
+		//free(prev_block_hash);
 		prev_block_hash = Hash_SHA256(block, sizeof(_Block));
+		//memcpy(prev_block_hash_data, prev_block_hash, 64);
 		free(block);
 	}
 
