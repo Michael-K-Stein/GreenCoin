@@ -14,8 +14,13 @@ typedef struct _Transaction {
 	// Index of the block in the chain
 	uint64_t Block_Index;
 
+	/* DEPRACATED
 	// Index of the transaction on the ledger
 	uint32_t Index;
+	*/
+
+	// The time this transaction was signed.
+	uint32_t Time;
 
 	/*
 		The combination of the block_index and the index are completely unique in the chain,

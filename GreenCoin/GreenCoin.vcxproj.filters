@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="BlockChain">
-      <UniqueIdentifier>{6831f06b-b26c-4b67-9d10-05492dc1d4a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Wallet">
-      <UniqueIdentifier>{46bb6c35-5155-4a02-aa6d-4cf7e365f3c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Cryptography">
       <UniqueIdentifier>{18f0304e-dea9-4ba8-80a2-0a7e02fed293}</UniqueIdentifier>
     </Filter>
@@ -46,19 +40,28 @@
     <Filter Include="Source Files\General\Base64">
       <UniqueIdentifier>{b2b69a66-f860-47d9-8f98-4f44f5f84a81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Wallet">
+      <UniqueIdentifier>{46bb6c35-5155-4a02-aa6d-4cf7e365f3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BlockChain">
+      <UniqueIdentifier>{6831f06b-b26c-4b67-9d10-05492dc1d4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{28fe6f37-a2a8-4222-8c3d-d5bd3744b689}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GreenCoin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\BlockChain\BlockChain.c">
-      <Filter>BlockChain</Filter>
+      <Filter>Source Files\BlockChain</Filter>
     </ClCompile>
     <ClCompile Include="src\BlockChain\Transaction.c">
-      <Filter>BlockChain</Filter>
+      <Filter>Source Files\BlockChain</Filter>
     </ClCompile>
     <ClCompile Include="src\Wallet\Wallet.c">
-      <Filter>Wallet</Filter>
+      <Filter>Source Files\Wallet</Filter>
     </ClCompile>
     <ClCompile Include="Source.c">
       <Filter>Source Files</Filter>
@@ -93,16 +96,19 @@
     <ClCompile Include="src\General\Base64\Base64.c">
       <Filter>Source Files\General\Base64</Filter>
     </ClCompile>
+    <ClCompile Include="src\Network\Network.c">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BlockChain\BlockChain.h">
-      <Filter>BlockChain</Filter>
+      <Filter>Source Files\BlockChain</Filter>
     </ClInclude>
     <ClInclude Include="src\BlockChain\Transaction.h">
-      <Filter>BlockChain</Filter>
+      <Filter>Source Files\BlockChain</Filter>
     </ClInclude>
     <ClInclude Include="src\Wallet\Wallet.h">
-      <Filter>Wallet</Filter>
+      <Filter>Source Files\Wallet</Filter>
     </ClInclude>
     <ClInclude Include="src\Cryptography\BNMath\BNMath.h">
       <Filter>Source Files\Cryptography\BN_Math</Filter>
@@ -119,9 +125,6 @@
     <ClInclude Include="src\Cryptography\ECDSA\Curve\Curve.h">
       <Filter>Source Files\Cryptography\ECDSA\Curve</Filter>
     </ClInclude>
-    <ClInclude Include="src\General\debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\CommandLine\ExternalCommandLine.h">
       <Filter>Source Files\CommandLine</Filter>
     </ClInclude>
@@ -136,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="src\General\Base64\Base64.h">
       <Filter>Source Files\General\Base64</Filter>
+    </ClInclude>
+    <ClInclude Include="src\General\debug.h">
+      <Filter>Source Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Network\Network.h">
+      <Filter>Source Files\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,7 +14,11 @@ typedef enum {
 	ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS = 0xd,
 
 	ERROR_WRITE_TO_FILE						= 0x10,
-	ERROR_OPEN_FILE							= 0x11
+	ERROR_OPEN_FILE							= 0x11,
+
+	ERROR_NETWORK_NONE						= 0x00,
+	ERROR_NETWORK_FAILED					= 0x20
+
 	
 } error_t;
 

@@ -16,7 +16,7 @@ void Print_Transaction_Wallet_Address(FILE * fstream, uint_t * q) {
 	fprintf(fstream, "\n");
 }
 void Print_Transaction(FILE * fstream, DSA_Domain_Parameters * params, _Transaction * transaction) {
-	fprintf(fstream, "=== === === Transaction #%u === === ===\n", transaction->Index);
+	fprintf(fstream, "=== === === Transaction @ %s === === ===\n", HumanFormatDateTimeInt(transaction->Time));
 	fprintf(fstream, "\tSender: \n");
 	Print_Transaction_Wallet_Address(fstream, transaction->Sender);
 	fprintf(fstream, "\tReciever: \n");
@@ -54,7 +54,7 @@ void Print_Transaction(FILE * fstream, DSA_Domain_Parameters * params, _Transact
 	}
 
 
-	fprintf(fstream, "=== === === End Transaction #%u === === ===\n", transaction->Index);
+	fprintf(fstream, "=== === === End Transaction @ %s === === ===\n", HumanFormatDateTimeInt(transaction->Time));
 }
 
 void Transaction_Export(FILE * fstream, _Transaction * transaction) {
@@ -157,9 +157,9 @@ void Transaction_Demo() {
 	char buffer[64]; fgets(buffer, 64, stdin);
 	transaction.Block_Index = strtol(buffer, NULL, 10);
 
-	printf("Transaction #?\n");
+	/*printf("Transaction #?\n");
 	fgets(buffer, 64, stdin);
-	transaction.Index = strtol(buffer, NULL, 10);
+	transaction.Index = strtol(buffer, NULL, 10);*/
 
 	printf("Please enter your public key (as base64): \n");
 	char sender_64[180]; fgets(sender_64, 180, stdin);
@@ -193,6 +193,8 @@ void Transaction_Demo() {
 
 	printf("Transaction signed!\n");
 
+	transaction.Time = time(NULL);
+
 	printf("\n\n\n");
 	printf("Transaction summary: \n");
 
@@ -208,7 +210,7 @@ void Transaction_Demo() {
 		printf("Transaction executed!\n");
 
 		char export_path[256];// = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
-		sprintf_s(export_path, 256, "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Demo_Transactions\\Test_%u.GCT", transaction.Index);
+		sprintf_s(export_path, 256, "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Demo_Transactions\\Test_%u.GCT", transaction.Time);
 
 		printf("Now exporting to: '%s'\n", export_path);
 

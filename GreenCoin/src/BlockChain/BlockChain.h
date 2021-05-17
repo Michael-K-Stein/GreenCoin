@@ -21,6 +21,7 @@ typedef struct _TimeStamp {
 } _TimeStamp;
 static char DateTimeBuffer[128];
 char * HumanFormatDateTime(_TimeStamp * timestamp);
+char * HumanFormatDateTimeInt(uint32_t timestamp);
 
 typedef struct _Hash {
 	uint32_t Bytes[8];

@@ -11,6 +11,14 @@ char * HumanFormatDateTime(_TimeStamp * timestamp) {
 	strftime(DateTimeBuffer, sizeof(DateTimeBuffer), "%Y-%m-%d %H:%M:%S\n", &ts);
 	return DateTimeBuffer;
 }
+char * HumanFormatDateTimeInt(uint32_t timestamp) {
+	time_t rawtime = timestamp;
+	struct tm  ts;
+	// Format time, "ddd yyyy-mm-dd hh:mm:ss zzz"
+	localtime_s(&ts, &rawtime);
+	strftime(DateTimeBuffer, sizeof(DateTimeBuffer), "%Y-%m-%d %H:%M:%S\n", &ts);
+	return DateTimeBuffer;
+}
 
 void Print_Hash(FILE * fstream, _Hash * hash) {
 	fprintf(fstream, "  ");
@@ -85,13 +93,21 @@ error_t Validate_Block(_Block * block, BN * y, uint64_t desired_strength) {
 }
 
 error_t Append_Transaction(_Block * block, _Transaction * transaction, DSA_Domain_Parameters * params) {
-	uint32_t transaction_index = transaction->Index;
+	//uint32_t transaction_index = transaction->Index;
 
-	_Transaction * target = &(block->Transactions[transaction_index]);
+	//_Transaction * target = &(block->Transactions[transaction_index]);
+	_Transaction * target = &(block->Transactions[0]);
 
 	_Transaction zero_transaction; memset(&zero_transaction, 0, sizeof(_Transaction));
 
-	if (memcmp(target, &zero_transaction, sizeof(_Transaction)) != 0) { return ERROR_BLOCK_TRANSACTION_SLOT_IN_USE; }
+	int index = 0;
+	while (memcmp(&(block->Transactions[index]), &zero_transaction, sizeof(_Transaction)) != 0) {
+		index++;
+	}
+
+	if (index >= MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER) { return ERROR_BLOCK_TRANSACTION_SLOT_IN_USE; }
+
+	//if (memcmp(target, &zero_transaction, sizeof(_Transaction)) != 0) { return ERROR_BLOCK_TRANSACTION_SLOT_IN_USE; }
 
 	if (Verify_Transaction(params, transaction) != SIGNATURE_VALID) { return ERROR_BLOCK_TRANSACTION_SIGNATURE_INVALID; }
 

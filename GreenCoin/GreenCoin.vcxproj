@@ -95,6 +95,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -165,6 +166,7 @@
     <ClCompile Include="src\General\Base64\Base64.c" />
     <ClCompile Include="src\General\FileIO.c" />
     <ClCompile Include="src\General\General.c" />
+    <ClCompile Include="src\Network\Network.c" />
     <ClCompile Include="src\Wallet\Wallet.c" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +183,7 @@
     <ClInclude Include="src\General\debug.h" />
     <ClInclude Include="src\General\FileIO.h" />
     <ClInclude Include="src\General\General.h" />
+    <ClInclude Include="src\Network\Network.h" />
     <ClInclude Include="src\Wallet\Wallet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
