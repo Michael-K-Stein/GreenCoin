@@ -329,7 +329,7 @@ DWORD WINAPI Network_P2P_Thread(void * params) {
 error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET * ptr_Peer_Socket) {
 	SOCKADDR_IN client_info;
 	int client_info_len = sizeof(client_info);
-	getsockname(*ptr_Peer_Socket, &client_info, &client_info_len);
+	getpeername(*ptr_Peer_Socket, &client_info, &client_info_len);
 
 	char * peer_ip_address = inet_ntoa(client_info.sin_addr);
 
@@ -368,6 +368,11 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 	memcpy(message, "GCT3", 4);
 	memcpy(message + 4, transaction, transaction_size);
 	
+	if (Node_List->socket == NULL) {
+		printf("No nodes to broadcast to!\n");
+		return ERROR_FAILED;
+	}
+
 	Node_Peer * ptr = Node_List;
 	do {
 		SOCKADDR_IN client_info;
