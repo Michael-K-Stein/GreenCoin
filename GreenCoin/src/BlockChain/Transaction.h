@@ -58,7 +58,7 @@ void Sign_Transaction(_Transaction * transaction, BN * priv_key);
 // If the wallet was the reciever, add the value of the transaction.
 double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Wallet_Address pk);
 
-SIGNATURE_VALID_STATE Verify_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction);
+SIGNATURE_VALID_STATE Verify_Transaction(_Transaction * transaction);
 
 void Transaction_Demo(void * wsadata, void * socket);
 

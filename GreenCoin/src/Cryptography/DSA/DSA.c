@@ -68,7 +68,7 @@ void DSA_Free_Private_Key(DSA_Private_Key * key) {
 	key->G = G;
 }*/
 
-error_t DSA_Create_Keys(DSA_Domain_Parameters * params, DSA_Private_Key * priv_key, DSA_Public_Key * pub_key) {
+error_t DSA_Create_Keys(DSA_Private_Key * priv_key, DSA_Public_Key * pub_key) {
 	BN * p;
 	BN * q;
 	BN * G;
@@ -153,7 +153,7 @@ void DSA_Generate_G(uint G, uint p, uint q, uint h) {
 	BN_Free(r);
 }
 
-error_t DSA_Generate_Signature(DSA_Domain_Parameters * params, const DSA_Private_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature) {
+error_t DSA_Generate_Signature(const DSA_Private_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature) {
 	error_t error = 0;
 	uint_t n;
 	BN k;
@@ -243,7 +243,7 @@ error_t DSA_Generate_Signature(DSA_Domain_Parameters * params, const DSA_Private
 
 	return error;
 }
-error_t DSA_Verify_Signature(DSA_Domain_Parameters * params, const DSA_Public_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature) {
+error_t DSA_Verify_Signature(const DSA_Public_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature) {
 
 	BN * r = signature->r;
 	BN * s = signature->s;

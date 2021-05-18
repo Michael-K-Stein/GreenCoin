@@ -223,10 +223,10 @@ error_t Network_TCP_Connect(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 	//free(server_ip);
 }
 
-DWORD WINAPI Network_Main_Server_Thread(/*Main_Server_Thread_Params*/ void * params) {
+DWORD WINAPI Network_Main_Server_Thread(/*Main_Server_Thread_Params*/ void * param) {
 	//WSADATA * ptr_wsadata = ((Main_Server_Thread_Params*)params)->ptr_WSA_Data;
-	int ret = Network_Main_Server(((Main_Server_Thread_Params*)params)->ptr_WSA_Data, ((Main_Server_Thread_Params*)params)->ptr_Sending_Socket, ((Main_Server_Thread_Params*)params)->server_addr);
-	(((Main_Server_Thread_Params*)params)->ret) = ret;
+	int ret = Network_Main_Server(((Main_Server_Thread_Params*)param)->ptr_WSA_Data, ((Main_Server_Thread_Params*)param)->ptr_Sending_Socket, ((Main_Server_Thread_Params*)param)->server_addr);
+	(((Main_Server_Thread_Params*)param)->ret) = ret;
 	return 0;
 }
 
@@ -280,11 +280,11 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 				if (strcmp(recvbuf, P2P_CHANNEL_CONNECTION_INIT_MESSAGE) == 0) {
 					// The client has sent the P2P_CHANNEL_CONNECTION_INIT_MESSAGE,
 					//  meaning they want to begin communicating over P2P.
-					P2P_Thread_Params params;
-					params.ptr_WSA_Data = ptr_WSA_Data;
-					params.ptr_Sending_Socket = ptr_Sending_Socket;
-					params.client_socket = &ClientSocket;
-					HANDLE thread = CreateThread(0,0,Network_P2P_Thread, &params,0,0);
+					P2P_Thread_Params param;
+					param.ptr_WSA_Data = ptr_WSA_Data;
+					param.ptr_Sending_Socket = ptr_Sending_Socket;
+					param.client_socket = &ClientSocket;
+					HANDLE thread = CreateThread(0,0,Network_P2P_Thread, &param,0,0);
 				}
 				else if (strcmp(recvbuf, CONNECTED_TEST_MESSAGE) == 0) {
 					// The client has queried the server with the connection test message.
@@ -323,8 +323,8 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 
 	return ERROR_NETWORK_NONE;
 }
-DWORD WINAPI Network_P2P_Thread(void * params) {
-	return Network_P2P(((P2P_Thread_Params*)params)->ptr_WSA_Data, ((P2P_Thread_Params*)params)->ptr_Sending_Socket, ((P2P_Thread_Params*)params)->client_socket);
+DWORD WINAPI Network_P2P_Thread(void * param) {
+	return Network_P2P(((P2P_Thread_Params*)param)->ptr_WSA_Data, ((P2P_Thread_Params*)param)->ptr_Sending_Socket, ((P2P_Thread_Params*)param)->client_socket);
 }
 error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET * ptr_Peer_Socket) {
 	SOCKADDR_IN client_info;
@@ -424,15 +424,15 @@ HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 
 	int a = 0;
 
-	Main_Server_Thread_Params * params = malloc(sizeof(Main_Server_Thread_Params));
-	params->ptr_WSA_Data = wsadata;
-	params->ptr_Sending_Socket = socket;
-	params->server_addr = LOCALHOST_IP;
-	params->ret = a;
+	Main_Server_Thread_Params * param = malloc(sizeof(Main_Server_Thread_Params));
+	param->ptr_WSA_Data = wsadata;
+	param->ptr_Sending_Socket = socket;
+	param->server_addr = LOCALHOST_IP;
+	param->ret = a;
 
 	DWORD thread_id;
 	//HANDLE thread = CreateThread(NULL, 0, fun, NULL, 0, &thread_id);
-	HANDLE thread = CreateThread(NULL, 0, Network_Main_Server_Thread, params, 0, &thread_id);
+	HANDLE thread = CreateThread(NULL, 0, Network_Main_Server_Thread, param, 0, &thread_id);
 
 	char AHOY[5] = "Ahoy!";
 

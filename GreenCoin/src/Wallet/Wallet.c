@@ -60,7 +60,7 @@ void Print_Demo_Keys() {
 
 	char * buffer;
 
-	DSA_Create_Keys(params, priv_key, pub_key);
+	DSA_Create_Keys(priv_key, pub_key);
 	printf("  x:\r\n");
 	TRACE_MPI("    ", (priv_key));
 	B64_Encode(priv_key->data, priv_key->size * BN_INT_SIZE, &buffer);

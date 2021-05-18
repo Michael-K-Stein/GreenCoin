@@ -118,7 +118,7 @@ error_t Append_Transaction(_Block * block, _Transaction * transaction) {
 
 	//if (memcmp(target, &zero_transaction, sizeof(_Transaction)) != 0) { return ERROR_BLOCK_TRANSACTION_SLOT_IN_USE; }
 
-	if (Verify_Transaction(params, transaction) != SIGNATURE_VALID) { return ERROR_BLOCK_TRANSACTION_SIGNATURE_INVALID; }
+	if (Verify_Transaction(transaction) != SIGNATURE_VALID) { return ERROR_BLOCK_TRANSACTION_SIGNATURE_INVALID; }
 
 	double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, transaction->Sender, block->Block_Index - 1);
 
@@ -152,7 +152,7 @@ void Print_Block(FILE * fstream, _Block * block) {
 
 	fprintf(fstream, "\t--- Begin Transactions ---\n");
 	for (int i = 0; i < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; i++) {
-		Print_Transaction(fstream, params, &(block->Transactions[i]));
+		Print_Transaction(fstream, &(block->Transactions[i]));
 	}
 	fprintf(fstream, "\t--- End Transactions ---\n");
 
@@ -203,7 +203,7 @@ void BlockChain_Demo() {
 			if (length != -1) {
 				memcpy(&transaction_tmp, buffer + 4, sizeof(_Transaction));
 
-				Append_Transaction(block, &transaction_tmp, params);
+				Append_Transaction(block, &transaction_tmp);
 
 				free(buffer);
 			}
@@ -254,7 +254,8 @@ error_t Load_Local_Notary_Signing_Address() {
 	else {
 		err = fopen_s(&f, "Local_Notary_Address.GCWA", "wb");
 		printf("Please enter the address to be used when mining blocks (as base64): \n");
-		char buf[256];
+		char buf[1024];
+		fgets(buf, 1024, stdin);
 		byte* out;
 		B64_Decode(buf, &out);
 		memcpy(LOCAL_NOTARY_SIGNING_ADDRESS, out, sizeof(LOCAL_NOTARY_SIGNING_ADDRESS));
@@ -262,6 +263,8 @@ error_t Load_Local_Notary_Signing_Address() {
 		free(out);
 	}
 	fclose(f);
+	printf("Mining address is: \n");
+	Print_Transaction_Wallet_Address(stdout, LOCAL_NOTARY_SIGNING_ADDRESS);
 }
 
 error_t Load_Block_History_Path() {

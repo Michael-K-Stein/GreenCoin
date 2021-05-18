@@ -58,10 +58,10 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 
 error_t Network_TCP_Connect(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, unsigned char * node_addr);
 
-DWORD WINAPI Network_Main_Server_Thread(/*Main_Server_Thread_Params*/ void * params);
+DWORD WINAPI Network_Main_Server_Thread(/*Main_Server_Thread_Params*/ void * param);
 error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, unsigned char * server_addr);
 
-DWORD WINAPI Network_P2P_Thread(void * params);
+DWORD WINAPI Network_P2P_Thread(void * param);
 error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET * ptr_Peer_Socket);
 
 error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size);

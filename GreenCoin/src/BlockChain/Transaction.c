@@ -45,7 +45,7 @@ void Print_Transaction(FILE * fstream, _Transaction * transaction) {
 
 	char * digest = Hash_SHA256(transaction, sizeof(_Transaction) - sizeof(_Signature));
 
-	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(params, pub_key, digest, 64, sign);
+	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, digest, 64, sign);
 	if (valid == SIGNATURE_VALID) {
 		fprintf(fstream, "\tValid signature!\n");
 	}
@@ -88,7 +88,7 @@ void Sign_Transaction(_Transaction * transaction, BN * pk) {
 	DSA_Private_Key * priv_key;
 	priv_key = pk;
 
-	DSA_Generate_Signature(params, priv_key, message_digest, 64, signature);
+	DSA_Generate_Signature(priv_key, message_digest, 64, signature);
 
 	_Signature sig;
 	memcpy((sig.r), signature->r->data, 5 * sizeof(uint_t));
@@ -115,7 +115,7 @@ SIGNATURE_VALID_STATE Verify_Transaction(_Transaction * transaction) {
 
 	char * digest = Hash_SHA256(transaction, sizeof(_Transaction) - sizeof(_Signature));
 
-	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(params, pub_key, digest, 64, sign);
+	SIGNATURE_VALID_STATE valid = DSA_Verify_Signature(pub_key, digest, 64, sign);
 
 	DSA_Free_Public_Key(pub_key);
 	DSA_Free_Signature(sign);
@@ -189,14 +189,14 @@ void Transaction_Demo(void * wsadata, void * socket) {
 
 	transaction.Time = time(NULL);
 
-	Sign_Transaction(params, &transaction, pk);
+	Sign_Transaction(&transaction, pk);
 
 	printf("Transaction signed!\n");
 
 	printf("\n\n\n");
 	printf("Transaction summary: \n");
 
-	Print_Transaction(stderr, params, &transaction);
+	Print_Transaction(stderr, &transaction);
 	printf("\n\n\n");
 
 	printf("Type 'EXECUTE' to continue, otherwise cancel the transaction.\n");
