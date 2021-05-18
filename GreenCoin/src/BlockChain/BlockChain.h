@@ -18,6 +18,8 @@
 
 char BLOCK_HISTORY_DIRECTORY_PATH[256];
 
+_Wallet_Address LOCAL_NOTARY_SIGNING_ADDRESS;
+
 typedef struct _TimeStamp {
 	uint32_t Unix_Time;
 } _TimeStamp;
@@ -91,17 +93,19 @@ uint64_t Calculate_Block_Strength(_Block * block);
 
 _Block * Create_Block(uint64_t new_block_index, char * previous_block_hash_ptr);
 
-error_t Validate_Block(_Block * block, BN * y, uint64_t desired_strength);
+error_t Validate_Block(_Block * block, uint64_t desired_strength);
 
-error_t Append_Transaction(_Block * block, _Transaction * transaction, DSA_Domain_Parameters * params);
+error_t Append_Transaction(_Block * block, _Transaction * transaction);
 
 double Calculate_Block_Total_Miner_Fees(_Block * block);
 
-void Print_Block(FILE * fstream, DSA_Domain_Parameters * params, _Block * block);
+void Print_Block(FILE * fstream, _Block * block);
 
 error_t Export_Block(FILE * fstream, _Block * block);
 error_t Export_To_File(char * dir_path, _Block * block);
 
+
+error_t Load_Local_Notary_Signing_Address();
 error_t Load_Block_History_Path();
 
 void BlockChain_Demo();

@@ -20,6 +20,10 @@ int Demo() {
 
 	Load_Block_History_Path();
 
+	Load_Domain_Parameters();
+
+	Load_Local_Notary_Signing_Address();
+
 	WSADATA * wsadata = NULL;
 	SOCKET * socket = NULL;
 

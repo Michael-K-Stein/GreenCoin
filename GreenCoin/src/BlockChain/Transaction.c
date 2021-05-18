@@ -15,7 +15,7 @@ void Print_Transaction_Wallet_Address(FILE * fstream, uint_t * q) {
 	}
 	fprintf(fstream, "\n");
 }
-void Print_Transaction(FILE * fstream, DSA_Domain_Parameters * params, _Transaction * transaction) {
+void Print_Transaction(FILE * fstream, _Transaction * transaction) {
 	fprintf(fstream, "=== === === Transaction @ %s === === ===\n", HumanFormatDateTimeInt(transaction->Time));
 	fprintf(fstream, "\tSender: \n");
 	Print_Transaction_Wallet_Address(fstream, transaction->Sender);
@@ -75,7 +75,7 @@ void Transaction_Export_To_File(char * file_path, _Transaction * transaction) {
 	fclose(ft);
 }
 
-void Sign_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction, BN * pk) {
+void Sign_Transaction(_Transaction * transaction, BN * pk) {
 	char * transaction_info = (char*)malloc(sizeof(_Transaction) - sizeof(_Signature));
 	memcpy(transaction_info, transaction, sizeof(_Transaction) - sizeof(_Signature));
 
@@ -100,7 +100,7 @@ void Sign_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction
 	//DSA_Free_Private_Key(priv_key);
 }
 
-SIGNATURE_VALID_STATE Verify_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction) {
+SIGNATURE_VALID_STATE Verify_Transaction(_Transaction * transaction) {
 	DSA_Public_Key * pub_key = 0;
 	DSA_Init_Public_Key(&pub_key);
 	BN_Resize(pub_key, 32);
@@ -137,8 +137,6 @@ double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Walle
 }
 
 void Transaction_Demo(void * wsadata, void * socket) {
-	DSA_Domain_Parameters * params = Get_Domain_Parameters();
-
 	printf("=== Create Transaction (Demo) ===\n");
 
 	printf("--- Domain Params: ---\n");

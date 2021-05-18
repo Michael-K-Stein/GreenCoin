@@ -46,12 +46,12 @@ typedef struct _Transaction {
 } _Transaction;
 void Print_Transaction_Signature_Part(FILE * fstream, uint_t * q);
 void Print_Transaction_Wallet_Address(FILE * fstream, uint_t * q);
-void Print_Transaction(FILE * fstream, DSA_Domain_Parameters * params, _Transaction * transaction);
+void Print_Transaction(FILE * fstream, _Transaction * transaction);
 
 void Transaction_Export(FILE * fstream, _Transaction * transaction);
 void Transaction_Export_To_File(char * file_path, _Transaction * transaction);
 
-void Sign_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction, BN * priv_key);
+void Sign_Transaction(_Transaction * transaction, BN * priv_key);
 
 // Returns the value of the transaction with regards to a wallet.
 // If the wallet was the sender, deduce the TOTAL value of the transaction.

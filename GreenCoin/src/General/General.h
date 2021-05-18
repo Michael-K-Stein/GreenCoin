@@ -16,6 +16,6 @@ char GCB_MAGIC[4];// = { 'G', 'C', 'B', 0x33 }; // GreenCoin Block
 
 
 
-void * Get_Domain_Parameters();
+void Load_Domain_Parameters();
 
 #endif // !__GENERAL_H

@@ -88,7 +88,7 @@ error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
 	Network_Locate_Nodes(ptr_WSA_Data, ptr_Sending_Socket);
 
 	return ERROR_NETWORK_NONE;
-}
+}    
 
 unsigned long Network_Node_Addr_Format(unsigned char * node_addr) {
 	return (unsigned long)(node_addr[0] | node_addr[1] << 8 | node_addr[2] << 16 | node_addr[3] << 24);
@@ -298,7 +298,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 				}
 				else if (memcmp(recvbuf, TRANSACTION_BROADCAST_MAGIC, sizeof(TRANSACTION_BROADCAST_MAGIC)) == 0) {
 					Network_Transaction_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC), recvbuflen - sizeof(TRANSACTION_BROADCAST_MAGIC));
-					Print_Transaction(stderr, Get_Domain_Parameters(), recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
+					Print_Transaction(stderr, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
 				}
 			}
 			else if (iResult == 0) {
@@ -334,7 +334,6 @@ error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET 
 	char * peer_ip_address = inet_ntoa(client_info.sin_addr);
 
 	printf("Client '%s' has requested to open a P2P channel!\n", peer_ip_address);
-
 
 	SOCKADDR_IN my_info;
 	SOCKET my_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -396,7 +395,7 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 }
 
 error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size) {
-	return Append_Transaction(live_block, transaction, Get_Domain_Parameters());
+	return Append_Transaction(live_block, transaction);
 }
 
 DWORD WINAPI fun(LPVOID lpParam) {

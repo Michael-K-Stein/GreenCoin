@@ -69,9 +69,10 @@ _Block * Create_Block(uint64_t new_block_index, char * previous_block_hash_ptr) 
 	return block;
 }
 
-error_t Validate_Block(_Block * block, BN * y, uint64_t desired_strength) {
+error_t Validate_Block(_Block * block, uint64_t desired_strength) {
 
-	memcpy(block->Notary_Address, y->data, y->size * BN_INT_SIZE);
+	//memcpy(block->Notary_Address, y->data, y->size * BN_INT_SIZE);
+	memcpy(block->Notary_Address, LOCAL_NOTARY_SIGNING_ADDRESS, sizeof(LOCAL_NOTARY_SIGNING_ADDRESS));
 
 	BN c;
 	BN_Init_Stack(&c);
@@ -94,7 +95,7 @@ error_t Validate_Block(_Block * block, BN * y, uint64_t desired_strength) {
 	return ERROR_NONE;
 }
 
-error_t Append_Transaction(_Block * block, _Transaction * transaction, DSA_Domain_Parameters * params) {
+error_t Append_Transaction(_Block * block, _Transaction * transaction) {
 	//uint32_t transaction_index = transaction->Index;
 
 	//_Transaction * target = &(block->Transactions[transaction_index]);
@@ -125,6 +126,11 @@ error_t Append_Transaction(_Block * block, _Transaction * transaction, DSA_Domai
 
 	memcpy(target, transaction, sizeof(_Transaction));
 
+	if (index == MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER - 1) {
+		// Block is full. You may now sign it.
+		Validate_Block(live_block, 15);
+	}
+
 	return ERROR_BLOCK_TRANSACTION_NONE;
 }
 
@@ -140,7 +146,7 @@ double Calculate_Block_Total_Miner_Fees(_Block * block) {
 	return total;
 }
 
-void Print_Block(FILE * fstream, DSA_Domain_Parameters * params, _Block * block) {
+void Print_Block(FILE * fstream, _Block * block) {
 	fprintf(fstream, "=== === === Block #%lu === === ===\n", block->Block_Index);
 	fprintf(fstream, "\tCreation Time: %s\n", HumanFormatDateTime(&(block->Time_Stamp)));
 
@@ -164,8 +170,6 @@ void Print_Block(FILE * fstream, DSA_Domain_Parameters * params, _Block * block)
 
 
 void BlockChain_Demo() {
-	DSA_Domain_Parameters * params = Get_Domain_Parameters();
-
 	char * prev_block_hash = Hash_SHA256("", 0);
 	char prev_block_hash_data[64];// = Hash_SHA256("", 0);
 
@@ -206,7 +210,7 @@ void BlockChain_Demo() {
 
 		}
 		
-		Validate_Block(block, pub_key, 1);
+		Validate_Block(block, 1);
 		
 		Export_To_File("C:\\Users\\stein\\Desktop\\GreenCoin\\Demo\\Blocks", block);
 
@@ -239,6 +243,25 @@ error_t Export_To_File(char * dir_path, _Block * block) {
 	error |= Export_Block(f, block);
 	fclose(f);
 	return error;
+}
+
+error_t Load_Local_Notary_Signing_Address() {
+	FILE* f;
+	errno_t err = fopen_s(&f, "Local_Notary_Address.GCWA", "rb");
+	if (err == 0) {
+		fread_s(LOCAL_NOTARY_SIGNING_ADDRESS, sizeof(LOCAL_NOTARY_SIGNING_ADDRESS), sizeof(LOCAL_NOTARY_SIGNING_ADDRESS), 1, f);
+	}
+	else {
+		err = fopen_s(&f, "Local_Notary_Address.GCWA", "wb");
+		printf("Please enter the address to be used when mining blocks (as base64): \n");
+		char buf[256];
+		byte* out;
+		B64_Decode(buf, &out);
+		memcpy(LOCAL_NOTARY_SIGNING_ADDRESS, out, sizeof(LOCAL_NOTARY_SIGNING_ADDRESS));
+		fwrite(LOCAL_NOTARY_SIGNING_ADDRESS, sizeof(LOCAL_NOTARY_SIGNING_ADDRESS), 1, f);
+		free(out);
+	}
+	fclose(f);
 }
 
 error_t Load_Block_History_Path() {

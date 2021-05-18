@@ -6,8 +6,8 @@ char GCB_MAGIC[4] = { 'G', 'C', 'B', 0x33 }; // GreenCoin Block
 
 
 
-// Returns a pointer to struct DSA_Domain_Parameters
-void * Get_Domain_Parameters() {
+// Loads the domain parameters into 'params'
+void Load_Domain_Parameters() {
 	uint p; BN_Init(&p);
 	uint q; BN_Init(&q);
 
@@ -46,11 +46,11 @@ void * Get_Domain_Parameters() {
 
 	BN_Free(h);
 
-	DSA_Domain_Parameters * params = (DSA_Domain_Parameters*)malloc(sizeof(DSA_Domain_Parameters));
+	params = (DSA_Domain_Parameters*)malloc(sizeof(DSA_Domain_Parameters));
 
 	params->G = G;
 	params->p = p;
 	params->q = q;
 
-	return params;
+	//return params;
 }

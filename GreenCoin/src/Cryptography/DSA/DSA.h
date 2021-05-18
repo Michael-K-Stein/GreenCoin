@@ -17,6 +17,8 @@ typedef struct {
 	uint G; // Group generator
 } DSA_Domain_Parameters;
 
+DSA_Domain_Parameters * params;
+
 /*typedef struct {
 	uint p;
 	uint q;
@@ -51,7 +53,7 @@ void DSA_Init_Private_Key(DSA_Private_Key * key);
 void DSA_Free_Private_Key(DSA_Private_Key * key);
 //void DSA_Load_Private_Key(DSA_Private_Key * key, uint p, uint q, uint G);
 
-error_t DSA_Create_Keys(DSA_Domain_Parameters * params, DSA_Private_Key * priv_key, DSA_Public_Key * pub_key);
+error_t DSA_Create_Keys(DSA_Private_Key * priv_key, DSA_Public_Key * pub_key);
 
 void DSA_Init_Signature(DSA_Signature ** signature);
 void DSA_Free_Signature(DSA_Signature * signature);
@@ -59,7 +61,7 @@ void DSA_Free_Signature(DSA_Signature * signature);
 void DSA_Generate_P(uint p, uint q, uint_t L);
 void DSA_Generate_G(uint G, uint p, uint q, uint h);
 
-error_t DSA_Generate_Signature(DSA_Domain_Parameters * params, const DSA_Private_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature);
-SIGNATURE_VALID_STATE DSA_Verify_Signature(DSA_Domain_Parameters * params, const DSA_Public_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature);
+error_t DSA_Generate_Signature(const DSA_Private_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature);
+SIGNATURE_VALID_STATE DSA_Verify_Signature(const DSA_Public_Key * key, const uint8_t * message_digest, size_t message_len, DSA_Signature * signature);
 
 #endif // !___DSA_H

@@ -45,7 +45,6 @@ double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_t
 }
 
 void Print_Demo_Keys() {
-	DSA_Domain_Parameters * params = Get_Domain_Parameters();
 	BN * p = params->p;
 	BN * q = params->q;
 	BN * G = params->G;
@@ -76,7 +75,6 @@ void Print_Demo_Keys() {
 }
 
 DSA_Public_Key * Get_Random_Public_Key() {
-	DSA_Domain_Parameters * params = Get_Domain_Parameters();
 	BN * p = params->p;
 	BN * q = params->q;
 	BN * G = params->G;
@@ -92,7 +90,7 @@ DSA_Public_Key * Get_Random_Public_Key() {
 
 	char * buffer;
 
-	DSA_Create_Keys(params, priv_key, pub_key);
+	DSA_Create_Keys(priv_key, pub_key);
 	/*printf("  x:\r\n");
 	TRACE_MPI("    ", (priv_key->x));
 	B64_Encode(priv_key->x->data, priv_key->x->size * BN_INT_SIZE, &buffer);
