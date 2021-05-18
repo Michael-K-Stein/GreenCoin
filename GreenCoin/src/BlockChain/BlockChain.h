@@ -16,6 +16,8 @@
 #define MINING_FEE_DECAY			0.9999997
 //const double MINING_FEE_DECAY = 0.9999997;
 
+char BLOCK_HISTORY_DIRECTORY_PATH[256];
+
 typedef struct _TimeStamp {
 	uint32_t Unix_Time;
 } _TimeStamp;
@@ -82,6 +84,8 @@ struct _Block {
 	//*/
 	//_Block * Next_Block;
 };
+
+_Block * live_block;
 
 uint64_t Calculate_Block_Strength(_Block * block);
 

@@ -3,12 +3,14 @@
 
 #include "../Wallet/Wallet.h"
 
+char BLOCK_HISTORY_DIRECTORY_PATH[256] = "";
+
 char * HumanFormatDateTime(_TimeStamp * timestamp) {
 	time_t rawtime = timestamp->Unix_Time;
 	struct tm  ts;
 	// Format time, "ddd yyyy-mm-dd hh:mm:ss zzz"
 	localtime_s(&ts, &rawtime);
-	strftime(DateTimeBuffer, sizeof(DateTimeBuffer), "%Y-%m-%d %H:%M:%S\n", &ts);
+	strftime(DateTimeBuffer, sizeof(DateTimeBuffer), "%Y-%m-%d %H:%M:%S", &ts);
 	return DateTimeBuffer;
 }
 char * HumanFormatDateTimeInt(uint32_t timestamp) {
@@ -16,7 +18,7 @@ char * HumanFormatDateTimeInt(uint32_t timestamp) {
 	struct tm  ts;
 	// Format time, "ddd yyyy-mm-dd hh:mm:ss zzz"
 	localtime_s(&ts, &rawtime);
-	strftime(DateTimeBuffer, sizeof(DateTimeBuffer), "%Y-%m-%d %H:%M:%S\n", &ts);
+	strftime(DateTimeBuffer, sizeof(DateTimeBuffer), "%Y-%m-%d %H:%M:%S", &ts);
 	return DateTimeBuffer;
 }
 
@@ -105,15 +107,21 @@ error_t Append_Transaction(_Block * block, _Transaction * transaction, DSA_Domai
 		index++;
 	}
 
+	// Make sure that there aren't two duplicate transactions on a block.
+	// This protects the system from a fraud duplicating a valid transaction.
+	for (int i = 0; i < index; i++) {
+		if (memcmp(transaction, &(block->Transactions[i]), sizeof(_Transaction)) == 0) { return ERROR_BLOCK_TRANSACTION_DUPLICATE; }
+	}
+
 	if (index >= MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER) { return ERROR_BLOCK_TRANSACTION_SLOT_IN_USE; }
 
 	//if (memcmp(target, &zero_transaction, sizeof(_Transaction)) != 0) { return ERROR_BLOCK_TRANSACTION_SLOT_IN_USE; }
 
 	if (Verify_Transaction(params, transaction) != SIGNATURE_VALID) { return ERROR_BLOCK_TRANSACTION_SIGNATURE_INVALID; }
 
-	double value = Calculate_Wallet_Value("C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Demo_Transactions", transaction->Sender, block->Block_Index - 1);
+	double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, transaction->Sender, block->Block_Index - 1);
 
-	if (value < target->Value + target->Fee) { return ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS; }
+	if (value < transaction->Value + transaction->Fee) { return ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS; }
 
 	memcpy(target, transaction, sizeof(_Transaction));
 
@@ -134,7 +142,7 @@ double Calculate_Block_Total_Miner_Fees(_Block * block) {
 
 void Print_Block(FILE * fstream, DSA_Domain_Parameters * params, _Block * block) {
 	fprintf(fstream, "=== === === Block #%lu === === ===\n", block->Block_Index);
-	fprintf(fstream, "\tCreation Time: %s", HumanFormatDateTime(&(block->Time_Stamp)));
+	fprintf(fstream, "\tCreation Time: %s\n", HumanFormatDateTime(&(block->Time_Stamp)));
 
 	fprintf(fstream, "\t--- Begin Transactions ---\n");
 	for (int i = 0; i < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; i++) {

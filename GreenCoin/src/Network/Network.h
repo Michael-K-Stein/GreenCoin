@@ -6,7 +6,7 @@
 #include "../General/error.h"
 #include "../General/FileIO.h"
 
-#include "../BlockChain/Transaction.h"
+#include "../BlockChain/BlockChain.h"
 
 #include <string.h>
 
@@ -64,6 +64,10 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 DWORD WINAPI Network_P2P_Thread(void * params);
 error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET * ptr_Peer_Socket);
 
-HANDLE Network_Demo();
+error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size);
+
+error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size);
+
+HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket);
 
 #endif

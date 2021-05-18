@@ -11,9 +11,10 @@ int Demo() {
 
 	srand(time(NULL));
 
+	WSADATA * wsadata = NULL;
+	SOCKET * socket = NULL;
 
-
-	HANDLE server_thread = Network_Demo();
+	HANDLE server_thread = Network_Demo(wsadata, socket);
 
 	/*char * b64 = "abA7k6jWAjTs+2hRSlSCYJNIpVle4l2HHgsh4XlJehTPJ6TeEWVGlU57bTkiBf9eBtbnp93iul/1aOW51Qje1H6SdZePeJfGneh/5eMp5Kh7MBZ5yrBxP5wWz6e+8aNgdByBXbMGzI+jMQf0Y9Jl35MKnExpEht9YzBYgltxKxE=";
 	byte * out;
@@ -23,8 +24,15 @@ int Demo() {
 
 	double val = Calculate_Wallet_Value("C:\\Users\\stein\\Desktop\\GreenCoin\\Demo\\Blocks", pk, -1);
 	*/
+
+	_Block * b;
+	b = calloc(1, sizeof(_Block));
+	b->Block_Index = 0;
+
+	live_block = b;
+
 	while (1) {
-		Transaction_Demo();
+		Transaction_Demo(wsadata, socket);
 	}
 	BlockChain_Demo();
 

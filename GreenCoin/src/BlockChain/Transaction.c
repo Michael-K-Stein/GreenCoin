@@ -136,7 +136,7 @@ double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Walle
 	return 0;
 }
 
-void Transaction_Demo() {
+void Transaction_Demo(void * wsadata, void * socket) {
 	DSA_Domain_Parameters * params = Get_Domain_Parameters();
 
 	printf("=== Create Transaction (Demo) ===\n");
@@ -189,11 +189,11 @@ void Transaction_Demo() {
 	pk->sign = 1;
 	memcpy(pk->data, priv_k, priv_key_byte_length);
 
+	transaction.Time = time(NULL);
+
 	Sign_Transaction(params, &transaction, pk);
 
 	printf("Transaction signed!\n");
-
-	transaction.Time = time(NULL);
 
 	printf("\n\n\n");
 	printf("Transaction summary: \n");
@@ -210,11 +210,13 @@ void Transaction_Demo() {
 		printf("Transaction executed!\n");
 
 		char export_path[256];// = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
-		sprintf_s(export_path, 256, "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Demo_Transactions\\Test_%u.GCT", transaction.Time);
+		sprintf_s(export_path, 256, "Demo\\Transaction_%u.GCT", transaction.Time);
 
 		printf("Now exporting to: '%s'\n", export_path);
 
 		Transaction_Export_To_File(export_path, &transaction);
+	
+		//Network_Broadcast_Transaction(wsadata, socket, &transaction, sizeof(_Transaction));
 	}
 	else {
 		printf("Transaction has been cancelled!\n");

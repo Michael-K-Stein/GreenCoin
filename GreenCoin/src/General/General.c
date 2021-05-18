@@ -17,8 +17,8 @@ void * Get_Domain_Parameters() {
 	//BN_Set_Value(q, 6071717768788351249);
 	//DSA_Generate_P(p, q, L);
 
-	char * q_file_path = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\q.hex";
-	char * p_file_path = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\p.hex";
+	char * q_file_path = "Globals\\q.hex";
+	char * p_file_path = "Globals\\p.hex";
 
 	FILE * fq;
 	FILE * fp;

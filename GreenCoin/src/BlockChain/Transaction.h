@@ -4,6 +4,7 @@
 #define __TRANSACTION_H
 
 #include "../Wallet/Wallet.h"
+//#include "../Network/Network.h"
 
 typedef struct _Signature {
 	uint_t r[5];
@@ -59,6 +60,6 @@ double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Walle
 
 SIGNATURE_VALID_STATE Verify_Transaction(DSA_Domain_Parameters * params, _Transaction * transaction);
 
-void Transaction_Demo();
+void Transaction_Demo(void * wsadata, void * socket);
 
 #endif // !__TRANSACTION_H

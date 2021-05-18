@@ -10,7 +10,9 @@ char BLOCK_BROADCAST_MAGIC[4] = { "GCB3" };
 
 unsigned int GENERAL_SERVER_PORT = 22110;
 
-unsigned char LOCALHOST_IP[4] = { 127, 0, 0, 1 };
+unsigned char LOCALHOST_IP[4] = { 10, 0, 0, 69 };
+
+char Network_Nodes_List_File_Path[256] = "Nodes.GCNL";
 
 struct Main_Server_Thread_Params {
 	WSADATA * ptr_WSA_Data;
@@ -35,6 +37,7 @@ void Copy_Socket_To_List(SOCKET * socket) {
 	Node_Peer * ptr = Node_List;
 
 	if (ptr->socket == NULL) {
+		ptr->socket = (SOCKET *)malloc(sizeof(SOCKET));
 		memcpy(ptr->socket, socket, sizeof(SOCKET));
 	}
 	else {
@@ -44,6 +47,7 @@ void Copy_Socket_To_List(SOCKET * socket) {
 		
 		Node_Peer * new_node = ptr->next_node;
 		new_node->next_node = NULL;
+		ptr->socket = (SOCKET *)malloc(sizeof(SOCKET));
 		memcpy(new_node->socket, socket, sizeof(SOCKET));
 	}
 
@@ -80,6 +84,8 @@ error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
 	Node_List = (Node_Peer*)malloc(sizeof(Node_Peer));
 	Node_List->next_node = NULL;
 	Node_List->socket = NULL;
+
+	Network_Locate_Nodes(ptr_WSA_Data, ptr_Sending_Socket);
 
 	return ERROR_NETWORK_NONE;
 }
@@ -183,11 +189,38 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 		}
 	}
 
-	free(buffer);
+	if (size > 0) {
+		free(buffer);
+	}
 }
 
 error_t Network_TCP_Connect(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, unsigned char * node_addr) {
-	
+	SOCKADDR_IN my_info;
+	SOCKET my_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (my_sock == INVALID_SOCKET) {
+		printf("Client: socket() failed! Error code: %ld\n", WSAGetLastError());
+		// Exit with error
+		return ERROR_NETWORK_FAILED;
+	}
+	else {
+		printf("Client: socket() successful.\n");
+	}
+
+	// IPv4
+	my_info.sin_family = AF_INET;
+	// Port no.
+	my_info.sin_port = htons(GENERAL_SERVER_PORT);
+	// The IP address
+	my_info.sin_addr.s_addr = Network_Node_Addr_Format(node_addr);
+	char * server_ip = inet_ntoa(my_info.sin_addr);
+
+	int err = connect(my_sock, (SOCKADDR*)&my_info, sizeof(my_info));
+	if (err != 0) { printf("Could not connect to server node %s!\n", server_ip); }
+	else {
+		Copy_Socket_To_List(&my_sock);
+	}
+
+	//free(server_ip);
 }
 
 DWORD WINAPI Network_Main_Server_Thread(/*Main_Server_Thread_Params*/ void * params) {
@@ -264,7 +297,8 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 					}
 				}
 				else if (memcmp(recvbuf, TRANSACTION_BROADCAST_MAGIC, sizeof(TRANSACTION_BROADCAST_MAGIC)) == 0) {
-					Print_Transaction(stderr, Get_Domain_Parameters(), recvbuf + 4);
+					Network_Transaction_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC), recvbuflen - sizeof(TRANSACTION_BROADCAST_MAGIC));
+					//Print_Transaction(stderr, Get_Domain_Parameters(), recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
 				}
 			}
 			else if (iResult == 0) {
@@ -329,6 +363,37 @@ error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET 
 	return ERROR_NONE;
 }
 
+error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size) {
+	char * message = malloc(transaction_size + 4);
+	memcpy(message, "GCT3", 4);
+	memcpy(message + 4, transaction, transaction_size);
+	
+	Node_Peer * ptr = Node_List;
+	do {
+		SOCKADDR_IN client_info;
+		int client_info_len = sizeof(client_info);
+		getsockname(*(ptr->socket), &client_info, &client_info_len);
+
+		char * peer_ip_address = inet_ntoa(client_info.sin_addr);
+
+		int res = send(*(ptr->socket), message, transaction_size + 4, 0);
+		if (res != 0) {
+			printf("Error broadcasting transaction to %s\n", peer_ip_address);
+		}
+		else {
+			printf("Broadcasted the transaction to %s\n", peer_ip_address);
+		}
+
+		//free(peer_ip_address);
+	} while (ptr->next_node != NULL);
+
+	free(message);
+}
+
+error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size) {
+	return Append_Transaction(live_block, transaction, Get_Domain_Parameters());
+}
+
 DWORD WINAPI fun(LPVOID lpParam) {
 	FILE *f;
 	fopen_s(&f, "Test.txt", "w");
@@ -337,15 +402,17 @@ DWORD WINAPI fun(LPVOID lpParam) {
 	return 0;
 }
 
-HANDLE Network_Demo() {
+HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 
-	WSADATA * wsadata = (WSADATA *)malloc(sizeof(WSADATA));
-	SOCKET * socket = (SOCKET *)malloc(sizeof(SOCKET));
+	wsadata = (WSADATA *)malloc(sizeof(WSADATA));
+	socket = (SOCKET *)malloc(sizeof(SOCKET));
 
 	char * message = "Test123";
 	int message_len = strlen(message);
 
 	char * output; int output_len;
+
+	printf("Initializing server on ip: %hhu.%hhu.%hhu.%hhu\n", LOCALHOST_IP[0], LOCALHOST_IP[1], LOCALHOST_IP[2], LOCALHOST_IP[3]);
 
 	Network_Init(wsadata, socket);
 
