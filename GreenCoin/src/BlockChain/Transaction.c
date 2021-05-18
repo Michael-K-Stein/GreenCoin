@@ -216,7 +216,7 @@ void Transaction_Demo(void * wsadata, void * socket) {
 
 		Transaction_Export_To_File(export_path, &transaction);
 	
-		//Network_Broadcast_Transaction(wsadata, socket, &transaction, sizeof(_Transaction));
+		Network_Broadcast_Transaction(wsadata, socket, &transaction, sizeof(_Transaction));
 	}
 	else {
 		printf("Transaction has been cancelled!\n");

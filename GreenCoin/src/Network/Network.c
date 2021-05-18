@@ -10,7 +10,7 @@ char BLOCK_BROADCAST_MAGIC[4] = { "GCB3" };
 
 unsigned int GENERAL_SERVER_PORT = 22110;
 
-unsigned char LOCALHOST_IP[4] = { 10, 0, 0, 69 };
+unsigned char LOCALHOST_IP[4] = { 127, 0, 0, 1 };
 
 char Network_Nodes_List_File_Path[256] = "Nodes.GCNL";
 

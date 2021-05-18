@@ -11,6 +11,13 @@ int Demo() {
 
 	srand(time(NULL));
 
+	// Get ip
+	printf("Please enter your ip: ");
+	char buf[64] = { 0 };
+	fgets(buf, sizeof(buf), stdin);
+	unsigned long ip = inet_addr(buf);
+	memcpy(LOCALHOST_IP, &ip, sizeof(ip));
+
 	WSADATA * wsadata = NULL;
 	SOCKET * socket = NULL;
 
