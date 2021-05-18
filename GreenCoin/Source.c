@@ -18,6 +18,8 @@ int Demo() {
 	unsigned long ip = inet_addr(buf);
 	memcpy(LOCALHOST_IP, &ip, sizeof(ip));
 
+	Load_Block_History_Path();
+
 	WSADATA * wsadata = NULL;
 	SOCKET * socket = NULL;
 

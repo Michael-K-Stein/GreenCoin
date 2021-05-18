@@ -102,6 +102,8 @@ void Print_Block(FILE * fstream, DSA_Domain_Parameters * params, _Block * block)
 error_t Export_Block(FILE * fstream, _Block * block);
 error_t Export_To_File(char * dir_path, _Block * block);
 
+error_t Load_Block_History_Path();
+
 void BlockChain_Demo();
 
 #endif // !__BLOCKCHAIN_H

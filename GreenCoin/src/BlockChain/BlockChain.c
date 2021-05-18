@@ -240,3 +240,18 @@ error_t Export_To_File(char * dir_path, _Block * block) {
 	fclose(f);
 	return error;
 }
+
+error_t Load_Block_History_Path() {
+	FILE * f;
+	errno_t err = fopen_s(&f, "Block_History_Path.GCTXT", "r");
+	if (err == 0) {
+		fread_s(BLOCK_HISTORY_DIRECTORY_PATH, 256, sizeof(char), 256, f);
+	}
+	else {
+		err = fopen_s(&f, "Block_History_Path.GCTXT", "w");
+		printf("Please enter directory path for Block History: ");
+		fgets(BLOCK_HISTORY_DIRECTORY_PATH, 256, stdin);
+		fwrite(BLOCK_HISTORY_DIRECTORY_PATH, sizeof(char), 256, f);
+	}
+	fclose(f);
+}
