@@ -298,7 +298,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 				}
 				else if (memcmp(recvbuf, TRANSACTION_BROADCAST_MAGIC, sizeof(TRANSACTION_BROADCAST_MAGIC)) == 0) {
 					Network_Transaction_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC), recvbuflen - sizeof(TRANSACTION_BROADCAST_MAGIC));
-					Print_Transaction(stderr, Get_Domain_Parameters(), recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
+					//Print_Transaction(stderr, Get_Domain_Parameters(), recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
 				}
 			}
 			else if (iResult == 0) {
