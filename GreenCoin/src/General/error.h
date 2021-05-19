@@ -18,9 +18,9 @@ typedef enum {
 	ERROR_OPEN_FILE							= 0x11,
 
 	ERROR_NETWORK_NONE						= 0x00,
-	ERROR_NETWORK_FAILED					= 0x20
+	ERROR_NETWORK_FAILED					= 0x20,
 
-	
+	ERROR_BLOCK_WEAK						= 0x30
 } error_t;
 
 #endif

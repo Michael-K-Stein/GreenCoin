@@ -38,16 +38,18 @@ int Demo() {
 	double val = Calculate_Wallet_Value("C:\\Users\\stein\\Desktop\\GreenCoin\\Demo\\Blocks", pk, -1);
 	*/
 
+	Create_First_Block(wsadata, socket);
+
 	_Block * b;
 	b = calloc(1, sizeof(_Block));
-	b->Block_Index = 0;
+	b->Block_Index = 1;
 
 	live_block = b;
 
 	while (1) {
 		Transaction_Demo(wsadata, socket);
 	}
-	BlockChain_Demo();
+	//BlockChain_Demo();
 
 	//Print_Demo_Keys();
 

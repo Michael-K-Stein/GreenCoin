@@ -69,7 +69,7 @@ _Block * Create_Block(uint64_t new_block_index, char * previous_block_hash_ptr) 
 	return block;
 }
 
-error_t Validate_Block(_Block * block, uint64_t desired_strength) {
+error_t Validate_Block(void * wsadata, void * socket, _Block * block, uint64_t desired_strength) {
 
 	//memcpy(block->Notary_Address, y->data, y->size * BN_INT_SIZE);
 	memcpy(block->Notary_Address, LOCAL_NOTARY_SIGNING_ADDRESS, sizeof(LOCAL_NOTARY_SIGNING_ADDRESS));
@@ -92,10 +92,14 @@ error_t Validate_Block(_Block * block, uint64_t desired_strength) {
 	free(c.data);
 
 	printf("Block has been signed with strength: %lu!\n", strength);
+
+
+	Network_Broadcast_Block(wsadata, socket, block, sizeof(_Block));
+
 	return ERROR_NONE;
 }
 
-error_t Append_Transaction(_Block * block, _Transaction * transaction) {
+error_t Append_Transaction(void * wsadata, void * socket, _Block * block, _Transaction * transaction) {
 	//uint32_t transaction_index = transaction->Index;
 
 	//_Transaction * target = &(block->Transactions[transaction_index]);
@@ -128,7 +132,7 @@ error_t Append_Transaction(_Block * block, _Transaction * transaction) {
 
 	if (index == MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER - 1) {
 		// Block is full. You may now sign it.
-		Validate_Block(live_block, 15);
+		Validate_Block(wsadata, socket, live_block, 15);
 	}
 
 	return ERROR_BLOCK_TRANSACTION_NONE;
@@ -150,11 +154,16 @@ void Print_Block(FILE * fstream, _Block * block) {
 	fprintf(fstream, "=== === === Block #%lu === === ===\n", block->Block_Index);
 	fprintf(fstream, "\tCreation Time: %s\n", HumanFormatDateTime(&(block->Time_Stamp)));
 
-	fprintf(fstream, "\t--- Begin Transactions ---\n");
-	for (int i = 0; i < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; i++) {
-		Print_Transaction(fstream, &(block->Transactions[i]));
+	if (block->Block_Index != 0) {
+		fprintf(fstream, "\t--- Begin Transactions ---\n");
+		for (int i = 0; i < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; i++) {
+			Print_Transaction(fstream, &(block->Transactions[i]));
+		}
+		fprintf(fstream, "\t--- End Transactions ---\n");
 	}
-	fprintf(fstream, "\t--- End Transactions ---\n");
+	else {
+		fprintf(fstream, "%s", block->Transactions);
+	}
 
 	fprintf(fstream, "\tPrevious block hash: \n");
 	Print_Hash(fstream, &(block->Previous_Block_Hash));
@@ -168,7 +177,7 @@ void Print_Block(FILE * fstream, _Block * block) {
 	fprintf(fstream, "\n=== === === End Block #%lu === === ===\n", block->Block_Index);
 }
 
-
+/*
 void BlockChain_Demo() {
 	char * prev_block_hash = Hash_SHA256("", 0);
 	char prev_block_hash_data[64];// = Hash_SHA256("", 0);
@@ -222,10 +231,11 @@ void BlockChain_Demo() {
 
 	//Print_BlockChain(stderr, block, params);
 }
+*/
 
 error_t Export_Block(FILE * fstream, _Block * block) {
 	size_t count = fwrite(block, sizeof(_Block), 1, fstream);
-	if (count == sizeof(_Block)) {
+	if (count == 1) {
 		return ERROR_NONE;
 	}
 	else {
@@ -239,7 +249,7 @@ error_t Export_To_File(char * dir_path, _Block * block) {
 	fopen_s(&f, buffer, "wb");
 	if (f == NULL) { return ERROR_OPEN_FILE; }
 	error_t error = ERROR_NONE;
-	error |= (fwrite(GCB_MAGIC, sizeof(char), 4, f) == 4);
+	error |= !(fwrite(GCB_MAGIC, sizeof(char), 4, f) == 4);
 	error |= Export_Block(f, block);
 	fclose(f);
 	return error;
@@ -280,4 +290,94 @@ error_t Load_Block_History_Path() {
 		fwrite(BLOCK_HISTORY_DIRECTORY_PATH, sizeof(char), 256, f);
 	}
 	fclose(f);
+}
+
+error_t Create_First_Block(void * wsadata, void * socket) {
+	char * null = NULL;
+	char * hash = Hash_SHA256(null, 0);
+	_Block * b = Create_Block(0, hash);
+	free(hash);
+
+	b->Time_Stamp.Unix_Time = time(NULL);
+
+
+	FILE * f;
+	fopen_s(&f, "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\INIT_MESSAGE.txt", "r");
+	fseek(f, 0, SEEK_END);
+	long size = ftell(f);
+	fseek(f, 0, SEEK_SET);
+	char * Initial_Block_Message = (char*)calloc(size+1, sizeof(char));
+	fread(Initial_Block_Message, sizeof(char), size, f);
+	fclose(f);
+
+	memcpy(b->Transactions, Initial_Block_Message, size + 1);
+	free(Initial_Block_Message);
+
+	Validate_Block(wsadata, socket, b, 7);
+
+	Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, b);
+
+	free(b);
+
+	return ERROR_NONE;
+}
+
+int Block_Exists(_Block * block, int block_size) {
+	char buffer[256] = { 0 };
+	sprintf_s(buffer, 256, "%s\\%lu.GCB", BLOCK_HISTORY_DIRECTORY_PATH, block->Block_Index);
+
+	FILE * f;
+	fopen_s(&f, buffer, "rb");
+	if (f == NULL) { return 0; }
+	fseek(f, 0, SEEK_END);
+	int size = ftell(f);
+	fseek(f, 0, SEEK_SET);
+
+	if (size != block_size) { /* A different block with the same index exists */ return 2; }
+
+	char * buf = (char*)malloc(size);
+	fread(buf, 1, size, f);
+	fclose(f);
+
+	int is_same = memcmp(buf, block, size) == 0;
+
+	if (is_same) { return 1; }
+	else {
+		/* A different block with the same index exists */
+		return 2;
+	}
+
+	return -1;
+}
+
+uint64_t MIN_STRENGTH = 7;
+error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_size) {
+
+	if (Block_Exists(block, block_size) > 0) { return ERROR_NONE; }
+
+	// Check that the block produces the desired hash
+	uint64_t strength = Calculate_Block_Strength(block);
+	if (strength < MIN_STRENGTH) {
+		return ERROR_BLOCK_WEAK;
+	}
+
+	error_t error = ERROR_NONE;
+	if (block->Block_Index > 0) {
+		// Verify each transaction
+		for (int index = 0; index < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; index++) {
+			_Transaction * transaction = &(block->Transactions[index]);
+
+			if (Verify_Transaction(transaction) != SIGNATURE_VALID) { error |= ERROR_BLOCK_TRANSACTION_SIGNATURE_INVALID; }
+
+			double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, transaction->Sender, block->Block_Index - 1);
+
+			if (value < transaction->Value + transaction->Fee) { error |= ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS; }
+		}
+	}
+
+	if (error == ERROR_NONE) {
+		Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, block);
+
+		Network_Broadcast_Block(wsadata, socket, block, block_size);
+	}
 }

@@ -300,6 +300,10 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 					Network_Transaction_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC), recvbuflen - sizeof(TRANSACTION_BROADCAST_MAGIC));
 					Print_Transaction(stderr, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
 				}
+				else if (memcmp(recvbuf, BLOCK_BROADCAST_MAGIC, sizeof(BLOCK_BROADCAST_MAGIC)) == 0) {
+					Network_Block_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC), recvbuflen - sizeof(BLOCK_BROADCAST_MAGIC));
+					Print_Block(stderr, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC));
+				}
 			}
 			else if (iResult == 0) {
 				printf("Connection closing...\n");
@@ -392,10 +396,50 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 	} while (ptr->next_node != NULL);
 
 	free(message);
+
+	return ERROR_NONE;
+}
+
+error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * block, int block_size) {
+	char * message = malloc(block_size + 4);
+	memcpy(message, "GCB3", 4);
+	memcpy(message + 4, block, block_size);
+
+	if (Node_List->socket == NULL) {
+		printf("No nodes to broadcast to!\n");
+		return ERROR_FAILED;
+	}
+
+	Node_Peer * ptr = Node_List;
+	do {
+		SOCKADDR_IN client_info;
+		int client_info_len = sizeof(client_info);
+		getsockname(*(ptr->socket), &client_info, &client_info_len);
+
+		char * peer_ip_address = inet_ntoa(client_info.sin_addr);
+
+		int res = send(*(ptr->socket), message, block_size + 4, 0);
+		if (res != 0) {
+			printf("Error broadcasting transaction to %s\n", peer_ip_address);
+		}
+		else {
+			printf("Broadcasted the transaction to %s\n", peer_ip_address);
+		}
+
+		//free(peer_ip_address);
+	} while (ptr->next_node != NULL);
+
+	free(message);
+
+	return ERROR_NONE;
 }
 
 error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size) {
-	return Append_Transaction(live_block, transaction);
+	return Append_Transaction(ptr_WSA_Data, ptr_Sending_Socket, live_block, transaction);
+}
+
+error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * block, int block_size) {
+	return Verify_Block(ptr_WSA_Data, ptr_Sending_Socket, block, block_size);
 }
 
 DWORD WINAPI fun(LPVOID lpParam) {
