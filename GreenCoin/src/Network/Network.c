@@ -47,7 +47,7 @@ void Copy_Socket_To_List(SOCKET * socket) {
 		
 		Node_Peer * new_node = ptr->next_node;
 		new_node->next_node = NULL;
-		ptr->socket = (SOCKET *)malloc(sizeof(SOCKET));
+		new_node->socket = (SOCKET *)malloc(sizeof(SOCKET));
 		memcpy(new_node->socket, socket, sizeof(SOCKET));
 	}
 
@@ -267,7 +267,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 		//closesocket(*ptr_Sending_Socket);
 
 		// Receive until the peer shuts down the connection
-		char recvbuf[4096] = { 0 };
+		char recvbuf[32768] = { 0 };
 		int recvbuflen = sizeof(recvbuf);
 		int iSendResult = 0;
 		do {
@@ -385,7 +385,7 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 		char * peer_ip_address = inet_ntoa(client_info.sin_addr);
 
 		int res = send(*(ptr->socket), message, transaction_size + 4, 0);
-		if (res != 0) {
+		if (res != transaction_size + 4) {
 			printf("Error broadcasting transaction to %s\n", peer_ip_address);
 		}
 		else {
@@ -414,20 +414,20 @@ error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Soc
 	do {
 		SOCKADDR_IN client_info;
 		int client_info_len = sizeof(client_info);
-		getsockname(*(ptr->socket), &client_info, &client_info_len);
+		getpeername(*(ptr->socket), &client_info, &client_info_len);
 
 		char * peer_ip_address = inet_ntoa(client_info.sin_addr);
 
 		int res = send(*(ptr->socket), message, block_size + 4, 0);
-		if (res != 0) {
+		if (res != block_size + 4) {
 			printf("Error broadcasting transaction to %s\n", peer_ip_address);
 		}
 		else {
 			printf("Broadcasted the transaction to %s\n", peer_ip_address);
 		}
-
+		ptr = ptr->next_node;
 		//free(peer_ip_address);
-	} while (ptr->next_node != NULL);
+	} while (ptr != NULL && ptr->next_node != NULL);
 
 	free(message);
 

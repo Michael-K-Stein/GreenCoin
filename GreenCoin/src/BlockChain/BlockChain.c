@@ -93,6 +93,7 @@ error_t Validate_Block(void * wsadata, void * socket, _Block * block, uint64_t d
 
 	printf("Block has been signed with strength: %lu!\n", strength);
 
+	Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, block);
 
 	Network_Broadcast_Block(wsadata, socket, block, sizeof(_Block));
 
@@ -111,6 +112,8 @@ error_t Append_Transaction(void * wsadata, void * socket, _Block * block, _Trans
 	while (memcmp(&(block->Transactions[index]), &zero_transaction, sizeof(_Transaction)) != 0) {
 		index++;
 	}
+
+	target = &(block->Transactions[index]);
 
 	// Make sure that there aren't two duplicate transactions on a block.
 	// This protects the system from a fraud duplicating a valid transaction.
@@ -132,7 +135,7 @@ error_t Append_Transaction(void * wsadata, void * socket, _Block * block, _Trans
 
 	if (index == MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER - 1) {
 		// Block is full. You may now sign it.
-		Validate_Block(wsadata, socket, live_block, 15);
+		Validate_Block(wsadata, socket, live_block, 7);
 	}
 
 	return ERROR_BLOCK_TRANSACTION_NONE;
