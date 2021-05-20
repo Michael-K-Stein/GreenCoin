@@ -31,6 +31,10 @@ char CONNECTED_TEST_MESSAGE_RESPONSE[4];
 char TRANSACTION_BROADCAST_MAGIC[4];
 char BLOCK_BROADCAST_MAGIC[4];
 
+char BLOCK_REQUEST_MAGIC[4];
+
+char BLOCKCHAIN_QUERY_MAGIC[4];
+
 unsigned int GENERAL_SERVER_PORT;// = 22110;
 
 char Network_Nodes_List_File_Path[256];
@@ -69,6 +73,10 @@ error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Soc
 
 error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size);
 error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * block, int block_size);
+
+error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, SOCKET * ptr_Client_Socket);
+
+error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, uint64_t block_ind);
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket);
 

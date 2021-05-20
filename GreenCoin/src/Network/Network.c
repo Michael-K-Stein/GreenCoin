@@ -8,6 +8,10 @@ char CONNECTED_TEST_MESSAGE_RESPONSE[4] = "MOON";
 char TRANSACTION_BROADCAST_MAGIC[4] = { "GCT3" };
 char BLOCK_BROADCAST_MAGIC[4] = { "GCB3" };
 
+char BLOCK_REQUEST_MAGIC[4] = { "GCBR" };
+
+char BLOCKCHAIN_QUERY_MAGIC[4] = { "GCBL" };
+
 unsigned int GENERAL_SERVER_PORT = 22110;
 
 unsigned char LOCALHOST_IP[4] = { 127, 0, 0, 1 };
@@ -304,6 +308,9 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 					Network_Block_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC), recvbuflen - sizeof(BLOCK_BROADCAST_MAGIC));
 					Print_Block(stderr, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC));
 				}
+				else if (memcmp(recvbuf, BLOCK_REQUEST_MAGIC, sizeof(BLOCK_REQUEST_MAGIC)) == 0) {
+					Network_Block_Request(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_REQUEST_MAGIC), recvbuflen - sizeof(BLOCK_REQUEST_MAGIC), &ClientSocket);
+				}
 			}
 			else if (iResult == 0) {
 				printf("Connection closing...\n");
@@ -407,6 +414,7 @@ error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Soc
 
 	if (Node_List->socket == NULL) {
 		printf("No nodes to broadcast to!\n");
+		free(message);
 		return ERROR_FAILED;
 	}
 
@@ -442,12 +450,51 @@ error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Sock
 	return Verify_Block(ptr_WSA_Data, ptr_Sending_Socket, block, block_size);
 }
 
-DWORD WINAPI fun(LPVOID lpParam) {
-	FILE *f;
-	fopen_s(&f, "Test.txt", "w");
-	fwrite("abc", 1, 3, f);
-	fclose(f);
-	return 0;
+error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, SOCKET * ptr_Client_Socket) {
+	uint64_t block_ind = -1;
+	if (data_size != sizeof(block_ind)) {
+		return ERROR_FAILED;
+	}
+
+	memcpy(&block_ind, data, data_size);
+
+	FILE * f;
+	if (Open_Block_File(&f, block_ind) != ERROR_NONE) {
+		return ERROR_FAILED;
+	}
+
+	_Block b;
+	int read = fread(&b, sizeof(b), 1, f);
+	if (read != 1) {
+		return ERROR_FAILED;
+	}
+
+	char * message = malloc(sizeof(b) + 4);
+	memcpy(message, "GCB3", 4);
+	memcpy(message + 4, &b, sizeof(b));
+
+	int res = send(*ptr_Client_Socket, message, sizeof(b) + 4, 0);
+	if (res != sizeof(b) + 4) {
+		free(message);
+		return ERROR_FAILED;
+	}
+
+	free(message);
+	return ERROR_NONE;
+}
+
+error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, uint64_t block_ind) {
+	char * message = (char*)malloc(sizeof(BLOCK_REQUEST_MAGIC) + sizeof(block_ind));
+	memcpy(message, BLOCK_REQUEST_MAGIC, sizeof(BLOCK_REQUEST_MAGIC));
+	memcpy(message + sizeof(BLOCK_REQUEST_MAGIC), &block_ind, sizeof(block_ind));
+
+	Node_Peer * node = Node_List;
+	do {
+		if (node->socket != NULL) {
+			send(*(node->socket), message, sizeof(BLOCK_REQUEST_MAGIC) + sizeof(block_ind), 0);
+			node = node->next_node;
+		}
+	} while (node->next_node != NULL);
 }
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
@@ -484,8 +531,26 @@ HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 	do {
 		if (node->socket != NULL) {
 			send(*(node->socket), AHOY, sizeof(AHOY), 0);
+			node = node->next_node;
 		}
 	} while (node->next_node != NULL);
+
+	node = Node_List;
+	uint64_t block_chain_length = 0;
+	while (block_chain_length == 0 && node->next_node != NULL && node->socket != NULL) {
+		send(*(node->socket), BLOCKCHAIN_QUERY_MAGIC, sizeof(BLOCKCHAIN_QUERY_MAGIC), 0);
+		uint64_t block_chain_length_tmp = 0;
+		recv(*(node->socket), &block_chain_length_tmp, sizeof(block_chain_length_tmp), 0);
+		block_chain_length = max(block_chain_length, block_chain_length_tmp);
+	}
+
+	uint64_t ind = 0;
+	while (Block_Index_Exists(ind)) { ind++; }
+	if (ind > 0) { ind--; }
+
+	if (ind < block_chain_length) {
+		Network_Request_Block(wsadata, socket, ind++);
+	}
 
 	/*if (thread) {
 		// Optionally do stuff, such as wait on the thread.

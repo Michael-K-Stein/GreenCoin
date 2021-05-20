@@ -136,6 +136,10 @@ error_t Append_Transaction(void * wsadata, void * socket, _Block * block, _Trans
 	if (index == MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER - 1) {
 		// Block is full. You may now sign it.
 		Validate_Block(wsadata, socket, live_block, 7);
+
+		char * hash = Hash_SHA256(live_block, sizeof(_Block));
+		live_block = Create_Block(live_block->Block_Index + 1, hash);
+		free(hash);
 	}
 
 	return ERROR_BLOCK_TRANSACTION_NONE;
@@ -325,6 +329,33 @@ error_t Create_First_Block(void * wsadata, void * socket) {
 	return ERROR_NONE;
 }
 
+error_t Open_Block_File(FILE ** f, uint64_t block_ind) {
+	char buffer[256] = { 0 };
+	sprintf_s(buffer, 256, "%s\\%lu.GCB", BLOCK_HISTORY_DIRECTORY_PATH, block_ind);
+
+	fopen_s(f, buffer, "rb");
+	if (*f == NULL) { return ERROR_FAILED; }
+
+	return ERROR_NONE;
+}
+
+int Block_Index_Exists(uint64_t ind) {
+	char buffer[256] = { 0 };
+	sprintf_s(buffer, 256, "%s\\%lu.GCB", BLOCK_HISTORY_DIRECTORY_PATH, ind);
+
+	FILE * f;
+	fopen_s(&f, buffer, "rb");
+	if (f == NULL) { return 0; }
+	fseek(f, 0, SEEK_END);
+	int size = ftell(f);
+	fseek(f, 0, SEEK_SET);
+
+	if (size != sizeof(_Block)+4) { /* A different block with the same index exists */ return 2; }
+
+	fclose(f);
+
+	return 1;
+}
 int Block_Exists(_Block * block, int block_size) {
 	char buffer[256] = { 0 };
 	sprintf_s(buffer, 256, "%s\\%lu.GCB", BLOCK_HISTORY_DIRECTORY_PATH, block->Block_Index);
@@ -377,6 +408,17 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 			if (value < transaction->Value + transaction->Fee) { error |= ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS; }
 		}
 	}
+
+	FILE * f;
+	Open_Block_File(&f, block->Block_Index - 1);
+	_Block b; fread(&b, sizeof(b), 1, f);
+	fclose(f);
+	char * prev_hash = Hash_SHA256(&b, sizeof(b));
+
+	int prev_hash_valid = (memcmp(prev_hash, &(block->Previous_Block_Hash), sizeof(_Hash)));
+
+	if (prev_hash_valid != 1) { error |= ERROR_FAILED; }
+	free(prev_hash);
 
 	if (error == ERROR_NONE) {
 		Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, block);

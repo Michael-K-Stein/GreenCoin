@@ -103,6 +103,10 @@ double Calculate_Block_Total_Miner_Fees(_Block * block);
 
 void Print_Block(FILE * fstream, _Block * block);
 
+int Block_Exists(_Block * block, int block_size);
+int Block_Index_Exists(uint64_t ind);
+error_t Open_Block_File(FILE ** f, uint64_t block_ind);
+
 error_t Export_Block(FILE * fstream, _Block * block);
 error_t Export_To_File(char * dir_path, _Block * block);
 

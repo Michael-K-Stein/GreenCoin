@@ -40,9 +40,24 @@ int Demo() {
 
 	//Create_First_Block(wsadata, socket);
 
+	uint64_t ind = 0;
+	while (Block_Index_Exists(ind)) { ind++; }
+
 	_Block * b;
 	b = calloc(1, sizeof(_Block));
-	b->Block_Index = 1;
+	b->Block_Index = ind;
+
+	FILE * f;
+	Open_Block_File(&f, ind - 1);
+	char * block_buffer = (char*)malloc(sizeof(_Block));
+	fseek(f, 4, SEEK_SET);
+	fread(block_buffer, sizeof(_Block), 1, f);
+
+	char * hash = Hash_SHA256(block_buffer, sizeof(_Block));
+
+	memcpy(&(b->Previous_Block_Hash), hash, sizeof(_Hash));
+	fclose(f);
+	free(hash);
 
 	live_block = b;
 
