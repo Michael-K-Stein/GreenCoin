@@ -533,7 +533,7 @@ HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 			send(*(node->socket), AHOY, sizeof(AHOY), 0);
 			node = node->next_node;
 		}
-	} while (node->next_node != NULL);
+	} while (node != NULL && node->next_node != NULL);
 
 	node = Node_List;
 	uint64_t block_chain_length = 0;
