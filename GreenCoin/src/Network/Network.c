@@ -535,20 +535,21 @@ HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 		}
 	} while (node != NULL && node->next_node != NULL);
 
-	node = Node_List;
+	/*node = Node_List;
 	uint64_t block_chain_length = 0;
 	while (block_chain_length == 0 && node->next_node != NULL && node->socket != NULL) {
 		send(*(node->socket), BLOCKCHAIN_QUERY_MAGIC, sizeof(BLOCKCHAIN_QUERY_MAGIC), 0);
 		uint64_t block_chain_length_tmp = 0;
 		recv(*(node->socket), &block_chain_length_tmp, sizeof(block_chain_length_tmp), 0);
 		block_chain_length = max(block_chain_length, block_chain_length_tmp);
-	}
+	}*/
 
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
 	if (ind > 0) { ind--; }
 
-	if (ind < block_chain_length) {
+
+	while (Block_Index_Exists(ind - 1)) {
 		Network_Request_Block(wsadata, socket, ind++);
 	}
 
