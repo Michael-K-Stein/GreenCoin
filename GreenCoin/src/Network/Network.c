@@ -301,15 +301,15 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 					}
 				}
 				else if (memcmp(recvbuf, TRANSACTION_BROADCAST_MAGIC, sizeof(TRANSACTION_BROADCAST_MAGIC)) == 0) {
-					Network_Transaction_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC), recvbuflen - sizeof(TRANSACTION_BROADCAST_MAGIC));
+					Network_Transaction_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC), iResult - sizeof(TRANSACTION_BROADCAST_MAGIC));
 					Print_Transaction(stderr, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
 				}
 				else if (memcmp(recvbuf, BLOCK_BROADCAST_MAGIC, sizeof(BLOCK_BROADCAST_MAGIC)) == 0) {
-					Network_Block_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC), recvbuflen - sizeof(BLOCK_BROADCAST_MAGIC));
+					Network_Block_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC), iResult - sizeof(BLOCK_BROADCAST_MAGIC));
 					Print_Block(stderr, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC));
 				}
 				else if (memcmp(recvbuf, BLOCK_REQUEST_MAGIC, sizeof(BLOCK_REQUEST_MAGIC)) == 0) {
-					Network_Block_Request(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_REQUEST_MAGIC), recvbuflen - sizeof(BLOCK_REQUEST_MAGIC), &ClientSocket);
+					Network_Block_Request(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_REQUEST_MAGIC), iResult - sizeof(BLOCK_REQUEST_MAGIC), &ClientSocket);
 				}
 			}
 			else if (iResult == 0) {
@@ -464,6 +464,7 @@ error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 	}
 
 	_Block b;
+	fseek(f, sizeof(BLOCK_BROADCAST_MAGIC), SEEK_SET);
 	int read = fread(&b, sizeof(b), 1, f);
 	if (read != 1) {
 		return ERROR_FAILED;
@@ -494,7 +495,7 @@ error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 			send(*(node->socket), message, sizeof(BLOCK_REQUEST_MAGIC) + sizeof(block_ind), 0);
 			node = node->next_node;
 		}
-	} while (node->next_node != NULL);
+	} while (node != NULL && node->next_node != NULL);
 }
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
@@ -546,7 +547,6 @@ HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
-	if (ind > 0) { ind--; }
 
 
 	while (Block_Index_Exists(ind - 1)) {
