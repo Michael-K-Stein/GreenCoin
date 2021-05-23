@@ -181,7 +181,7 @@ void Transaction_Demo(void * wsadata, void * socket) {
 
 	Sign_Transaction(&transaction, pk);
 
-	printf("Transaction signed!\n");
+	printf_Success("Transaction signed!\n");
 
 	printf("\n\n\n");
 	printf("Transaction summary: \n");
@@ -195,19 +195,19 @@ void Transaction_Demo(void * wsadata, void * socket) {
 	fgets(buffer, 64, stdin); buffer[strlen(EXECUTE)] = 0x0;
 
 	if (strcmp(buffer, EXECUTE) == 0) {
-		printf("Transaction executed!\n");
+		printf_Success("Transaction executed!\n");
 
 		char export_path[256];// = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
 		sprintf_s(export_path, 256, "Demo\\Transaction_%u.GCT", transaction.Time);
 
-		printf("Now exporting to: '%s'\n", export_path);
+		printf_Info("Now exporting to: '%s'\n", export_path);
 
 		Transaction_Export_To_File(export_path, &transaction);
 	
 		Network_Broadcast_Transaction(wsadata, socket, &transaction, sizeof(_Transaction));
 	}
 	else {
-		printf("Transaction has been cancelled!\n");
+		printf_Info("Transaction has been cancelled!\n");
 	}
 }
 

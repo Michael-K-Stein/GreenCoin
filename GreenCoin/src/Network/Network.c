@@ -405,7 +405,7 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 	memcpy(message + 4, transaction, transaction_size);
 	
 	if (Node_List->socket == NULL) {
-		printf("No nodes to broadcast to!\n");
+		printf_Error("No nodes to broadcast to!\n");
 		return ERROR_FAILED;
 	}
 
@@ -419,10 +419,10 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 
 		int res = send(*(ptr->socket), message, transaction_size + 4, 0);
 		if (res != transaction_size + 4) {
-			printf("Error broadcasting transaction to %s\n", peer_ip_address);
+			printf_Error("Error broadcasting transaction to %s\n", peer_ip_address);
 		}
 		else {
-			printf("Broadcasted the transaction to %s\n", peer_ip_address);
+			printf_Success("Broadcasted the transaction to %s\n", peer_ip_address);
 		}
 
 		//free(peer_ip_address);
