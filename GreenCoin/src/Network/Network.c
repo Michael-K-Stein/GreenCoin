@@ -338,10 +338,10 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 				}
 			}
 			else if (iResult == 0) {
-				printf_Info("Connection to %s closing...\n", client_ip);
+				printf_Info("Connection to %hhu.%hhu.%hhu.%hhu closing...\n", client_ip[0],client_ip[1],client_ip[2],client_ip[3]);
 			}
 			else {
-				printf_Error("Recieve failed with error: %d from client %s\n", WSAGetLastError(), client_ip);
+				printf_Error("Recieve failed with error: %d from client %hhu.%hhu.%hhu.%hhu\n", WSAGetLastError(), client_ip[0], client_ip[1], client_ip[2], client_ip[3]);
 				closesocket(ClientSocket);
 				//return 1;
 			}
@@ -351,7 +351,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 		// shutdown the connection since we're done
 		iResult = shutdown(ClientSocket, SD_SEND);
 		if (iResult == SOCKET_ERROR) {
-			printf_Error("Client (%s) shutdown failed with error: %d\n", client_ip, WSAGetLastError());
+			printf_Error("Client (%hhu.%hhu.%hhu.%hhu) shutdown failed with error: %d\n", client_ip[0], client_ip[1], client_ip[2], client_ip[3], WSAGetLastError());
 			closesocket(ClientSocket);
 			//return 1;
 		}
