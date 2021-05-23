@@ -424,7 +424,7 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 
 		BN hs; BN_Init_Stack(&hs);
 		BN_Import_Hex_String(&hs, prev_hash, 64, BN_BIG_ENDIAN);
-		int prev_hash_valid = (memcmp(hs.data, &(block->Previous_Block_Hash), sizeof(_Hash)));
+		int prev_hash_valid = (memcmp(hs.data, &(block->Previous_Block_Hash), sizeof(_Hash))==0);
 
 		free(hs.data);
 
