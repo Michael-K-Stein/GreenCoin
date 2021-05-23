@@ -336,7 +336,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 			else {
 				printf("recv failed with error: %d\n", WSAGetLastError());
 				closesocket(ClientSocket);
-				return 1;
+				//return 1;
 			}
 
 		} while (iResult > 0);
