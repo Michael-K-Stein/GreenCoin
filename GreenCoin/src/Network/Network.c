@@ -520,19 +520,20 @@ error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 
 int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip) {
 	Node_Peer * node = Node_List;
+	int ires = 0;
 	do {
 		if (node->socket != NULL) {
 			if (memcmp(node->ip, client_ip, 4) == 0) {
 				// Found peer!
-				int ires = send(*(node->socket), data, data_size, 0);
-				return ires;
+				ires = send(*(node->socket), data, data_size, 0);
+				if (ires == data_size){
+					return ires;
+				}
 			}
-			else {
-				node = node->next_node;
-			}
+			node = node->next_node;
 		}
 	} while (node != NULL && node->next_node != NULL);
-	return -1;
+	return ires;
 }
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
@@ -586,7 +587,7 @@ HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 	while (Block_Index_Exists(ind)) { ind++; }
 
 
-	while (Block_Index_Exists(ind - 1)) {
+	while (ind == 0 || Block_Index_Exists(ind - 1)) {
 		Network_Request_Block(wsadata, socket, ind++);
 	}
 
