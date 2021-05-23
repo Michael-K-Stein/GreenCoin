@@ -373,7 +373,7 @@ int Block_Exists(_Block * block, int block_size) {
 	fread(buf, 1, size, f);
 	fclose(f);
 
-	int is_same = memcmp(buf, block, size) == 0;
+	int is_same = memcmp(buf + 4, block, size - 4) == 0;
 
 	if (is_same) { return 1; }
 	else {
@@ -409,16 +409,18 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 		}
 	}
 
-	FILE * f;
-	Open_Block_File(&f, block->Block_Index - 1);
-	_Block b; fread(&b, sizeof(b), 1, f);
-	fclose(f);
-	char * prev_hash = Hash_SHA256(&b, sizeof(b));
+	if (block->Block_Index > 0) {
+		FILE* f;
+		Open_Block_File(&f, block->Block_Index - 1);
+		_Block b; fread(&b, sizeof(b), 1, f);
+		fclose(f);
+		char* prev_hash = Hash_SHA256(&b, sizeof(b));
 
-	int prev_hash_valid = (memcmp(prev_hash, &(block->Previous_Block_Hash), sizeof(_Hash)));
+		int prev_hash_valid = (memcmp(prev_hash, &(block->Previous_Block_Hash), sizeof(_Hash)));
 
-	if (prev_hash_valid != 1) { error |= ERROR_FAILED; }
-	free(prev_hash);
+		if (prev_hash_valid != 1) { error |= ERROR_FAILED; }
+		free(prev_hash);
+	}
 
 	if (error == ERROR_NONE) {
 		Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, block);
