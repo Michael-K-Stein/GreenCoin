@@ -532,7 +532,7 @@ int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, vo
 			}
 			node = node->next_node;
 		}
-	} while (node != NULL && node->next_node != NULL);
+	} while (node != NULL);
 	return ires;
 }
 
