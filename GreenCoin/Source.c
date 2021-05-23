@@ -37,8 +37,6 @@ int Demo() {
 	Open_Block_File(&f, ind - 1);
 	if (f != NULL) {
 		_Block* b;
-		b = calloc(1, sizeof(_Block));
-		b->Block_Index = ind;
 
 		FILE* f;
 		Open_Block_File(&f, ind - 1);
@@ -48,7 +46,9 @@ int Demo() {
 
 		char* hash = Hash_SHA256(block_buffer, sizeof(_Block));
 
-		memcpy(&(b->Previous_Block_Hash), hash, sizeof(_Hash));
+
+		b = Create_Block(ind, hash);
+
 		fclose(f);
 		free(hash);
 

@@ -446,10 +446,10 @@ error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Soc
 
 		int res = send(*(ptr->socket), message, block_size + 4, 0);
 		if (res != block_size + 4) {
-			printf("Error broadcasting transaction to %s\n", peer_ip_address);
+			printf("Error broadcasting block to %s\n", peer_ip_address);
 		}
 		else {
-			printf("Broadcasted the transaction to %s\n", peer_ip_address);
+			printf("Broadcasted the block to %s\n", peer_ip_address);
 		}
 		ptr = ptr->next_node;
 		//free(peer_ip_address);
