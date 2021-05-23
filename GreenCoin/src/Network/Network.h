@@ -48,6 +48,7 @@ typedef struct Node_Peer Node_Peer;
 // A linked list of nodes holding pointers to the sockets for P2P connections
 Node_Peer * Node_List;// = NULL;
 
+void Copy_Node_To_List(SOCKET * socket, unsigned char * ip);
 void Copy_Socket_To_List(SOCKET * socket);
 
 error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket);
@@ -74,9 +75,11 @@ error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Soc
 error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size);
 error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * block, int block_size);
 
-error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, SOCKET * ptr_Client_Socket);
+error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip);
 
 error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, uint64_t block_ind);
+
+int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip);
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket);
 

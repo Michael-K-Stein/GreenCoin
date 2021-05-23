@@ -32,29 +32,42 @@ struct P2P_Thread_Params {
 };
 
 struct Node_Peer {
+	unsigned char ip[4];
 	SOCKET * socket;
 	Node_Peer * next_node;
 };
 Node_Peer * Node_List = NULL;
 
-void Copy_Socket_To_List(SOCKET * socket) {
+void Copy_Node_To_List(SOCKET * socket, unsigned char * ip) {
 	Node_Peer * ptr = Node_List;
 
 	if (ptr->socket == NULL) {
 		ptr->socket = (SOCKET *)malloc(sizeof(SOCKET));
 		memcpy(ptr->socket, socket, sizeof(SOCKET));
+		memcpy(ptr->ip, ip, 4);
 	}
 	else {
 		while (ptr->next_node != NULL) { ptr = ptr->next_node; }
 
 		ptr->next_node = (Node_Peer*)calloc(1, sizeof(Node_Peer));
-		
+
 		Node_Peer * new_node = ptr->next_node;
 		new_node->next_node = NULL;
 		new_node->socket = (SOCKET *)malloc(sizeof(SOCKET));
 		memcpy(new_node->socket, socket, sizeof(SOCKET));
+		memcpy(new_node->ip, ip, 4);
 	}
+}
 
+void Copy_Socket_To_List(SOCKET * socket) {
+	unsigned char tmp_ip[4] = { 0 };
+	SOCKADDR_IN addr;
+	int addr_len = sizeof(addr);
+	getpeername(*socket, &addr, &addr_len);
+
+	memcpy(tmp_ip, &addr.sin_addr.S_un, sizeof(tmp_ip));
+
+	Copy_Node_To_List(socket, tmp_ip);
 }
 
 error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
@@ -267,8 +280,13 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 			//return 1;
 		}
 
-		// No longer need server socket
-		//closesocket(*ptr_Sending_Socket);
+		unsigned char client_ip[4];
+		SOCKADDR_IN addr;
+		int addr_len = sizeof(addr);
+		getpeername(ClientSocket, &addr, &addr_len);
+		memcpy(client_ip, &addr.sin_addr.S_un, sizeof(client_ip));
+
+
 
 		// Receive until the peer shuts down the connection
 		char recvbuf[32768] = { 0 };
@@ -309,7 +327,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 					Print_Block(stderr, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC));
 				}
 				else if (memcmp(recvbuf, BLOCK_REQUEST_MAGIC, sizeof(BLOCK_REQUEST_MAGIC)) == 0) {
-					Network_Block_Request(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_REQUEST_MAGIC), iResult - sizeof(BLOCK_REQUEST_MAGIC), &ClientSocket);
+					Network_Block_Request(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_REQUEST_MAGIC), iResult - sizeof(BLOCK_REQUEST_MAGIC), client_ip);
 				}
 			}
 			else if (iResult == 0) {
@@ -450,7 +468,7 @@ error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Sock
 	return Verify_Block(ptr_WSA_Data, ptr_Sending_Socket, block, block_size);
 }
 
-error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, SOCKET * ptr_Client_Socket) {
+error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip) {
 	uint64_t block_ind = -1;
 	if (data_size != sizeof(block_ind)) {
 		return ERROR_FAILED;
@@ -474,7 +492,9 @@ error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 	memcpy(message, "GCB3", 4);
 	memcpy(message + 4, &b, sizeof(b));
 
-	int res = send(*ptr_Client_Socket, message, sizeof(b) + 4, 0);
+	int res = Network_Send_To_Peer(ptr_WSA_Data, ptr_Sending_Socket, message, sizeof(b) + 4, client_ip);
+
+	//int res = send(*ptr_Sending_Socket, message, sizeof(b) + 4, 0);
 	if (res != sizeof(b) + 4) {
 		free(message);
 		return ERROR_FAILED;
@@ -496,6 +516,23 @@ error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 			node = node->next_node;
 		}
 	} while (node != NULL && node->next_node != NULL);
+}
+
+int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip) {
+	Node_Peer * node = Node_List;
+	do {
+		if (node->socket != NULL) {
+			if (memcmp(node->ip, client_ip, 4) == 0) {
+				// Found peer!
+				int ires = send(*(node->socket), data, data_size, 0);
+				return ires;
+			}
+			else {
+				node = node->next_node;
+			}
+		}
+	} while (node != NULL && node->next_node != NULL);
+	return -1;
 }
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
