@@ -1,6 +1,8 @@
 
 #include "Transaction.h"
 
+#include "../General/Print/PrettyPrint.h"
+
 void Print_Transaction_Signature_Part(FILE * fstream, uint_t * q) {
 	for (int i = 4; i >= 0; i--) {
 		fprintf(fstream, "%.8X ", q[i]);
