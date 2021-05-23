@@ -167,6 +167,7 @@
     <ClCompile Include="src\General\Base64\Base64.c" />
     <ClCompile Include="src\General\FileIO.c" />
     <ClCompile Include="src\General\General.c" />
+    <ClCompile Include="src\General\Print\PrettyPrint.c" />
     <ClCompile Include="src\Network\Network.c" />
     <ClCompile Include="src\Wallet\Wallet.c" />
   </ItemGroup>
@@ -184,6 +185,8 @@
     <ClInclude Include="src\General\debug.h" />
     <ClInclude Include="src\General\FileIO.h" />
     <ClInclude Include="src\General\General.h" />
+    <ClInclude Include="src\General\Print\ANSI_Color_Codes.h" />
+    <ClInclude Include="src\General\Print\PrettyPrint.h" />
     <ClInclude Include="src\Network\Network.h" />
     <ClInclude Include="src\Wallet\Wallet.h" />
   </ItemGroup>

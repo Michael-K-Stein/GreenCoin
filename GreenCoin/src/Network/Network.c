@@ -71,6 +71,8 @@ void Copy_Socket_To_List(SOCKET * socket) {
 }
 
 error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
+	printf_Info("Now initializing network!\n");
+	
 	WSADATA		WSA_Data;
 	SOCKET		Sending_Socket;
 
@@ -78,12 +80,12 @@ error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
 	SOCKADDR_IN		Server_Addr, This_Sender_Info;
 
 	WSAStartup(MAKEWORD(2, 2), &WSA_Data);
-	printf("Client: Winsock DLL status is %s.\n", WSA_Data.szSystemStatus);
+	printf_Info("Winsock DLL status is %s.\n", WSA_Data.szSystemStatus);
 
 	// Create socket to make a client connection
 	Sending_Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (Sending_Socket == INVALID_SOCKET) {
-		printf("Client: socket() failed! Error code: %ld\n", WSAGetLastError());
+		printf_Error("Could not create socket! Error code: %ld\n", WSAGetLastError());
 
 		// Do the clean up
 		WSACleanup();
@@ -92,7 +94,7 @@ error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
 		return ERROR_NETWORK_FAILED;
 	}
 	else {
-		printf("Client: socket() successful.\n");
+		printf_Success("Socket creation successful.\n");
 	}
 
 	memcpy(ptr_WSA_Data, &WSA_Data, sizeof(WSADATA));
@@ -185,6 +187,8 @@ error_t Network_Query_Node_Nodes_List(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 }
 
 error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
+	printf_Info("Locating network nodes...\n");
+
 	char * buffer;
 	int size = Load_File(Network_Nodes_List_File_Path, &buffer);
 
@@ -215,12 +219,12 @@ error_t Network_TCP_Connect(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 	SOCKADDR_IN my_info;
 	SOCKET my_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (my_sock == INVALID_SOCKET) {
-		printf("Client: socket() failed! Error code: %ld\n", WSAGetLastError());
+		//printf("Client: socket() failed! Error code: %ld\n", WSAGetLastError());
 		// Exit with error
 		return ERROR_NETWORK_FAILED;
 	}
 	else {
-		printf("Client: socket() successful.\n");
+		//printf("Client: socket() successful.\n");
 	}
 
 	// IPv4
@@ -232,8 +236,9 @@ error_t Network_TCP_Connect(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 	char * server_ip = inet_ntoa(my_info.sin_addr);
 
 	int err = connect(my_sock, (SOCKADDR*)&my_info, sizeof(my_info));
-	if (err != 0) { printf("Could not connect to server node %s!\n", server_ip); }
+	if (err != 0) { printf_Error("Could not connect to server node %s!\n", server_ip); }
 	else {
+		printf_Success("Succesfuly connected to %s\n", server_ip);
 		Copy_Socket_To_List(&my_sock);
 	}
 
@@ -262,21 +267,23 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 
 	iResult = bind(*ptr_Sending_Socket, (SOCKADDR*)&Server_Addr, sizeof(Server_Addr));
 	if (iResult == SOCKET_ERROR) {
-		printf("bind failed with error: %d\n", WSAGetLastError());
+		printf_Error("Bind failed with error: %d\nCould not start server!\n", WSAGetLastError());
 		return 1;
 	}
 
 	iResult = listen(*ptr_Sending_Socket, SOMAXCONN);
 	if (iResult == SOCKET_ERROR) {
-		printf("listen failed with error: %d\n", WSAGetLastError());
+		printf_Error("Listen failed with error: %d\nCould not start server!\n", WSAGetLastError());
 		return 1;
 	}
+
+	printf_Info("Server is active. Awaiting connection.\n");
 
 	while (1) {
 		// Accept a client socket
 		SOCKET ClientSocket = accept(*ptr_Sending_Socket, NULL, NULL);
 		if (ClientSocket == INVALID_SOCKET) {
-			printf("accept failed with error: %d\n", WSAGetLastError());
+			//printf("accept failed with error: %d\n", WSAGetLastError());
 			//return 1;
 		}
 
@@ -296,8 +303,8 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 			memset(recvbuf, 0, recvbuflen);
 			iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 			if (iResult > 0) {
-				printf("Bytes received: %d\n", iResult);
-				printf("Recieved: '%s'\n", recvbuf);
+				//printf("Bytes received: %d\n", iResult);
+				//printf("Recieved: '%s'\n", recvbuf);
 
 				if (strcmp(recvbuf, P2P_CHANNEL_CONNECTION_INIT_MESSAGE) == 0) {
 					// The client has sent the P2P_CHANNEL_CONNECTION_INIT_MESSAGE,
@@ -313,14 +320,14 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 					// Return the protocol-wide response to confirm that the server is valid.
 					iSendResult = send(ClientSocket, CONNECTED_TEST_MESSAGE_RESPONSE, sizeof(CONNECTED_TEST_MESSAGE_RESPONSE), 0);
 					if (iSendResult == SOCKET_ERROR) {
-						printf("Failed to respond %s to querying client! Error code: %d\n", CONNECTED_TEST_MESSAGE_RESPONSE, WSAGetLastError());
+						printf_Error("Failed to respond %s to querying client! Error code: %d\n", CONNECTED_TEST_MESSAGE_RESPONSE, WSAGetLastError());
 						closesocket(ClientSocket);
-						return 1;
+						//return 1;
 					}
 				}
 				else if (memcmp(recvbuf, TRANSACTION_BROADCAST_MAGIC, sizeof(TRANSACTION_BROADCAST_MAGIC)) == 0) {
 					Network_Transaction_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC), iResult - sizeof(TRANSACTION_BROADCAST_MAGIC));
-					Print_Transaction(stderr, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
+					//Print_Transaction(stderr, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
 				}
 				else if (memcmp(recvbuf, BLOCK_BROADCAST_MAGIC, sizeof(BLOCK_BROADCAST_MAGIC)) == 0) {
 					Network_Block_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC), iResult - sizeof(BLOCK_BROADCAST_MAGIC));
@@ -331,10 +338,10 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 				}
 			}
 			else if (iResult == 0) {
-				printf("Connection closing...\n");
+				printf_Info("Connection to %s closing...\n", client_ip);
 			}
 			else {
-				printf("recv failed with error: %d\n", WSAGetLastError());
+				printf_Error("Recieve failed with error: %d from client %s\n", WSAGetLastError(), client_ip);
 				closesocket(ClientSocket);
 				//return 1;
 			}
@@ -344,7 +351,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 		// shutdown the connection since we're done
 		iResult = shutdown(ClientSocket, SD_SEND);
 		if (iResult == SOCKET_ERROR) {
-			printf("shutdown failed with error: %d\n", WSAGetLastError());
+			printf_Error("Client (%s) shutdown failed with error: %d\n", client_ip, WSAGetLastError());
 			closesocket(ClientSocket);
 			//return 1;
 		}
@@ -362,17 +369,17 @@ error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET 
 
 	char * peer_ip_address = inet_ntoa(client_info.sin_addr);
 
-	printf("Client '%s' has requested to open a P2P channel!\n", peer_ip_address);
+	printf_Info("Client '%s' has requested to open a P2P channel!\n", peer_ip_address);
 
 	SOCKADDR_IN my_info;
 	SOCKET my_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (my_sock == INVALID_SOCKET) {
-		printf("Client: socket() failed! Error code: %ld\n", WSAGetLastError());
+		printf_Error("Could not create socket for client %s! Error code: %ld\n", peer_ip_address, WSAGetLastError());
 		// Exit with error
 		return ERROR_NETWORK_FAILED;
 	}
 	else {
-		printf("Client: socket() successful.\n");
+		printf_Success("Client (%s) socket creation successful.\n", peer_ip_address);
 	}
 
 	// IPv4
@@ -383,8 +390,9 @@ error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET 
 	memcpy(&my_info.sin_addr.s_addr, &client_info.sin_addr, sizeof(client_info.sin_addr));
 
 	int err = connect(my_sock, (SOCKADDR*)&my_info, sizeof(my_info));
-	if (err != 0) { printf("Could not connect to peer %s!\n", peer_ip_address); }
+	if (err != 0) { printf_Error("Could not connect to peer %s!\n", peer_ip_address); }
 	else {
+		printf_Success("Succesfuly connected to %s\n", peer_ip_address);
 		Copy_Socket_To_List(&my_sock);
 	}
 
@@ -431,7 +439,7 @@ error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Soc
 	memcpy(message + 4, block, block_size);
 
 	if (Node_List->socket == NULL) {
-		printf("No nodes to broadcast to!\n");
+		printf_Error("No nodes to broadcast to!\n");
 		free(message);
 		return ERROR_FAILED;
 	}
@@ -446,10 +454,10 @@ error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Soc
 
 		int res = send(*(ptr->socket), message, block_size + 4, 0);
 		if (res != block_size + 4) {
-			printf("Error broadcasting block to %s\n", peer_ip_address);
+			printf_Error("Error broadcasting block to %s\n", peer_ip_address);
 		}
 		else {
-			printf("Broadcasted the block to %s\n", peer_ip_address);
+			printf_Success("Broadcasted the block to %s\n", peer_ip_address);
 		}
 		ptr = ptr->next_node;
 		//free(peer_ip_address);
@@ -536,21 +544,53 @@ int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, vo
 	return ires;
 }
 
+void Network_CommandLine_Init(WSADATA ** wsadata, SOCKET ** socket) {
+	*wsadata = (WSADATA *)malloc(sizeof(WSADATA));
+	*socket = (SOCKET *)malloc(sizeof(SOCKET));
+
+	printf_Info("Initializing server on ip: %hhu.%hhu.%hhu.%hhu\n", LOCALHOST_IP[0], LOCALHOST_IP[1], LOCALHOST_IP[2], LOCALHOST_IP[3]);
+
+	Network_Init(*wsadata, *socket);
+}
+HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
+	Main_Server_Thread_Params * param = malloc(sizeof(Main_Server_Thread_Params));
+	param->ptr_WSA_Data = wsadata;
+	param->ptr_Sending_Socket = socket;
+	param->server_addr = LOCALHOST_IP;
+
+	DWORD thread_id;
+	HANDLE thread = CreateThread(NULL, 0, Network_Main_Server_Thread, param, 0, &thread_id);
+
+	char AHOY[5] = "Ahoy!";
+
+	Node_Peer * node = Node_List;
+	do {
+		if (node->socket != NULL) {
+			send(*(node->socket), AHOY, sizeof(AHOY), 0);
+			node = node->next_node;
+		}
+	} while (node != NULL && node->next_node != NULL);
+
+
+
+	uint64_t ind = 0;
+	while (Block_Index_Exists(ind)) { ind++; }
+
+	// Request future blocks
+	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 5))) {
+		Network_Request_Block(wsadata, socket, ind++);
+		Sleep(100);
+	}
+}
+
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 
 	wsadata = (WSADATA *)malloc(sizeof(WSADATA));
 	socket = (SOCKET *)malloc(sizeof(SOCKET));
 
-	char * message = "Test123";
-	int message_len = strlen(message);
-
-	char * output; int output_len;
-
-	printf("Initializing server on ip: %hhu.%hhu.%hhu.%hhu\n", LOCALHOST_IP[0], LOCALHOST_IP[1], LOCALHOST_IP[2], LOCALHOST_IP[3]);
+	printf_Info("Initializing server on ip: %hhu.%hhu.%hhu.%hhu\n", LOCALHOST_IP[0], LOCALHOST_IP[1], LOCALHOST_IP[2], LOCALHOST_IP[3]);
 
 	Network_Init(wsadata, socket);
-
-	//Network_Main_Server(&wsadata, &socket, node_addr);
 
 	int a = 0;
 
@@ -587,6 +627,7 @@ HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 	while (Block_Index_Exists(ind)) { ind++; }
 
 	// Request future blocks
+
 	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 5))) {
 		Network_Request_Block(wsadata, socket, ind++);
 		Sleep(100);

@@ -49,6 +49,9 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{28fe6f37-a2a8-4222-8c3d-d5bd3744b689}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\General\Print">
+      <UniqueIdentifier>{247f3362-49a4-464d-bbe9-3a5b3f141771}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GreenCoin.cpp">
@@ -99,6 +102,9 @@
     <ClCompile Include="src\Network\Network.c">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
+    <ClCompile Include="src\General\Print\PrettyPrint.c">
+      <Filter>Source Files\General\Print</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BlockChain\BlockChain.h">
@@ -145,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="src\Network\Network.h">
       <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\General\Print\ANSI_Color_Codes.h">
+      <Filter>Source Files\General\Print</Filter>
+    </ClInclude>
+    <ClInclude Include="src\General\Print\PrettyPrint.h">
+      <Filter>Source Files\General\Print</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

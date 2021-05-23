@@ -15,6 +15,8 @@
 //#include <ws2tcpip.h>
 #include <stdio.h>
 
+#include "../General/Print/PrettyPrint.h"
+
 /*
 	=== Node Communications Protocol Manual ===
 
@@ -80,6 +82,9 @@ error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, uint64_t block_ind);
 
 int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip);
+
+void Network_CommandLine_Init(WSADATA ** wsadata, SOCKET ** socket);
+HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket);
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket);
 

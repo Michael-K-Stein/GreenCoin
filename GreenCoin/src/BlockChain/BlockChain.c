@@ -2,6 +2,7 @@
 #include "BlockChain.h"
 
 #include "../Wallet/Wallet.h"
+#include "../General/Print/PrettyPrint.h"
 
 char BLOCK_HISTORY_DIRECTORY_PATH[256] = "";
 
@@ -91,7 +92,7 @@ error_t Validate_Block(void * wsadata, void * socket, _Block * block, uint64_t d
 
 	free(c.data);
 
-	printf("Block has been signed with strength: %lu!\n", strength);
+	printf_Success("Block has been signed with strength: %lu!\n", strength);
 
 	Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, block);
 
