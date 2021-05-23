@@ -417,6 +417,7 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 		FILE* f;
 		Open_Block_File(&f, block->Block_Index - 1);
 		if (f == NULL) { return ERROR_FAILED; }
+		fseek(f, 4, SEEK_SET);
 		_Block b; fread(&b, sizeof(b), 1, f);
 		fclose(f);
 		char* prev_hash = Hash_SHA256(&b, sizeof(b));
