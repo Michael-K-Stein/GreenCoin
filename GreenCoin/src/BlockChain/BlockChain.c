@@ -361,13 +361,13 @@ int Block_Exists(_Block * block, int block_size) {
 	sprintf_s(buffer, 256, "%s\\%lu.GCB", BLOCK_HISTORY_DIRECTORY_PATH, block->Block_Index);
 
 	FILE * f;
-	fopen_s(&f, buffer, "rb");
-	if (f == NULL) { return 0; }
+	errno_t err =fopen_s(&f, buffer, "rb");
+	if (f == NULL || err != 0) { return 0; }
 	fseek(f, 0, SEEK_END);
 	int size = ftell(f);
 	fseek(f, 0, SEEK_SET);
 
-	if (size != block_size) { /* A different block with the same index exists */ return 2; }
+	if (size != block_size+sizeof(GCB_MAGIC)) { /* A different block with the same index exists */ return 2; }
 
 	char * buf = (char*)malloc(size);
 	fread(buf, 1, size, f);

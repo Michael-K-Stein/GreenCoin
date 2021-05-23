@@ -36,30 +36,35 @@ int Demo() {
 	memcpy(pk, out, sizeof(_Wallet_Address));
 
 	double val = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, pk, -1);
-	
-
-	//Create_First_Block(wsadata, socket);
 
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
 
-	_Block * b;
-	b = calloc(1, sizeof(_Block));
-	b->Block_Index = ind;
 
-	FILE * f;
+	FILE* f;
 	Open_Block_File(&f, ind - 1);
-	char * block_buffer = (char*)malloc(sizeof(_Block));
-	fseek(f, 4, SEEK_SET);
-	fread(block_buffer, sizeof(_Block), 1, f);
+	if (f != NULL) {
+		_Block* b;
+		b = calloc(1, sizeof(_Block));
+		b->Block_Index = ind;
 
-	char * hash = Hash_SHA256(block_buffer, sizeof(_Block));
+		FILE* f;
+		Open_Block_File(&f, ind - 1);
+		char* block_buffer = (char*)malloc(sizeof(_Block));
+		fseek(f, 4, SEEK_SET);
+		fread(block_buffer, sizeof(_Block), 1, f);
 
-	memcpy(&(b->Previous_Block_Hash), hash, sizeof(_Hash));
-	fclose(f);
-	free(hash);
+		char* hash = Hash_SHA256(block_buffer, sizeof(_Block));
 
-	live_block = b;
+		memcpy(&(b->Previous_Block_Hash), hash, sizeof(_Hash));
+		fclose(f);
+		free(hash);
+
+		live_block = b;
+	}
+	else {
+		Create_First_Block(wsadata, socket);
+	}
 
 	while (1) {
 		Transaction_Demo(wsadata, socket);
