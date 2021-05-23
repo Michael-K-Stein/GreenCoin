@@ -61,5 +61,6 @@ double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Walle
 SIGNATURE_VALID_STATE Verify_Transaction(_Transaction * transaction);
 
 void Transaction_Demo(void * wsadata, void * socket);
+void Transaction_Demo_Spam(void * wsadata, void * socket);
 
 #endif // !__TRANSACTION_H

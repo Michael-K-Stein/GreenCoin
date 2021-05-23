@@ -324,7 +324,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 				}
 				else if (memcmp(recvbuf, BLOCK_BROADCAST_MAGIC, sizeof(BLOCK_BROADCAST_MAGIC)) == 0) {
 					Network_Block_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC), iResult - sizeof(BLOCK_BROADCAST_MAGIC));
-					Print_Block(stderr, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC));
+					//Print_Block(stderr, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC));
 				}
 				else if (memcmp(recvbuf, BLOCK_REQUEST_MAGIC, sizeof(BLOCK_REQUEST_MAGIC)) == 0) {
 					Network_Block_Request(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_REQUEST_MAGIC), iResult - sizeof(BLOCK_REQUEST_MAGIC), client_ip);
@@ -405,7 +405,7 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 	do {
 		SOCKADDR_IN client_info;
 		int client_info_len = sizeof(client_info);
-		getsockname(*(ptr->socket), &client_info, &client_info_len);
+		getpeername(*(ptr->socket), &client_info, &client_info_len);
 
 		char * peer_ip_address = inet_ntoa(client_info.sin_addr);
 
@@ -586,9 +586,10 @@ HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
 
-
-	while (ind == 0 || Block_Index_Exists(ind - 1)) {
+	// Request future blocks
+	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 5))) {
 		Network_Request_Block(wsadata, socket, ind++);
+		Sleep(100);
 	}
 
 	/*if (thread) {

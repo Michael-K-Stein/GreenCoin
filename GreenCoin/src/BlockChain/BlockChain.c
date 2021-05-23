@@ -297,6 +297,9 @@ error_t Load_Block_History_Path() {
 		fwrite(BLOCK_HISTORY_DIRECTORY_PATH, sizeof(char), 256, f);
 	}
 	fclose(f);
+
+	printf("Blockchain is saved to: %s\\\n", BLOCK_HISTORY_DIRECTORY_PATH);
+	return ERROR_NONE;
 }
 
 error_t Create_First_Block(void * wsadata, void * socket) {
@@ -412,11 +415,16 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 	if (block->Block_Index > 0) {
 		FILE* f;
 		Open_Block_File(&f, block->Block_Index - 1);
+		if (f == NULL) { return ERROR_FAILED; }
 		_Block b; fread(&b, sizeof(b), 1, f);
 		fclose(f);
 		char* prev_hash = Hash_SHA256(&b, sizeof(b));
 
-		int prev_hash_valid = (memcmp(prev_hash, &(block->Previous_Block_Hash), sizeof(_Hash)));
+		BN hs; BN_Init_Stack(&hs);
+		BN_Import_Hex_String(&hs, prev_hash, 64, BN_BIG_ENDIAN);
+		int prev_hash_valid = (memcmp(hs.data, &(block->Previous_Block_Hash), sizeof(_Hash)));
+
+		free(hs.data);
 
 		if (prev_hash_valid != 1) { error |= ERROR_FAILED; }
 		free(prev_hash);

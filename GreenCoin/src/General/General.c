@@ -52,5 +52,14 @@ void Load_Domain_Parameters() {
 	params->p = p;
 	params->q = q;
 
+	printf("--- Domain Params: ---\n");
+	printf("\tp:\r\n");
+	TRACE_MPI("\t\t", (params->p));
+	printf("\tq:\r\n");
+	TRACE_MPI("\t\t", (params->q));
+	printf("\tg:\r\n");
+	TRACE_MPI("\t\t", (params->G));
+	printf("--- --- --- --- --- ---\n");
+
 	//return params;
 }

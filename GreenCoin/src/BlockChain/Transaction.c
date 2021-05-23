@@ -139,16 +139,6 @@ double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Walle
 void Transaction_Demo(void * wsadata, void * socket) {
 	printf("=== Create Transaction (Demo) ===\n");
 
-	printf("--- Domain Params: ---\n");
-	printf("\tp:\r\n");
-	TRACE_MPI("\t\t", (params->p));
-	printf("\tq:\r\n");
-	TRACE_MPI("\t\t", (params->q));
-	printf("\tg:\r\n");
-	TRACE_MPI("\t\t", (params->G));
-	printf("--- --- --- --- --- ---\n");
-
-
 	_Transaction transaction;
 
 	printf("Block #?\n");
@@ -218,5 +208,82 @@ void Transaction_Demo(void * wsadata, void * socket) {
 	}
 	else {
 		printf("Transaction has been cancelled!\n");
+	}
+}
+
+void Transaction_Demo_Spam(void* wsadata, void* socket) {
+	printf("=== Create Transaction (Demo) ===\n");
+
+	_Transaction transaction;
+
+	printf("Block #?\n");
+	char buffer[64]; fgets(buffer, 64, stdin);
+	transaction.Block_Index = strtol(buffer, NULL, 10);
+
+	/*printf("Transaction #?\n");
+	fgets(buffer, 64, stdin);
+	transaction.Index = strtol(buffer, NULL, 10);*/
+
+	printf("Please enter your public key (as base64): \n");
+	char sender_64[180]; fgets(sender_64, 180, stdin);
+
+	printf("Please enter the reciever's public key (as base64): \n");
+	char reciever_64[180]; fgets(reciever_64, 180, stdin);
+
+	printf("How much would you like to send?\n");
+	fgets(buffer, 64, stdin);
+	double value = strtod(buffer, NULL);
+	transaction.Value = value;
+	transaction.Fee = 0;
+
+	byte* sender;
+	byte* reciever;
+	B64_Decode(sender_64, &sender);
+	B64_Decode(reciever_64, &reciever);
+
+	memcpy(transaction.Sender, sender, sizeof(_Wallet_Address));
+	memcpy(transaction.Reciever, reciever, sizeof(_Wallet_Address));
+
+	printf("Please enter your private key (as base64) in order to sign this transaction: \n");
+	char priv_key_64[180]; fgets(priv_key_64, 180, stdin);
+	byte* priv_k; size_t priv_key_byte_length = B64_Decode(priv_key_64, &priv_k);
+	BN* pk; BN_Init(&pk);
+	BN_Resize(pk, 16);
+	pk->sign = 1;
+	memcpy(pk->data, priv_k, priv_key_byte_length);
+
+	for (int i = 0; i < 64; i++) {
+		transaction.Time = time(NULL);
+
+		Sign_Transaction(&transaction, pk);
+
+		printf("Transaction signed!\n");
+
+		printf("\n\n\n");
+		printf("Transaction summary: \n");
+
+		Print_Transaction(stderr, &transaction);
+		printf("\n\n\n");
+
+		//printf("Type 'EXECUTE' to continue, otherwise cancel the transaction.\n");
+
+		char* EXECUTE = "EXECUTE";
+		//fgets(buffer, 64, stdin); buffer[strlen(EXECUTE)] = 0x0;
+
+		if (1 || strcmp(buffer, EXECUTE) == 0) {
+			printf("Transaction executed!\n");
+
+			char export_path[256];// = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
+			sprintf_s(export_path, 256, "Demo\\Transaction_%u.GCT", transaction.Time);
+
+			printf("Now exporting to: '%s'\n", export_path);
+
+			Transaction_Export_To_File(export_path, &transaction);
+
+			Network_Broadcast_Transaction(wsadata, socket, &transaction, sizeof(_Transaction));
+		}
+		else {
+			printf("Transaction has been cancelled!\n");
+		}
 	}
 }
