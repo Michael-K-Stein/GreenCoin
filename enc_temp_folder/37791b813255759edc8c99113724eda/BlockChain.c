@@ -134,8 +134,6 @@ error_t Append_Transaction(void * wsadata, void * socket, _Block * block, _Trans
 
 	memcpy(target, transaction, sizeof(_Transaction));
 
-	printf_Info("A valid transaction has been received and processed.\n");
-
 	if (index == MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER - 1) {
 		// Block is full. You may now sign it.
 		Validate_Block(wsadata, socket, live_block, 7);
@@ -393,12 +391,7 @@ int Block_Exists(_Block * block, int block_size) {
 uint64_t MIN_STRENGTH = 7;
 error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_size) {
 
-	// 0 -> No block by this name.
-	// 1 -> This exact block exists => duplicate.
-	// 2 -> Inconsistant blocks. Two different blockchains exist.
-	int block_exists = Block_Exists(block, block_size);
-
-	if (block_exists == 1) { return ERROR_NONE; }
+	if (Block_Exists(block, block_size) > 0) { return ERROR_NONE; }
 
 	// Check that the block produces the desired hash
 	uint64_t strength = Calculate_Block_Strength(block);
