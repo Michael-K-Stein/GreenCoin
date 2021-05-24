@@ -411,22 +411,20 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 
 	Node_Peer * ptr = Node_List;
 	do {
-		if (ptr->socket != NULL) {
-			SOCKADDR_IN client_info;
-			int client_info_len = sizeof(client_info);
-			getpeername(*(ptr->socket), &client_info, &client_info_len);
+		SOCKADDR_IN client_info;
+		int client_info_len = sizeof(client_info);
+		getpeername(*(ptr->socket), &client_info, &client_info_len);
 
-			char * peer_ip_address = inet_ntoa(client_info.sin_addr);
+		char * peer_ip_address = inet_ntoa(client_info.sin_addr);
 
-			int res = send(*(ptr->socket), message, transaction_size + 4, 0);
-			if (res != transaction_size + 4) {
-				printf_Error("Error broadcasting transaction to %s\n", peer_ip_address);
-			}
-			else {
-				printf_Success("Broadcasted the transaction to %s\n", peer_ip_address);
-			}
+		int res = send(*(ptr->socket), message, transaction_size + 4, 0);
+		if (res != transaction_size + 4) {
+			printf_Error("Error broadcasting transaction to %s\n", peer_ip_address);
 		}
-		ptr = ptr->next_node;
+		else {
+			printf_Success("Broadcasted the transaction to %s\n", peer_ip_address);
+		}
+
 		//free(peer_ip_address);
 	} while (ptr->next_node != NULL);
 
@@ -448,24 +446,22 @@ error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Soc
 
 	Node_Peer * ptr = Node_List;
 	do {
-		if (ptr->socket != NULL) {
-			SOCKADDR_IN client_info;
-			int client_info_len = sizeof(client_info);
-			getpeername(*(ptr->socket), &client_info, &client_info_len);
+		SOCKADDR_IN client_info;
+		int client_info_len = sizeof(client_info);
+		getpeername(*(ptr->socket), &client_info, &client_info_len);
 
-			char * peer_ip_address = inet_ntoa(client_info.sin_addr);
+		char * peer_ip_address = inet_ntoa(client_info.sin_addr);
 
-			int res = send(*(ptr->socket), message, block_size + 4, 0);
-			if (res != block_size + 4) {
-				printf_Error("Error broadcasting block to %s\n", peer_ip_address);
-			}
-			else {
-				printf_Success("Broadcasted the block to %s\n", peer_ip_address);
-			}
+		int res = send(*(ptr->socket), message, block_size + 4, 0);
+		if (res != block_size + 4) {
+			printf_Error("Error broadcasting block to %s\n", peer_ip_address);
+		}
+		else {
+			printf_Success("Broadcasted the block to %s\n", peer_ip_address);
 		}
 		ptr = ptr->next_node;
 		//free(peer_ip_address);
-	} while (ptr != NULL);
+	} while (ptr != NULL && ptr->next_node != NULL);
 
 	free(message);
 
@@ -525,9 +521,9 @@ error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 	do {
 		if (node->socket != NULL) {
 			send(*(node->socket), message, sizeof(BLOCK_REQUEST_MAGIC) + sizeof(block_ind), 0);
+			node = node->next_node;
 		}
-		node = node->next_node;
-	} while (node != NULL);
+	} while (node != NULL && node->next_node != NULL);
 }
 
 int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip) {
