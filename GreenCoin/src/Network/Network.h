@@ -86,6 +86,8 @@ int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, vo
 void Network_CommandLine_Init(WSADATA ** wsadata, SOCKET ** socket);
 HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket);
 
+error_t Network_Connect_To_Known_Peers();
+
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket);
 
 #endif

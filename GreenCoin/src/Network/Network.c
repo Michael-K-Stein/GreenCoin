@@ -552,6 +552,22 @@ void Network_CommandLine_Init(WSADATA ** wsadata, SOCKET ** socket) {
 
 	Network_Init(*wsadata, *socket);
 }
+
+error_t Network_Connect_To_Known_Peers() {
+	printf_Info("Requesting P2P channels...\n");
+
+	Node_Peer * node = Node_List;
+	do {
+		if (node->socket != NULL) {
+			printf_Info("Openning P2P with %hhu.%hhu.%hhu.%hhu\n", node->ip[0], node->ip[1], node->ip[2], node->ip[3]);
+			send(*(node->socket), P2P_CHANNEL_CONNECTION_INIT_MESSAGE, sizeof(P2P_CHANNEL_CONNECTION_INIT_MESSAGE), 0);
+		}
+		node = node->next_node;
+	} while (node != NULL);
+
+	return ERROR_NONE;
+}
+
 HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 	Main_Server_Thread_Params * param = malloc(sizeof(Main_Server_Thread_Params));
 	param->ptr_WSA_Data = wsadata;
@@ -561,23 +577,18 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 	DWORD thread_id;
 	HANDLE thread = CreateThread(NULL, 0, Network_Main_Server_Thread, param, 0, &thread_id);
 
-	char AHOY[5] = "Ahoy!";
 
-	Node_Peer * node = Node_List;
-	do {
-		if (node->socket != NULL) {
-			send(*(node->socket), AHOY, sizeof(AHOY), 0);
-			node = node->next_node;
-		}
-	} while (node != NULL && node->next_node != NULL);
-
+	Network_Connect_To_Known_Peers();
 
 
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
 
+	printf_Info("Local blockchain length: %llu.\n", ind);
+
 	// Request future blocks
 	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 5))) {
+		printf_Info("Requesting block #%llu from network.\n", ind);
 		Network_Request_Block(wsadata, socket, ind++);
 		Sleep(100);
 	}
