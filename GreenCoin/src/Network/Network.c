@@ -428,7 +428,7 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 		}
 		ptr = ptr->next_node;
 		//free(peer_ip_address);
-	} while (ptr->next_node != NULL);
+	} while (ptr != NULL);
 
 	free(message);
 
