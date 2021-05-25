@@ -122,15 +122,16 @@ error_t Network_Print_IP() {
 	printf("--- Your local network info ---\n");
 	printf("Hostname: %s\n", hostbuffer);
 
+	char** addr = host_entry->h_addr_list;
+
 	// To convert an Internet network
 	// address into ASCII string
-	for (int i = 0; i < host_entry->h_length; i++) {
-		if (host_entry->h_addr_list[i] != NULL) {
-			IPbuffer = inet_ntoa(*((struct in_addr*)
-				host_entry->h_addr_list[i]));
+	while (*addr!=NULL) {
+		IPbuffer = inet_ntoa(*((struct in_addr*)
+			*addr));
 
-			printf("\tIP: %s\n", IPbuffer);
-		}
+		printf("\tIP: %s\n", IPbuffer);
+		addr++;
 	}
 	printf("--- --- --- --- --- --- --- ---\n");
 }
