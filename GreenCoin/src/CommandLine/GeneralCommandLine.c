@@ -6,7 +6,8 @@
 
 char COMMAND_CREATE_TRANSACTION[64] = "transact\n";
 char COMMAND_START_SERVER[64] = "server\n";
-//char COMMAND_START_SERVER[64];
+char COMMAND_REQUEST_BLOCKS[64] = "gcbh\n";
+char COMMAND_WALLET[64] = "wallet\n";
 
 #pragma endregion
 
@@ -27,6 +28,12 @@ int Command_Line() {
 
 	srand(time(NULL));
 
+
+	WSADATA * wsadata = NULL;
+	SOCKET * socket = NULL;
+	Network_CommandLine_Init(&wsadata, &socket);
+	Network_Print_IP();
+
 	// Get ip
 	printf("Please enter your ip: ");
 	char buf[64] = { 0 };
@@ -34,16 +41,15 @@ int Command_Line() {
 	unsigned long ip = inet_addr(buf);
 	memcpy(LOCALHOST_IP, &ip, sizeof(ip));
 
+	printf_Info("Initializing server on ip: %hhu.%hhu.%hhu.%hhu\n", LOCALHOST_IP[0], LOCALHOST_IP[1], LOCALHOST_IP[2], LOCALHOST_IP[3]);
+	Network_Locate_Nodes(&wsadata, &socket);
+
 	Load_Block_History_Path();
 
 	Load_Domain_Parameters();
 
 	Load_Local_Notary_Signing_Address();
 
-	WSADATA * wsadata = NULL;
-	SOCKET * socket = NULL;
-
-	Network_CommandLine_Init(&wsadata, &socket);
 	HANDLE handle;
 
 
@@ -84,6 +90,10 @@ int Command_Line() {
 			Transaction_Demo(wsadata, socket);
 		} else if (strcmp(buffer, COMMAND_START_SERVER) == 0) {
 			handle = Network_CommandLine_Server(wsadata, socket);
+		} else if (strcmp(buffer, COMMAND_REQUEST_BLOCKS) == 0) {
+			Network_CommandLine_Request_Blocks(wsadata, socket);
+		} else if (strcmp(buffer, COMMAND_WALLET) == 0) {
+			Wallet_CommandLine_General();
 		}
 	}
 }

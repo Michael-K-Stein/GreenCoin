@@ -55,6 +55,8 @@ void Copy_Socket_To_List(SOCKET * socket);
 
 error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket);
 
+error_t Network_Print_IP();
+
 unsigned long Network_Node_Addr_Format(unsigned char * node_addr);
 
 error_t Network_Send_Message_Await_Return(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, unsigned char * node_addr, char * message, int message_len, char ** output, int * output_len);
@@ -87,6 +89,8 @@ void Network_CommandLine_Init(WSADATA ** wsadata, SOCKET ** socket);
 HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket);
 
 error_t Network_Connect_To_Known_Peers();
+
+error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket);
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket);
 

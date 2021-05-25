@@ -71,7 +71,7 @@ void Copy_Socket_To_List(SOCKET * socket) {
 }
 
 error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
-	printf_Info("Now initializing network!\n");
+	printf_Info("Now initializing network WSA!\n");
 	
 	WSADATA		WSA_Data;
 	SOCKET		Sending_Socket;
@@ -104,10 +104,36 @@ error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
 	Node_List->next_node = NULL;
 	Node_List->socket = NULL;
 
-	Network_Locate_Nodes(ptr_WSA_Data, ptr_Sending_Socket);
-
 	return ERROR_NETWORK_NONE;
 }    
+
+error_t Network_Print_IP() {
+	char hostbuffer[256];
+	char *IPbuffer;
+	struct hostent *host_entry;
+	int hostname;
+
+	// To retrieve hostname
+	hostname = gethostname(hostbuffer, sizeof(hostbuffer));
+
+	// To retrieve host information
+	host_entry = gethostbyname(hostbuffer);
+
+	printf("--- Your local network info ---\n");
+	printf("Hostname: %s\n", hostbuffer);
+
+	// To convert an Internet network
+	// address into ASCII string
+	for (int i = 0; i < host_entry->h_length; i++) {
+		if (host_entry->h_addr_list[i] != NULL) {
+			IPbuffer = inet_ntoa(*((struct in_addr*)
+				host_entry->h_addr_list[i]));
+
+			printf("\tIP: %s\n", IPbuffer);
+		}
+	}
+	printf("--- --- --- --- --- --- --- ---\n");
+}
 
 unsigned long Network_Node_Addr_Format(unsigned char * node_addr) {
 	return (unsigned long)(node_addr[0] | node_addr[1] << 8 | node_addr[2] << 16 | node_addr[3] << 24);
@@ -476,7 +502,15 @@ error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendin
 	return Append_Transaction(ptr_WSA_Data, ptr_Sending_Socket, live_block, transaction);
 }
 
-error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * block, int block_size) {
+error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, _Block * block, int block_size) {
+	uint64_t ind = 0;
+	while (Block_Index_Exists(ind)) { ind++; }
+	// Request future blocks
+	while (ind < block->Block_Index) {
+		printf_Info("Requesting block #%llu from network.\n", ind);
+		Network_Request_Block(ptr_WSA_Data, ptr_Sending_Socket, ind++);
+		Sleep(100);
+	}
 	return Verify_Block(ptr_WSA_Data, ptr_Sending_Socket, block, block_size);
 }
 
@@ -552,8 +586,6 @@ void Network_CommandLine_Init(WSADATA ** wsadata, SOCKET ** socket) {
 	*wsadata = (WSADATA *)malloc(sizeof(WSADATA));
 	*socket = (SOCKET *)malloc(sizeof(SOCKET));
 
-	printf_Info("Initializing server on ip: %hhu.%hhu.%hhu.%hhu\n", LOCALHOST_IP[0], LOCALHOST_IP[1], LOCALHOST_IP[2], LOCALHOST_IP[3]);
-
 	Network_Init(*wsadata, *socket);
 }
 
@@ -592,6 +624,19 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 
 	// Request future blocks
 	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 5))) {
+		printf_Info("Requesting block #%llu from network.\n", ind);
+		Network_Request_Block(wsadata, socket, ind++);
+		Sleep(100);
+	}
+}
+
+error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket) {
+	uint64_t ind = 0;
+	while (Block_Index_Exists(ind)) { ind++; }
+	printf_Info("Local blockchain length: %llu.\n", ind);
+
+	// Request future blocks
+	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 20))) {
 		printf_Info("Requesting block #%llu from network.\n", ind);
 		Network_Request_Block(wsadata, socket, ind++);
 		Sleep(100);

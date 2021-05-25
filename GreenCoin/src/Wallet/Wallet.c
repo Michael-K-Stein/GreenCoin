@@ -3,6 +3,9 @@
 
 #include "../BlockChain/BlockChain.h"
 
+char COMMAND_GENERATE_WALLET[64] = "generate\n";
+char COMMAND_EXIT[64] = "exit\n";
+
 double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index) {
 	
 	double value = 0;
@@ -104,4 +107,23 @@ DSA_Public_Key * Get_Random_Public_Key() {
 	free(buffer);*/
 
 	return pub_key;
+}
+
+int Wallet_CommandLine_General() {
+	printf("Now in wallet command line.\nType 'exit' to return to general command line.\n");
+	
+	char buffer[1024] = { 0 };
+
+	int exit = 0;
+	while (!exit) {
+		printf("> ");
+		memset(buffer, 0, sizeof(buffer));
+		fgets(buffer, sizeof(buffer), stdin);
+	
+		if (strcmp(buffer, COMMAND_GENERATE_WALLET) == 0) {
+			Print_Demo_Keys();
+		} else if (strcmp(buffer, COMMAND_EXIT) == 0) {
+			return 0;
+		}
+	}
 }
