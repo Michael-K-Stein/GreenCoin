@@ -775,6 +775,7 @@ error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket) {
 
 	Sleep(3000);
 
+	ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
 	BlockChainLength = ind;
 }
