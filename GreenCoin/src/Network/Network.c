@@ -678,7 +678,32 @@ error_t Network_Connect_To_Known_Peers() {
 
 HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 
-	Network_CommandLine_Request_Blocks(wsadata, socket);
+	
+
+	Main_Server_Thread_Params * param = malloc(sizeof(Main_Server_Thread_Params));
+	param->ptr_WSA_Data = wsadata;
+	param->ptr_Sending_Socket = socket;
+	param->server_addr = LOCALHOST_IP;
+
+	DWORD thread_id;
+	HANDLE thread = CreateThread(NULL, 0, Network_Main_Server_Thread, param, 0, &thread_id);
+
+
+	Network_Connect_To_Known_Peers();
+
+
+	uint64_t ind = 0;
+	while (Block_Index_Exists(ind)) { ind++; }
+	BlockChainLength = ind;
+
+	printf_Info("Local blockchain length: %llu.\n", ind);
+
+	// Request future blocks
+	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 5))) {
+		printf_Info("Requesting block #%llu from network.\n", ind);
+		Network_Request_Block(wsadata, socket, ind++);
+		Sleep(100);
+	}
 
 	FILE* f;
 	Open_Block_File(&f, BlockChainLength - 1);
@@ -704,29 +729,6 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 		Create_First_Block(wsadata, socket);
 	}
 
-	Main_Server_Thread_Params * param = malloc(sizeof(Main_Server_Thread_Params));
-	param->ptr_WSA_Data = wsadata;
-	param->ptr_Sending_Socket = socket;
-	param->server_addr = LOCALHOST_IP;
-
-	DWORD thread_id;
-	HANDLE thread = CreateThread(NULL, 0, Network_Main_Server_Thread, param, 0, &thread_id);
-
-
-	Network_Connect_To_Known_Peers();
-
-
-	uint64_t ind = 0;
-	while (Block_Index_Exists(ind)) { ind++; }
-
-	printf_Info("Local blockchain length: %llu.\n", ind);
-
-	// Request future blocks
-	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 5))) {
-		printf_Info("Requesting block #%llu from network.\n", ind);
-		Network_Request_Block(wsadata, socket, ind++);
-		Sleep(100);
-	}
 }
 
 error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket) {
