@@ -18,13 +18,18 @@ command_t WALLET_COMMAND_WALLET_VALUE = {
 	"Calculates the value of a wallet.",
 	Wallet_Calculate_Value_CommandLine
 };
+command_t WALLET_COMMAND_ALL_VALUES = {
+	"values",
+	"Prints all wallet values.",
+	Wallet_Calculate_Values
+};
 command_t WALLET_COMMAND_EXIT = {
 	"exit",
 	"Exits the wallet command-line.",
 	Wallet_Exit
 };
 
-command_t * WALLET_COMMANDS[4] = { &WALLET_COMMAND_HELP, &WALLET_COMMAND_GENERATE_WALLET, &WALLET_COMMAND_WALLET_VALUE, &WALLET_COMMAND_EXIT };
+command_t * WALLET_COMMANDS[5] = { &WALLET_COMMAND_HELP, &WALLET_COMMAND_GENERATE_WALLET, &WALLET_COMMAND_WALLET_VALUE, &WALLET_COMMAND_ALL_VALUES, &WALLET_COMMAND_EXIT };
 
 
 double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index) {
@@ -66,6 +71,96 @@ double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_t
 	}
 
 	return value;
+}
+
+struct Wallet_Piece {
+	_Wallet_Address address;
+	void * next;
+};
+int Wallet_Chain_Contains_Address(struct Wallet_Piece * wallet_chain, _Wallet_Address wallet_address) {
+
+	struct Wallet_Piece * ptr = wallet_chain;
+
+	while (ptr->next != NULL) {
+		ptr = ptr->next;
+
+		if (memcmp(ptr->address, wallet_address, sizeof(_Wallet_Address)) == 0) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+int Wallet_Add_Address_To_Chain(struct Wallet_Piece * wallet_chain, _Wallet_Address wallet_address) {
+	struct Wallet_Piece * ptr = wallet_chain;
+
+	while (ptr->next != NULL) {
+		ptr = ptr->next;
+	}
+
+	ptr->next = (struct Wallet_Piece *)calloc(1, sizeof(struct Wallet_Piece));
+	memcpy(((struct Wallet_Piece *)(ptr->next))->address, wallet_address, sizeof(_Wallet_Address));
+}
+int Wallet_Chain_Recursive_Free(struct Wallet_Piece * wallet_chain) {
+	if (wallet_chain->next != NULL) {
+		Wallet_Chain_Recursive_Free(wallet_chain->next);
+	}
+	free(wallet_chain);
+	return 0;
+}
+void Wallet_Calculate_Values() {
+	double coins_in_circulation = (double)INITIAL_BLOCK_MINING_FEE;
+	coins_in_circulation *= (pow((double)MINING_FEE_DECAY, BlockChainLength) - 1);
+	coins_in_circulation /= ((double)MINING_FEE_DECAY - 1);
+
+	printf("There are currently %.20f GreenCoins in circulation.\n", coins_in_circulation);
+
+	struct Wallet_Piece * wallet_chain = (struct Wallet_Piece*)calloc(1, sizeof(struct Wallet_Piece));
+
+	_Block b;
+	_Wallet_Address wallet_address;
+	char * address_base64_buffer;
+	FILE * f;
+	for (uint64_t block_ind = 0; block_ind < BlockChainLength; block_ind++) {
+		error_t err = Open_Block_File(&f, block_ind);
+		if (err != ERROR_NONE) { break; }
+		fseek(f, 4, SEEK_SET);
+		fread(&b, sizeof(_Block), 1, f);
+		fclose(f);
+
+		for (int trans_ind = 0; trans_ind < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; trans_ind++) {
+			memcpy(wallet_address, b.Transactions[trans_ind].Sender, sizeof(_Wallet_Address));
+
+			if (!Wallet_Chain_Contains_Address(wallet_chain, wallet_address)) {
+				Wallet_Add_Address_To_Chain(wallet_chain, wallet_address);
+			}
+
+			memcpy(wallet_address, b.Transactions[trans_ind].Reciever, sizeof(_Wallet_Address));
+
+			if (!Wallet_Chain_Contains_Address(wallet_chain, wallet_address)) {
+				Wallet_Add_Address_To_Chain(wallet_chain, wallet_address);
+			}
+		}
+
+		memcpy(wallet_address, b.Notary_Address, sizeof(_Wallet_Address));
+
+		if (!Wallet_Chain_Contains_Address(wallet_chain, wallet_address)) {
+			Wallet_Add_Address_To_Chain(wallet_chain, wallet_address);
+		}
+	}
+
+	struct Wallet_Piece * ptr = wallet_chain;
+	while (ptr->next != NULL) {
+		ptr = ptr->next;
+
+		double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, ptr->address, -1);
+
+		B64_Encode(ptr->address, sizeof(_Wallet_Address), &address_base64_buffer);
+		printf("%s\t : %.2f%%\t : Value: %.20f\n", address_base64_buffer, ((100.0*value)/coins_in_circulation), value);
+		free(address_base64_buffer);
+	}
+
+	Wallet_Chain_Recursive_Free(wallet_chain);
 }
 
 void Wallet_Calculate_Value_CommandLine() {
