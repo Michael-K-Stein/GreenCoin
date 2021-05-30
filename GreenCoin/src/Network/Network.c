@@ -561,6 +561,7 @@ error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 	memcpy(message + sizeof(BLOCK_REQUEST_MAGIC), &block_ind, sizeof(block_ind));
 
 	Node_Peer * node = Node_List;
+	if (node == NULL) { printf("There are no nodes to request from!\n"); return ERROR_FAILED; }
 	do {
 		if (node->socket != NULL) {
 			send(*(node->socket), message, sizeof(BLOCK_REQUEST_MAGIC) + sizeof(block_ind), 0);
