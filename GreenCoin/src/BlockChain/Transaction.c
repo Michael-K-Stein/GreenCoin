@@ -139,7 +139,7 @@ double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Walle
 }
 
 void Transaction_Demo(void * wsadata, void * socket) {
-	Transaction_Demo_Spam(wsadata, socket);
+	//Transaction_Demo_Spam(wsadata, socket);
 	
 	
 	
