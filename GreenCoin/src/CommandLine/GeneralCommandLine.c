@@ -110,6 +110,8 @@ int Command_Line() {
 	BlockChainLength = ind;
 
 	if (is_online) {
+		Network_CommandLine_Request_Blocks(wsadata, socket);
+
 		FILE* f;
 		Open_Block_File(&f, ind - 1);
 		if (f != NULL) {
