@@ -38,6 +38,12 @@ struct Node_Peer {
 };
 Node_Peer * Node_List = NULL;
 
+struct Network_TCP_Connect_Thread_Params {
+	WSADATA * ptr_WSA_Data;
+	SOCKET * ptr_Sending_Socket;
+	unsigned char node_addr[4];
+};
+
 void Copy_Node_To_List(SOCKET * socket, unsigned char * ip) {
 	Node_Peer * ptr = Node_List;
 
@@ -219,6 +225,9 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 	char * buffer;
 	int size = Load_File(Network_Nodes_List_File_Path, &buffer);
 
+	HANDLE * handles = (HANDLE*)calloc(size / 5, sizeof(HANDLE));
+	int handle_ind = 0;
+
 	if (size > 0) {
 		// For each entry
 		int ind = 0;
@@ -230,8 +239,13 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 				// A node with status 0xff is extremely weak, and therefore will not be checked.
 			}
 			else {
+				Network_TCP_Connect_Thread_Params * params = (Network_TCP_Connect_Thread_Params*)malloc(sizeof(Network_TCP_Connect_Thread_Params));
+				params->ptr_WSA_Data = ptr_WSA_Data;
+				params->ptr_Sending_Socket = ptr_Sending_Socket;
+				memcpy(params->node_addr, addr_bytes, sizeof(params->node_addr));
 
-				Network_TCP_Connect(ptr_WSA_Data, ptr_Sending_Socket, addr_bytes);
+				handles[handle_ind++] = CreateThread(NULL, 0, Network_TCP_Connect_Thread, params, 0, NULL);
+				 //Network_TCP_Connect(ptr_WSA_Data, ptr_Sending_Socket, addr_bytes);
 
 			}
 		}
@@ -239,6 +253,7 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 
 	if (size > 0) {
 		free(buffer);
+		free(handles);
 	}
 }
 
@@ -263,13 +278,19 @@ error_t Network_TCP_Connect(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 	char * server_ip = inet_ntoa(my_info.sin_addr);
 
 	int err = connect(my_sock, (SOCKADDR*)&my_info, sizeof(my_info));
-	if (err != 0) { printf_Error("Could not connect to server node %s!\n", server_ip); }
+	if (err != 0) { /*printf_Error("Could not connect to server node %s!\n", server_ip);*/ }
 	else {
 		printf_Success("Succesfuly connected to %s\n", server_ip);
 		Copy_Socket_To_List(&my_sock);
 	}
 
 	//free(server_ip);
+}
+DWORD WINAPI Network_TCP_Connect_Thread(void * params) {
+	Network_TCP_Connect_Thread_Params * thread_params = (Network_TCP_Connect_Thread_Params*)params;
+	error_t err = Network_TCP_Connect((WSADATA*)(thread_params->ptr_WSA_Data), (SOCKET*)(thread_params->ptr_Sending_Socket), (unsigned char *)(thread_params->node_addr));
+	free(params);
+	return err;
 }
 
 DWORD WINAPI Network_Main_Server_Thread(/*Main_Server_Thread_Params*/ void * param) {
@@ -510,6 +531,7 @@ error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendin
 error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, _Block * block, int block_size) {
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
+	BlockChainLength = ind;
 	// Request future blocks
 	while (ind < block->Block_Index) {
 		printf_Info("Requesting block #%llu from network.\n", ind);
@@ -707,6 +729,10 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 
 	Sleep(3000);
 
+	ind = 0;
+	while (Block_Index_Exists(ind)) { ind++; }
+	BlockChainLength = ind;
+
 	FILE* f;
 	Open_Block_File(&f, BlockChainLength - 1);
 	if (f != NULL) {
@@ -736,6 +762,7 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket) {
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
+	BlockChainLength = ind;
 	printf_Info("Local blockchain length: %llu.\n", ind);
 
 	// Request future blocks
@@ -744,6 +771,11 @@ error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket) {
 		Network_Request_Block(wsadata, socket, ind++);
 		Sleep(100);
 	}
+
+	Sleep(3000);
+
+	while (Block_Index_Exists(ind)) { ind++; }
+	BlockChainLength = ind;
 }
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {

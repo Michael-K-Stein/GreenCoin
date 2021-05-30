@@ -46,6 +46,8 @@ unsigned char LOCALHOST_IP[4];
 typedef struct Main_Server_Thread_Params Main_Server_Thread_Params;
 typedef struct P2P_Thread_Params P2P_Thread_Params;
 
+typedef struct Network_TCP_Connect_Thread_Params Network_TCP_Connect_Thread_Params;
+
 typedef struct Node_Peer Node_Peer;
 // A linked list of nodes holding pointers to the sockets for P2P connections
 Node_Peer * Node_List;// = NULL;
@@ -66,6 +68,7 @@ error_t Network_Query_Node_Nodes_List(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket);
 
 error_t Network_TCP_Connect(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, unsigned char * node_addr);
+DWORD WINAPI Network_TCP_Connect_Thread(void * params);
 
 DWORD WINAPI Network_Main_Server_Thread(/*Main_Server_Thread_Params*/ void * param);
 error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, unsigned char * server_addr);

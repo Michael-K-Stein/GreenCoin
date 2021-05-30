@@ -128,13 +128,13 @@ error_t Append_Transaction(void * wsadata, void * socket, _Block * block, _Trans
 
 	if (Verify_Transaction(transaction) != SIGNATURE_VALID) { return ERROR_BLOCK_TRANSACTION_SIGNATURE_INVALID; }
 
-	double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, transaction->Sender, block->Block_Index - 1);
+	double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, transaction->Sender, block->Block_Index);
 
 	if (value < transaction->Value + transaction->Fee) { return ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS; }
 
 	memcpy(target, transaction, sizeof(_Transaction));
 
-	printf_Info("A valid transaction has been received and processed.\n");
+	printf_Success("A valid transaction has been received and processed.\n");
 
 	if (index == MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER - 1) {
 		// Block is full. You may now sign it.

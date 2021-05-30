@@ -258,6 +258,8 @@ int Wallet_Help() {
 int Wallet_CommandLine_General() {
 	printf("Now in wallet command line.\nType 'exit' to return to general command line.\n");
 	
+	wallet_exit = 0;
+
 	char buffer[1024] = { 0 };
 
 	while (!wallet_exit) {
