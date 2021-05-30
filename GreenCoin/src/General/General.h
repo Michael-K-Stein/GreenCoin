@@ -14,7 +14,8 @@ char GCT_MAGIC[4];// = { 'G', 'C', 'T', 0x33 }; // GreenCoin Transaction
 char GCB_MAGIC[4];// = { 'G', 'C', 'B', 0x33 }; // GreenCoin Block
 
 
-
+uint64_t BlockChainLength;
+uint64_t Get_Blockchain_Length();
 
 void Load_Domain_Parameters();
 

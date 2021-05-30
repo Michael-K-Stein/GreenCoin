@@ -22,8 +22,9 @@ command_t COMMAND_CREATE_TRANSACTION;
 command_t COMMAND_START_SERVER;
 command_t COMMAND_REQUEST_BLOCKS;
 command_t COMMAND_WALLET;
+command_t COMMAND_BLOCKCHAIN_LENGTH;
 
-command_t * COMMANDS[5];
+command_t * COMMANDS[6];
 
 #pragma endregion
 

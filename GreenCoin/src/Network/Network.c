@@ -362,6 +362,10 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 				}
 				else if (memcmp(recvbuf, BLOCK_REQUEST_MAGIC, sizeof(BLOCK_REQUEST_MAGIC)) == 0) {
 					Network_Block_Request(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_REQUEST_MAGIC), iResult - sizeof(BLOCK_REQUEST_MAGIC), client_ip);
+				}else if (memcmp(recvbuf, BLOCKCHAIN_QUERY_MAGIC, sizeof(BLOCKCHAIN_QUERY_MAGIC)) == 0) {
+					uint64_t blockchain_length = Get_Blockchain_Length();
+					char buffer[8] = { 0 }; memcpy(buffer, &blockchain_length, sizeof(blockchain_length));
+					send(ClientSocket, buffer, sizeof(buffer), 0);
 				}
 			}
 			else if (iResult == 0) {
@@ -581,6 +585,73 @@ int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, vo
 		}
 	} while (node != NULL);
 	return ires;
+}
+
+struct piece_t {
+	uint64_t length; // The length of the chain
+	uint32_t consensus; // How many nodes support this length
+	struct piece_t * next_piece;
+};
+void Recursive_Free(struct piece_t * ptr) {
+	if (ptr->next_piece != NULL) {
+		Recursive_Free(ptr->next_piece);
+	}
+	free(ptr);
+}
+uint64_t Network_Request_Blockchain_Length(WSADATA * wsadata, SOCKET * socket) {
+	struct piece_t * first_piece = (struct piece_t *)calloc(1, sizeof(struct piece_t));
+	first_piece->next_piece = NULL;
+
+	int res = 0;
+	Node_Peer * ptr = Node_List;
+	if (ptr == NULL || ptr->socket == NULL) {
+		printf_Error("No nodes to request length from!\n");
+		return -1;
+	}
+	do {
+		res = send(*(ptr->socket), BLOCKCHAIN_QUERY_MAGIC, sizeof(BLOCKCHAIN_QUERY_MAGIC), 0);
+		if (res != SOCKET_ERROR) {
+			char buffer[8] = { 0 };
+			res = recv(*(ptr->socket), buffer, sizeof(buffer), 0);
+			if (res != SOCKET_ERROR) {
+				uint64_t tmp = 0;
+				memcpy(&tmp, buffer, sizeof(tmp));
+
+				struct piece_t * ptr = first_piece;
+				int found = 0;
+				while (ptr->next_piece != NULL && !found) {
+					ptr = ptr->next_piece;
+
+					if (ptr->length == tmp) { ptr->consensus++; found = 1; }
+				}
+				if (!found) {
+					ptr->next_piece = (struct piece_t *)calloc(1, sizeof(struct piece_t));
+					ptr->next_piece->next_piece = NULL;
+					ptr->next_piece->length = tmp;
+					ptr->next_piece->consensus = 1;
+				}
+			}
+		}
+
+		ptr = ptr->next_node;
+	} while (ptr != NULL);
+
+	uint64_t length = 0;
+	uint32_t consensus = 0;
+	struct piece_t * piece = first_piece;
+	while (piece->next_piece != NULL) {
+		piece = piece->next_piece;
+		if (piece->consensus > consensus || (piece->consensus == consensus && piece->length > length)) { consensus = piece->consensus; length = piece->length; }
+	}
+
+	Recursive_Free(first_piece);
+
+	return length;
+}
+void Network_Request_Blockchain_Length_Print(WSADATA * wsadata, SOCKET * socket) {
+	uint64_t length = Network_Request_Blockchain_Length(wsadata, socket);
+
+	printf("The current blockchain with the highest consensus is %llu blocks long.\n", length);
 }
 
 void Network_CommandLine_Init(WSADATA ** wsadata, SOCKET ** socket) {

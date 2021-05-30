@@ -440,6 +440,8 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 	}
 
 	if (error == ERROR_NONE) {
+		BlockChainLength = block->Block_Index+1;
+
 		Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, block);
 
 		Network_Broadcast_Block(wsadata, socket, block, block_size);

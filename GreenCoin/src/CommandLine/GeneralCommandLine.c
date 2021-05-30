@@ -29,8 +29,13 @@ command_t COMMAND_WALLET = {
 	"Opens wallet command-line (avaliable offline). Use this to monitor wallet funds and create wallets.",
 	Wallet_CommandLine_General
 };
+command_t COMMAND_BLOCKCHAIN_LENGTH = {
+	"gcbl",
+	"GreenCoin BlockChain Length. Requests the blockchain length from all known nodes.",
+	Network_Request_Blockchain_Length_Print
+};
 
-command_t * COMMANDS[5] = { &COMMAND_HELP, &COMMAND_CREATE_TRANSACTION, &COMMAND_START_SERVER, &COMMAND_REQUEST_BLOCKS, &COMMAND_WALLET };
+command_t * COMMANDS[6] = { &COMMAND_HELP, &COMMAND_CREATE_TRANSACTION, &COMMAND_START_SERVER, &COMMAND_REQUEST_BLOCKS, &COMMAND_WALLET, &COMMAND_BLOCKCHAIN_LENGTH };
 
 
 #pragma endregion
@@ -102,6 +107,8 @@ int Command_Line() {
 
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
+	BlockChainLength = ind;
+
 	if (is_online) {
 		FILE* f;
 		Open_Block_File(&f, ind - 1);

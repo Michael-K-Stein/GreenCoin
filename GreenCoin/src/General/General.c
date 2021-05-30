@@ -6,6 +6,10 @@ char GCB_MAGIC[4] = { 'G', 'C', 'B', 0x33 }; // GreenCoin Block
 
 
 
+uint64_t Get_Blockchain_Length() {
+	return BlockChainLength;
+}
+
 // Loads the domain parameters into 'params'
 void Load_Domain_Parameters() {
 	uint p; BN_Init(&p);

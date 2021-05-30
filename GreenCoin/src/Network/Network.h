@@ -90,6 +90,10 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket);
 
 error_t Network_Connect_To_Known_Peers();
 
+void Recursive_Free(struct piece_t * ptr);
+uint64_t Network_Request_Blockchain_Length(WSADATA * wsadata, SOCKET * socket);
+void Network_Request_Blockchain_Length_Print(WSADATA * wsadata, SOCKET * socket);
+
 error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket);
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket);
