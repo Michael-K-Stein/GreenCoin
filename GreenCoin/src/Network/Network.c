@@ -235,6 +235,7 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 		unsigned char addr_bytes[5];
 		while (ind < size) {
 			memcpy(addr_bytes, buffer + ind, 5); ind += 5;
+			if (memcmp(addr_bytes, LOCALHOST_IP, 4) == 0) { continue; }
 			if (addr_bytes[4] == 0xff) {
 				// A node with status 0xff is extremely weak, and therefore will not be checked.
 			}

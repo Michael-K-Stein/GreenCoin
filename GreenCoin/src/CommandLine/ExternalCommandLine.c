@@ -2,6 +2,8 @@
 #include "ExternalCommandLine.h"
 
 int Execute_External_Commands(int argc, char ** argv) {
+	Load_Domain_Parameters();
+
 	if (argc == 2) {
 		if (File_Valid(argv[1])) {
 			// Open file with GreenCoin.exe
