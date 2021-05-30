@@ -3,9 +3,29 @@
 
 #include "../BlockChain/BlockChain.h"
 
-char COMMAND_GENERATE_WALLET[64] = "generate\n";
-char COMMAND_EXIT[64] = "exit\n";
-char COMMAND_WALLET_VALUE[64] = "value\n";
+command_t WALLET_COMMAND_HELP = {
+	"help",
+	"Displays help menu.",
+	Wallet_Help
+};
+command_t WALLET_COMMAND_GENERATE_WALLET = {
+	"generate",
+	"Generates new wallet credentials.",
+	Print_Demo_Keys
+};
+command_t WALLET_COMMAND_WALLET_VALUE = {
+	"value",
+	"Calculates the value of a wallet.",
+	Wallet_Calculate_Value_CommandLine
+};
+command_t WALLET_COMMAND_EXIT = {
+	"exit",
+	"Exits the wallet command-line.",
+	Wallet_Exit
+};
+
+command_t * WALLET_COMMANDS[4] = { &WALLET_COMMAND_HELP, &WALLET_COMMAND_GENERATE_WALLET, &WALLET_COMMAND_WALLET_VALUE, &WALLET_COMMAND_EXIT };
+
 
 double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index) {
 	
@@ -122,23 +142,39 @@ DSA_Public_Key * Get_Random_Public_Key() {
 	return pub_key;
 }
 
+int wallet_exit = 0;
+int Wallet_Exit() {
+	wallet_exit = 1;
+	return wallet_exit;
+}
+
+int Wallet_Help() {
+	printf("Wallet help menu: \n");
+	for (int i = 0; i < sizeof(WALLET_COMMANDS) / sizeof(WALLET_COMMANDS[0]); i++) {
+		command_t * command = WALLET_COMMANDS[i];
+		printf("\t%s", command->command_text);
+		int text_len = strlen(command->command_text);
+		for (int j = 0; j < 3 - floor((text_len) / 4.0); j++) { printf("\t"); }
+		printf("| %s\n", command->command_description);
+	}
+	return 0;
+}
+
 int Wallet_CommandLine_General() {
 	printf("Now in wallet command line.\nType 'exit' to return to general command line.\n");
 	
 	char buffer[1024] = { 0 };
 
-	int exit = 0;
-	while (!exit) {
+	while (!wallet_exit) {
 		printf("> ");
 		memset(buffer, 0, sizeof(buffer));
 		fgets(buffer, sizeof(buffer), stdin);
-	
-		if (strcmp(buffer, COMMAND_GENERATE_WALLET) == 0) {
-			Print_Demo_Keys();
-		} else if (strcmp(buffer, COMMAND_WALLET_VALUE) == 0){
-			Wallet_Calculate_Value_CommandLine();
-		} else if (strcmp(buffer, COMMAND_EXIT) == 0) {
-			return 0;
+		if (buffer[strlen(buffer) - 1] == '\n') { buffer[strlen(buffer) - 1] = 0x00; }
+
+		for (int i = 0; i < sizeof(WALLET_COMMANDS) / sizeof(WALLET_COMMANDS[0]); i++) {
+			if (strcmp(buffer, WALLET_COMMANDS[i]->command_text) == 0) {
+				WALLET_COMMANDS[i]->function(NULL, NULL);
+			}
 		}
 	}
 

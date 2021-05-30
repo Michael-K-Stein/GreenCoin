@@ -9,9 +9,9 @@
 #include "../General/Base64/Base64.h"
 #include "../Cryptography/Hash/SHA256.h"
 
-char COMMAND_GENERATE_WALLET[64];
-char COMMAND_EXIT[64];
-char COMMAND_WALLET_VALUE[64];
+command_t COMMAND_GENERATE_WALLET;
+command_t COMMAND_EXIT;
+command_t COMMAND_WALLET_VALUE;
 
 #define ECDSA_SECURITY_LEVEL 128
 #define ECDSA_PRIVATE_KEY_LENGTH (ECDSA_SECURITY_LEVEL*2)
@@ -33,6 +33,11 @@ void Wallet_Calculate_Value_CommandLine();
 void Print_Demo_Keys();
 
 DSA_Public_Key * Get_Random_Public_Key();
+
+int wallet_exit;
+int Wallet_Exit();
+
+int Wallet_Help();
 
 int Wallet_CommandLine_General();
 

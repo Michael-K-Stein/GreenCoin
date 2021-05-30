@@ -10,13 +10,6 @@
 
 #pragma region Commands
 
-typedef struct Command command_t;
-struct Command {
-	char command_text[64];
-	char command_description[256];
-	int (*function)(WSADATA *, SOCKET *);
-};
-
 command_t COMMAND_HELP;
 command_t COMMAND_CREATE_TRANSACTION;
 command_t COMMAND_START_SERVER;

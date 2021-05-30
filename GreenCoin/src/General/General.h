@@ -9,6 +9,13 @@
 
 typedef unsigned char byte;
 
+typedef struct Command command_t;
+struct Command {
+	char command_text[64];
+	char command_description[256];
+	int(*function)(void *, void *);
+};
+
 // Magics
 char GCT_MAGIC[4];// = { 'G', 'C', 'T', 0x33 }; // GreenCoin Transaction
 char GCB_MAGIC[4];// = { 'G', 'C', 'B', 0x33 }; // GreenCoin Block
