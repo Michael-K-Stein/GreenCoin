@@ -22,14 +22,8 @@
     <Filter Include="Source Files\Cryptography\DSA">
       <UniqueIdentifier>{52c2e340-5dcd-415b-923a-5facf3f82e7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Cryptography\ECDSA">
-      <UniqueIdentifier>{b45ec81a-87e1-4b41-a027-0b7f93ed7aed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Cryptography\Hash">
       <UniqueIdentifier>{b700b522-7ed0-4525-852b-0b0a3e551ef2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Cryptography\ECDSA\Curve">
-      <UniqueIdentifier>{5d798cb5-bf0a-4047-a8eb-842f436956ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\CommandLine">
       <UniqueIdentifier>{f6a89bc2-f48a-440e-a33c-493501d8cebf}</UniqueIdentifier>
@@ -51,6 +45,9 @@
     </Filter>
     <Filter Include="Source Files\General\Print">
       <UniqueIdentifier>{247f3362-49a4-464d-bbe9-3a5b3f141771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cryptography\Hash\SHA_Rotate">
+      <UniqueIdentifier>{ee2abc1b-7ea0-44cf-977e-ee758ef33d46}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,14 +72,8 @@
     <ClCompile Include="src\Cryptography\DSA\DSA.c">
       <Filter>Source Files\Cryptography\DSA</Filter>
     </ClCompile>
-    <ClCompile Include="src\Cryptography\ECDSA\ECDSA.c">
-      <Filter>Source Files\Cryptography\ECDSA</Filter>
-    </ClCompile>
     <ClCompile Include="src\Cryptography\Hash\SHA256.c">
       <Filter>Source Files\Cryptography\Hash</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Cryptography\ECDSA\Curve\Cruve.c">
-      <Filter>Source Files\Cryptography\ECDSA\Curve</Filter>
     </ClCompile>
     <ClCompile Include="src\CommandLine\ExternalCommandLine.c">
       <Filter>Source Files\CommandLine</Filter>
@@ -105,6 +96,12 @@
     <ClCompile Include="src\General\Print\PrettyPrint.c">
       <Filter>Source Files\General\Print</Filter>
     </ClCompile>
+    <ClCompile Include="src\Cryptography\Hash\SHA_OPs\SHA_OPs.c">
+      <Filter>Source Files\Cryptography\Hash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cryptography\Hash\SHA_Rotate\SHA_Rotate.c">
+      <Filter>Source Files\Cryptography\Hash\SHA_Rotate</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BlockChain\BlockChain.h">
@@ -122,14 +119,8 @@
     <ClInclude Include="src\Cryptography\DSA\DSA.h">
       <Filter>Source Files\Cryptography\DSA</Filter>
     </ClInclude>
-    <ClInclude Include="src\Cryptography\ECDSA\ECDSA.h">
-      <Filter>Source Files\Cryptography\ECDSA</Filter>
-    </ClInclude>
     <ClInclude Include="src\Cryptography\Hash\SHA256.h">
       <Filter>Source Files\Cryptography\Hash</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Cryptography\ECDSA\Curve\Curve.h">
-      <Filter>Source Files\Cryptography\ECDSA\Curve</Filter>
     </ClInclude>
     <ClInclude Include="src\CommandLine\ExternalCommandLine.h">
       <Filter>Source Files\CommandLine</Filter>
@@ -158,5 +149,24 @@
     <ClInclude Include="src\General\Print\PrettyPrint.h">
       <Filter>Source Files\General\Print</Filter>
     </ClInclude>
+    <ClInclude Include="src\Cryptography\Hash\SHA_Rotate\SHA_Rotate.h">
+      <Filter>Source Files\Cryptography\Hash\SHA_Rotate</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cryptography\Hash\SHA_OPs\SHA_OPs.h">
+      <Filter>Source Files\Cryptography\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GreenCoin.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="GreenCoin.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

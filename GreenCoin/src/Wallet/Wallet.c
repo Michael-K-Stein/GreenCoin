@@ -5,6 +5,7 @@
 
 char COMMAND_GENERATE_WALLET[64] = "generate\n";
 char COMMAND_EXIT[64] = "exit\n";
+char COMMAND_WALLET_VALUE[64] = "value\n";
 
 double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index) {
 	
@@ -45,6 +46,18 @@ double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_t
 	}
 
 	return value;
+}
+
+void Wallet_Calculate_Value_CommandLine() {
+	printf("Please enter wallet address (as base64): \n");
+	char buffer[256];
+	fgets(buffer, sizeof(buffer), stdin);
+	byte * address;
+	B64_Decode(buffer, &address);
+
+	double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, address, -1);
+	
+	printf("This wallet has %.20f GreenCoin.\n", value);
 }
 
 void Print_Demo_Keys() {
@@ -122,8 +135,12 @@ int Wallet_CommandLine_General() {
 	
 		if (strcmp(buffer, COMMAND_GENERATE_WALLET) == 0) {
 			Print_Demo_Keys();
+		} else if (strcmp(buffer, COMMAND_WALLET_VALUE) == 0){
+			Wallet_Calculate_Value_CommandLine();
 		} else if (strcmp(buffer, COMMAND_EXIT) == 0) {
 			return 0;
 		}
 	}
+
+	printf("Exiting wallet command line.\n");
 }

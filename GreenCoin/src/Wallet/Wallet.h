@@ -11,6 +11,7 @@
 
 char COMMAND_GENERATE_WALLET[64];
 char COMMAND_EXIT[64];
+char COMMAND_WALLET_VALUE[64];
 
 #define ECDSA_SECURITY_LEVEL 128
 #define ECDSA_PRIVATE_KEY_LENGTH (ECDSA_SECURITY_LEVEL*2)
@@ -27,6 +28,7 @@ typedef uint_t _Wallet_Address[32];
 
 double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index);
 
+void Wallet_Calculate_Value_CommandLine();
 
 void Print_Demo_Keys();
 

@@ -10,15 +10,27 @@
 
 #pragma region Commands
 
-char COMMAND_CREATE_TRANSACTION[64];
-char COMMAND_START_SERVER[64];
-char COMMAND_REQUEST_BLOCKS[64];
-char COMMAND_WALLET[64];
+typedef struct Command command_t;
+struct Command {
+	char command_text[64];
+	char command_description[256];
+	int (*function)(WSADATA *, SOCKET *);
+};
+
+command_t COMMAND_HELP;
+command_t COMMAND_CREATE_TRANSACTION;
+command_t COMMAND_START_SERVER;
+command_t COMMAND_REQUEST_BLOCKS;
+command_t COMMAND_WALLET;
+
+command_t * COMMANDS[5];
 
 #pragma endregion
 
+char INPUT_BUFFER[1024];
+int Query_User_Input();
 
-
+int Help_Menu();
 
 void Preview_Item(byte * buffer);
 

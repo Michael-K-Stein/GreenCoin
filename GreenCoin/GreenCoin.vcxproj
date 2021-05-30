@@ -161,9 +161,9 @@
     <ClCompile Include="src\CommandLine\GeneralCommandLine.c" />
     <ClCompile Include="src\Cryptography\BNMath\BNMath.c" />
     <ClCompile Include="src\Cryptography\DSA\DSA.c" />
-    <ClCompile Include="src\Cryptography\ECDSA\Curve\Cruve.c" />
-    <ClCompile Include="src\Cryptography\ECDSA\ECDSA.c" />
     <ClCompile Include="src\Cryptography\Hash\SHA256.c" />
+    <ClCompile Include="src\Cryptography\Hash\SHA_OPs\SHA_OPs.c" />
+    <ClCompile Include="src\Cryptography\Hash\SHA_Rotate\SHA_Rotate.c" />
     <ClCompile Include="src\General\Base64\Base64.c" />
     <ClCompile Include="src\General\FileIO.c" />
     <ClCompile Include="src\General\General.c" />
@@ -172,15 +172,16 @@
     <ClCompile Include="src\Wallet\Wallet.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\BlockChain\BlockChain.h" />
     <ClInclude Include="src\BlockChain\Transaction.h" />
     <ClInclude Include="src\CommandLine\ExternalCommandLine.h" />
     <ClInclude Include="src\CommandLine\GeneralCommandLine.h" />
     <ClInclude Include="src\Cryptography\BNMath\BNMath.h" />
     <ClInclude Include="src\Cryptography\DSA\DSA.h" />
-    <ClInclude Include="src\Cryptography\ECDSA\Curve\Curve.h" />
-    <ClInclude Include="src\Cryptography\ECDSA\ECDSA.h" />
     <ClInclude Include="src\Cryptography\Hash\SHA256.h" />
+    <ClInclude Include="src\Cryptography\Hash\SHA_OPs\SHA_OPs.h" />
+    <ClInclude Include="src\Cryptography\Hash\SHA_Rotate\SHA_Rotate.h" />
     <ClInclude Include="src\General\Base64\Base64.h" />
     <ClInclude Include="src\General\debug.h" />
     <ClInclude Include="src\General\FileIO.h" />
@@ -189,6 +190,12 @@
     <ClInclude Include="src\General\Print\PrettyPrint.h" />
     <ClInclude Include="src\Network\Network.h" />
     <ClInclude Include="src\Wallet\Wallet.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GreenCoin.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="GreenCoin.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

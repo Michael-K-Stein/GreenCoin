@@ -61,7 +61,6 @@ error_t BN_Randomize(BN * r, uint_t length);
 
 error_t BN_Import(BN * r, const uint8_t * data, uint_t length, BN_ENDIAN_FORMAT format);
 error_t BN_Import_Hex_String(BN * r, char * data, uint_t length, BN_ENDIAN_FORMAT format);
-error_t BN_Export();
 
 error_t BN_Add(BN * r, const BN * a, const BN * b);				// Adds a and b into r. r = a + b
 error_t BN_Add_Int(BN * r, const BN * a, int_t b);				// Addition of Bit number and a normal number

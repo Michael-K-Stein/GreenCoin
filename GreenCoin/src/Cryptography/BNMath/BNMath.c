@@ -1,10 +1,6 @@
 
 #include "BNMath.h"
 
-//int arraysize(BN * a)		(sizeof(a) / sizeof(a[0]))
-//int BN_Is_Even(BN * a)		!BN_Get_Bit_Value(a, 0)
-//int BN_Is_Odd(BN * a)		BN_Get_Bit_Value(a, 0)
-
 static const signed char HEX_REVERSE_SEQUENCE[256] = {
 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
