@@ -677,6 +677,33 @@ error_t Network_Connect_To_Known_Peers() {
 }
 
 HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
+
+	Network_CommandLine_Request_Blocks(wsadata, socket);
+
+	FILE* f;
+	Open_Block_File(&f, BlockChainLength - 1);
+	if (f != NULL) {
+		_Block* b;
+
+		FILE* f;
+		Open_Block_File(&f, BlockChainLength - 1);
+		char* block_buffer = (char*)malloc(sizeof(_Block));
+		fseek(f, 4, SEEK_SET);
+		fread(block_buffer, sizeof(_Block), 1, f);
+
+		char* hash = Hash_SHA256(block_buffer, sizeof(_Block));
+
+		b = Create_Block(BlockChainLength, hash);
+
+		fclose(f);
+		free(hash);
+
+		live_block = b;
+	}
+	else {
+		Create_First_Block(wsadata, socket);
+	}
+
 	Main_Server_Thread_Params * param = malloc(sizeof(Main_Server_Thread_Params));
 	param->ptr_WSA_Data = wsadata;
 	param->ptr_Sending_Socket = socket;

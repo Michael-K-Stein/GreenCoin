@@ -109,34 +109,6 @@ int Command_Line() {
 	while (Block_Index_Exists(ind)) { ind++; }
 	BlockChainLength = ind;
 
-	if (is_online) {
-		Network_CommandLine_Request_Blocks(wsadata, socket);
-
-		FILE* f;
-		Open_Block_File(&f, ind - 1);
-		if (f != NULL) {
-			_Block* b;
-
-			FILE* f;
-			Open_Block_File(&f, ind - 1);
-			char* block_buffer = (char*)malloc(sizeof(_Block));
-			fseek(f, 4, SEEK_SET);
-			fread(block_buffer, sizeof(_Block), 1, f);
-
-			char* hash = Hash_SHA256(block_buffer, sizeof(_Block));
-
-			b = Create_Block(ind, hash);
-
-			fclose(f);
-			free(hash);
-
-			live_block = b;
-		}
-		else {
-			Create_First_Block(wsadata, socket);
-		}
-	}
-
 	HANDLE server_handle;
 
 	char buffer[1024] = { 0 };
