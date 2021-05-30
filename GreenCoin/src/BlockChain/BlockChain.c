@@ -445,5 +445,9 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 		Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, block);
 
 		Network_Broadcast_Block(wsadata, socket, block, block_size);
+
+		char* hash = Hash_SHA256(block, sizeof(_Block));
+		live_block = Create_Block(BlockChainLength, hash);
+		free(hash);
 	}
 }
