@@ -705,6 +705,8 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 		Sleep(100);
 	}
 
+	Sleep(3000);
+
 	FILE* f;
 	Open_Block_File(&f, BlockChainLength - 1);
 	if (f != NULL) {
