@@ -150,7 +150,7 @@ error_t Append_Transaction(void * wsadata, void * socket, _Block * block, _Trans
 
 double Calculate_Block_Total_Miner_Fees(_Block * block) {
 	double total = 0;
-	double mining_fee = (double)INITIAL_BLOCK_MINING_FEE * pow((double)MINING_FEE_DECAY, block->Block_Index - 1);
+	double mining_fee = (double)INITIAL_BLOCK_MINING_FEE * pow((double)MINING_FEE_DECAY, block->Block_Index);
 	total += mining_fee;
 	
 	for (int i = 0; i < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; i++) {
