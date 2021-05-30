@@ -77,7 +77,7 @@ int Command_Line() {
 
 	printf("Would you like to go online? ( Y / N ): ");
 	Query_User_Input();
-	int is_online = strcmp(INPUT_BUFFER, "Y\n") == 0;
+	int is_online = (strcmp(INPUT_BUFFER, "Y\n") == 0) || (strcmp(INPUT_BUFFER, "y\n") == 0) || (strcmp(INPUT_BUFFER, "Yes\n") == 0) || (strcmp(INPUT_BUFFER, "yes\n") == 0);
 	printf("Online: "); 
 	if (is_online) { printf_Success("TRUE\n"); }
 	else { printf_Error("FALSE\n"); }
