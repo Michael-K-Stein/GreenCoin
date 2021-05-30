@@ -378,7 +378,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 					//Print_Transaction(stderr, recvbuf + sizeof(TRANSACTION_BROADCAST_MAGIC));
 				}
 				else if (memcmp(recvbuf, BLOCK_BROADCAST_MAGIC, sizeof(BLOCK_BROADCAST_MAGIC)) == 0) {
-					Network_Block_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC), iResult - sizeof(BLOCK_BROADCAST_MAGIC));
+					Network_Block_Recieved(ptr_WSA_Data, ptr_Sending_Socket, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC), sizeof(_Block));
 					//Print_Block(stderr, recvbuf + sizeof(BLOCK_BROADCAST_MAGIC));
 				}
 				else if (memcmp(recvbuf, BLOCK_REQUEST_MAGIC, sizeof(BLOCK_REQUEST_MAGIC)) == 0) {
