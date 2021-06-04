@@ -230,13 +230,13 @@ void Transaction_Demo_Spam(void* wsadata, void* socket) {
 	transaction.Index = strtol(buffer, NULL, 10);*/
 
 	printf("Please enter your public key (as base64): \n");
-	char sender_64[180]; fgets(sender_64, 180, stdin);end?\n");
+	char sender_64[180]; fgets(sender_64, 180, stdin);
 	fgets(buffer, 64, stdin);
 
 	printf("Please enter the reciever's public key (as base64): \n");
 	char reciever_64[180]; fgets(reciever_64, 180, stdin);
 
-	printf("How much would you like to s
+	printf("How much would you like to send?\n");
 	double value = strtod(buffer, NULL);
 	transaction.Value = value;
 	transaction.Fee = 0;
