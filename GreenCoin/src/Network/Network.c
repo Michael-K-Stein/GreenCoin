@@ -412,6 +412,26 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 
 	return ERROR_NETWORK_NONE;
 }
+
+error_t Network_Add_New_Peer_To_Node_File(unsigned char * ip) {
+	FILE * f;
+	errno_t err = fopen_s(&f, Network_Nodes_List_File_Path, "r+b");
+	if (err != 0) { return ERROR_FAILED; }
+	
+	unsigned char exbuf[5];
+	int exists = 0;
+	while (fread(exbuf, 1, 5, f) && !exists) {
+		exists |= (memcmp(exbuf, ip, 4) == 0);
+	}
+
+	if (!exists) {
+		unsigned char o = 0x01;
+		fwrite(ip, 1, 4, f);
+		fwrite(&o, 1, 1, f);
+	}
+	
+	fclose(f);
+}
 DWORD WINAPI Network_P2P_Thread(void * param) {
 	return Network_P2P(((P2P_Thread_Params*)param)->ptr_WSA_Data, ((P2P_Thread_Params*)param)->ptr_Sending_Socket, ((P2P_Thread_Params*)param)->client_socket);
 }
@@ -447,6 +467,8 @@ error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET 
 	else {
 		printf_Success("Succesfuly connected to %s\n", peer_ip_address);
 		Copy_Socket_To_List(&my_sock);
+		unsigned char buf[4] = { client_info.sin_addr.S_un.S_un_b.s_b1, client_info.sin_addr.S_un.S_un_b.s_b2, client_info.sin_addr.S_un.S_un_b.s_b3, client_info.sin_addr.S_un.S_un_b.s_b4 };
+		Network_Add_New_Peer_To_Node_File(buf);
 	}
 
 	return ERROR_NONE;

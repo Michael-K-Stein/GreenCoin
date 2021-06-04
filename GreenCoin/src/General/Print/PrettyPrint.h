@@ -3,6 +3,8 @@
 #ifndef __PrettyPrint
 #define __PrettyPrint
 
+#include <Windows.h>
+
 #include "ANSI_Color_Codes.h"
 
 #ifndef printf_Error
@@ -23,5 +25,8 @@ void Print_Reset();
 void Print_Error();
 void Print_Success();
 void Print_Info();
+
+void setupConsole(void);
+void restoreConsole(void);
 
 #endif // !__PrettyPrint

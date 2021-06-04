@@ -6,6 +6,18 @@
 
 char BLOCK_HISTORY_DIRECTORY_PATH[256] = "";
 
+_Wallet_Address LOCAL_NOTARY_SIGNING_ADDRESS = { 
+	0x933BB069, 0x3402D6A8, 0x5168FBEC , 0x6082544A
+  , 0x59A54893 , 0x875DE25E , 0xE1210B1E , 0x147A4979
+  , 0xDEA427CF , 0x95466511 , 0x396D7B4E , 0x5EFF0522
+  , 0xA7E7D606 , 0x5FBAE2DD , 0xB9E568F5 , 0xD4DE08D5
+  , 0x9775927E , 0xC697788F , 0xE57FE89D , 0xA8E429E3
+  , 0x7916307B , 0x3F71B0CA , 0xA7CF169C , 0x60A3F1BE
+  , 0x5D811C74 , 0x8FCC06B3 , 0xF40731A3 , 0xDF65D263
+  , 0x4C9C0A93 , 0x7D1B1269 , 0x82583063 , 0x112B715B };
+
+
+
 char * HumanFormatDateTime(_TimeStamp * timestamp) {
 	time_t rawtime = timestamp->Unix_Time;
 	struct tm  ts;
@@ -294,6 +306,12 @@ error_t Load_Block_History_Path() {
 		fread_s(BLOCK_HISTORY_DIRECTORY_PATH, 256, sizeof(char), 256, f);
 	}
 	else {
+		printf("Would you like to define a path for the BlockChain history? ( Y / N )");
+		char buf[32];
+		fgets(buf, sizeof(buf), stdin);
+		int define = (strcmp(buf, "Y\n") == 0) || (strcmp(buf, "y\n") == 0) || (strcmp(buf, "Yes\n") == 0) || (strcmp(buf, "yes\n") == 0);
+		if (!define) { return ERROR_NONE; }
+
 		err = fopen_s(&f, "Block_History_Path.GCTXT", "w");
 		printf("Please enter directory path for Block History: ");
 		fgets(BLOCK_HISTORY_DIRECTORY_PATH, 256, stdin);

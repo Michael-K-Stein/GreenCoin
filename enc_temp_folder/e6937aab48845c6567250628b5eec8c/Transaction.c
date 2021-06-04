@@ -230,13 +230,13 @@ void Transaction_Demo_Spam(void* wsadata, void* socket) {
 	transaction.Index = strtol(buffer, NULL, 10);*/
 
 	printf("Please enter your public key (as base64): \n");
-	char sender_64[180]; fgets(sender_64, 180, stdin);end?\n");
-	fgets(buffer, 64, stdin);
+	char sender_64[180]; fgets(sender_64, 180, stdin);
 
 	printf("Please enter the reciever's public key (as base64): \n");
 	char reciever_64[180]; fgets(reciever_64, 180, stdin);
 
-	printf("How much would you like to s
+	printf("How much would you like to send?\n");
+	fgets(buffer, 64, stdin);
 	double value = strtod(buffer, NULL);
 	transaction.Value = value;
 	transaction.Fee = 0;
@@ -279,12 +279,12 @@ void Transaction_Demo_Spam(void* wsadata, void* socket) {
 			if (1 || strcmp(buffer, EXECUTE) == 0) {
 				printf("Transaction executed!\n");
 
-				//char export_path[256];// = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
-				//sprintf_s(export_path, 256, "Demo\\Transaction_%u.GCT", transaction.Time);
+				char export_path[256];// = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
+				sprintf_s(export_path, 256, "Demo\\Transaction_%u.GCT", transaction.Time);
 
-				//printf("Now exporting to: '%s'\n", export_path);
+				printf("Now exporting to: '%s'\n", export_path);
 
-				//Transaction_Export_To_File(export_path, &transaction);
+				Transaction_Export_To_File(export_path, &transaction);
 
 				Network_Broadcast_Transaction(wsadata, socket, &transaction, sizeof(_Transaction));
 			}

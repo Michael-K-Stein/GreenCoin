@@ -65,6 +65,8 @@ int Demo() {
 
 int main_c(int argc, char ** argv) {
 
+	setupConsole();
+
 	if (argc > 1) { Execute_External_Commands(argc, argv); }
 	
 	
@@ -78,4 +80,6 @@ int main_c(int argc, char ** argv) {
 		printf("Press ENTER to close.\n");
 		getchar();
 	}
+
+	restoreConsole();
 }

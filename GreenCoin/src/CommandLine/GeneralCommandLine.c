@@ -34,8 +34,13 @@ command_t COMMAND_BLOCKCHAIN_LENGTH = {
 	"GreenCoin BlockChain Length. Requests the blockchain length from all known nodes.",
 	Network_Request_Blockchain_Length_Print
 };
+command_t COMMAND_SET_NOTARY = {
+	"notary",
+	"Set the local notary signing address. This address will be used when mining blocks to award you your fee.",
+	Load_Local_Notary_Signing_Address
+};
 
-command_t * COMMANDS[6] = { &COMMAND_HELP, &COMMAND_CREATE_TRANSACTION, &COMMAND_START_SERVER, &COMMAND_REQUEST_BLOCKS, &COMMAND_WALLET, &COMMAND_BLOCKCHAIN_LENGTH };
+command_t * COMMANDS[7] = { &COMMAND_HELP, &COMMAND_CREATE_TRANSACTION, &COMMAND_START_SERVER, &COMMAND_REQUEST_BLOCKS, &COMMAND_BLOCKCHAIN_LENGTH, &COMMAND_WALLET, &COMMAND_SET_NOTARY };
 
 
 #pragma endregion
@@ -102,7 +107,7 @@ int Command_Line() {
 
 	Load_Domain_Parameters();
 
-	Load_Local_Notary_Signing_Address();
+
 
 
 	uint64_t ind = 0;

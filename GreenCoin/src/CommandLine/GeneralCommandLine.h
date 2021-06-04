@@ -16,8 +16,9 @@ command_t COMMAND_START_SERVER;
 command_t COMMAND_REQUEST_BLOCKS;
 command_t COMMAND_WALLET;
 command_t COMMAND_BLOCKCHAIN_LENGTH;
+command_t COMMAND_SET_NOTARY;
 
-command_t * COMMANDS[6];
+command_t * COMMANDS[7];
 
 #pragma endregion
 

@@ -73,6 +73,7 @@ DWORD WINAPI Network_TCP_Connect_Thread(void * params);
 DWORD WINAPI Network_Main_Server_Thread(/*Main_Server_Thread_Params*/ void * param);
 error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, unsigned char * server_addr);
 
+error_t Network_Add_New_Peer_To_Node_File(unsigned char * ip);
 DWORD WINAPI Network_P2P_Thread(void * param);
 error_t Network_P2P(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, SOCKET * ptr_Peer_Socket);
 
