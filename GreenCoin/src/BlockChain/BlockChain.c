@@ -4,6 +4,8 @@
 #include "../Wallet/Wallet.h"
 #include "../General/Print/PrettyPrint.h"
 
+uint64_t NETWORK_BLOCK_REQUEST_GLOBAL_PLACEHOLDER = 0;
+
 char BLOCK_HISTORY_DIRECTORY_PATH[256] = "";
 
 _Wallet_Address LOCAL_NOTARY_SIGNING_ADDRESS = { 
@@ -409,7 +411,7 @@ int Block_Exists(_Block * block, int block_size) {
 }
 
 uint64_t MIN_STRENGTH = 7;
-error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_size) {
+error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_size, int from_history) {
 
 	// 0 -> No block by this name.
 	// 1 -> This exact block exists => duplicate.
@@ -425,16 +427,20 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 	}
 
 	error_t error = ERROR_NONE;
-	if (block->Block_Index > 0) {
+	if (block->Block_Index > 0 && !from_history) {
 		// Verify each transaction
 		for (int index = 0; index < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; index++) {
 			_Transaction * transaction = &(block->Transactions[index]);
 
 			if (Verify_Transaction(transaction) != SIGNATURE_VALID) { error |= ERROR_BLOCK_TRANSACTION_SIGNATURE_INVALID; }
 
-			double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, transaction->Sender, block->Block_Index);
+			/*double value = Calculate_Wallet_Value(BLOCK_HISTORY_DIRECTORY_PATH, transaction->Sender, block->Block_Index);
 
-			if (value < transaction->Value + transaction->Fee) { error |= ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS; }
+			if (value < transaction->Value + transaction->Fee) { error |= ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS; }*/
+
+			if (Is_Wallet_Value_Greater(BLOCK_HISTORY_DIRECTORY_PATH, transaction->Sender, block->Block_Index, transaction->Value + transaction->Fee) != 1) {
+				error |= ERROR_BLOCK_TRANSACTION_INSUFFICIENT_FUNDS;
+			}
 		}
 	}
 
@@ -459,6 +465,8 @@ error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_si
 
 	if (error == ERROR_NONE) {
 		BlockChainLength = block->Block_Index+1;
+
+		NETWORK_BLOCK_REQUEST_GLOBAL_PLACEHOLDER = block->Block_Index;
 
 		Export_To_File(BLOCK_HISTORY_DIRECTORY_PATH, block);
 

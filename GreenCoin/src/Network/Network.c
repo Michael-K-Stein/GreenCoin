@@ -103,6 +103,13 @@ error_t Network_Init(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket) {
 		printf_Success("Socket creation successful.\n");
 	}
 
+	BOOL bOptVal = FALSE;
+	int bOptLen = sizeof(BOOL);
+	int iOptVal = 0;
+	int iOptLen = sizeof(int);
+	bOptVal = TRUE;
+	int iResult = setsockopt(Sending_Socket, SOL_SOCKET, SO_KEEPALIVE, (char *)&bOptVal, bOptLen);
+
 	memcpy(ptr_WSA_Data, &WSA_Data, sizeof(WSADATA));
 	memcpy(ptr_Sending_Socket, &Sending_Socket, sizeof(SOCKET));
 
@@ -277,6 +284,9 @@ error_t Network_TCP_Connect(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 	// The IP address
 	my_info.sin_addr.s_addr = Network_Node_Addr_Format(node_addr);
 	char * server_ip = inet_ntoa(my_info.sin_addr);
+
+	DWORD recv_time_out = 1500;
+	setsockopt(my_sock, SOL_SOCKET, SO_RCVTIMEO, &recv_time_out, sizeof(recv_time_out));
 
 	int err = connect(my_sock, (SOCKADDR*)&my_info, sizeof(my_info));
 	if (err != 0) { /*printf_Error("Could not connect to server node %s!\n", server_ip);*/ }
@@ -559,9 +569,8 @@ error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Sock
 	while (ind < block->Block_Index) {
 		printf_Info("Requesting block #%llu from network.\n", ind);
 		Network_Request_Block(ptr_WSA_Data, ptr_Sending_Socket, ind++);
-		Sleep(100);
 	}
-	return Verify_Block(ptr_WSA_Data, ptr_Sending_Socket, block, block_size);
+	return Verify_Block(ptr_WSA_Data, ptr_Sending_Socket, block, block_size, 1);
 }
 
 error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip) {
@@ -605,14 +614,28 @@ error_t Network_Request_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socke
 	memcpy(message, BLOCK_REQUEST_MAGIC, sizeof(BLOCK_REQUEST_MAGIC));
 	memcpy(message + sizeof(BLOCK_REQUEST_MAGIC), &block_ind, sizeof(block_ind));
 
-	Node_Peer * node = Node_List;
-	if (node == NULL) { printf("There are no nodes to request from!\n"); return ERROR_FAILED; }
-	do {
-		if (node->socket != NULL) {
-			send(*(node->socket), message, sizeof(BLOCK_REQUEST_MAGIC) + sizeof(block_ind), 0);
+	NETWORK_BLOCK_REQUEST_GLOBAL_PLACEHOLDER = 0;
+
+	int off = 0;
+	while (NETWORK_BLOCK_REQUEST_GLOBAL_PLACEHOLDER != block_ind) {
+
+		if (off == 0) {
+			Node_Peer * node = Node_List;
+			if (node == NULL) { printf("There are no nodes to request from!\n"); return ERROR_FAILED; }
+			do {
+				if (node->socket != NULL) {
+					send(*(node->socket), message, sizeof(BLOCK_REQUEST_MAGIC) + sizeof(block_ind), 0);
+				}
+				node = node->next_node;
+			} while (node != NULL);
 		}
-		node = node->next_node;
-	} while (node != NULL);
+
+	
+		Sleep(100);
+		off = (off + 1) % 10;
+	}
+
+	free(message);
 }
 
 int Network_Send_To_Peer(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip) {
@@ -652,7 +675,7 @@ uint64_t Network_Request_Blockchain_Length(WSADATA * wsadata, SOCKET * socket) {
 	Node_Peer * ptr = Node_List;
 	if (ptr == NULL || ptr->socket == NULL) {
 		printf_Error("No nodes to request length from!\n");
-		return -1;
+		return 0;
 	}
 	do {
 		res = send(*(ptr->socket), BLOCKCHAIN_QUERY_MAGIC, sizeof(BLOCKCHAIN_QUERY_MAGIC), 0);
@@ -744,11 +767,13 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 
 	printf_Info("Local blockchain length: %llu.\n", ind);
 
+	uint64_t length = Network_Request_Blockchain_Length(wsadata, socket);
+	printf_Info("Network blockchain length: %llu.\n", length);
+
 	// Request future blocks
-	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 5))) {
+	while (ind < length) {
 		printf_Info("Requesting block #%llu from network.\n", ind);
 		Network_Request_Block(wsadata, socket, ind++);
-		Sleep(100);
 	}
 
 	Sleep(3000);
@@ -756,6 +781,8 @@ HANDLE Network_CommandLine_Server(WSADATA * wsadata, SOCKET * socket) {
 	ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
 	BlockChainLength = ind;
+
+	printf_Info("New local blockchain length: %llu.\n", BlockChainLength);
 
 	FILE* f;
 	Open_Block_File(&f, BlockChainLength - 1);
@@ -787,13 +814,16 @@ error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket) {
 	uint64_t ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
 	BlockChainLength = ind;
+
 	printf_Info("Local blockchain length: %llu.\n", ind);
 
+	uint64_t length = Network_Request_Blockchain_Length(wsadata, socket);
+	printf_Info("Network blockchain length: %llu.\n", length);
+
 	// Request future blocks
-	while (ind == 0 || Block_Index_Exists(fmax(0, ind - 20))) {
+	while (ind < length) {
 		printf_Info("Requesting block #%llu from network.\n", ind);
 		Network_Request_Block(wsadata, socket, ind++);
-		Sleep(100);
 	}
 
 	Sleep(3000);
@@ -801,6 +831,8 @@ error_t Network_CommandLine_Request_Blocks(WSADATA * wsadata, SOCKET * socket) {
 	ind = 0;
 	while (Block_Index_Exists(ind)) { ind++; }
 	BlockChainLength = ind;
+
+	printf_Info("New local blockchain length: %llu.\n", BlockChainLength);
 }
 
 HANDLE Network_Demo(WSADATA * wsadata, SOCKET * socket) {

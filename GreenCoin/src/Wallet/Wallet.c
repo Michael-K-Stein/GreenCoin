@@ -73,6 +73,53 @@ double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_t
 	return value;
 }
 
+int Is_Wallet_Value_Greater(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index, double thresh) {
+	double value = 0;
+
+	char fp[256] = { 0 };
+	char magic[4] = { 0 };
+
+	_Block block;
+
+	uint64_t i = max(0, up_to_block_index - 1);
+	while (i != 0) {
+
+		sprintf_s(fp, 256, "%s\\%llu.GCB", dir_path, i);
+
+		FILE * f;
+		fopen_s(&f, fp, "rb");
+
+		if (f == NULL) { break; }
+
+		fread(magic, sizeof(char), 4, f);
+
+		if (memcmp(magic, GCB_MAGIC, 4)) { printf("Malformatted file in directory!\n'%s' is invalid!\n", fp); break; }
+
+
+		fread(&block, sizeof(char), sizeof(_Block), f);
+
+		fclose(f);
+
+		for (int t = 0; t < MAXIMUM_AMOUNT_OF_TRANSACTIONS_ON_LEDGER; t++) {
+			_Transaction * transaction = &(block.Transactions[t]);
+
+			value += Calculate_Transaction_Change_To_Wallet(transaction, pk);
+		}
+
+		if (memcmp(block.Notary_Address, pk, sizeof(_Wallet_Address)) == 0) {
+			value += Calculate_Block_Total_Miner_Fees(&block);
+		}
+
+		if (value >= thresh) { return 1; }
+
+		i--;
+	}
+
+	value += Calculate_Wallet_Value(dir_path, pk, 0);
+
+	return (value >= thresh);
+}
+
 struct Wallet_Piece {
 	_Wallet_Address address;
 	void * next;

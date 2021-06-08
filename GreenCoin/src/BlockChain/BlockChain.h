@@ -16,6 +16,8 @@
 #define MINING_FEE_DECAY			0.9999997
 //const double MINING_FEE_DECAY = 0.9999997;
 
+uint64_t NETWORK_BLOCK_REQUEST_GLOBAL_PLACEHOLDER;
+
 char BLOCK_HISTORY_DIRECTORY_PATH[256];
 
 uint64_t MIN_STRENGTH;
@@ -116,7 +118,7 @@ error_t Load_Block_History_Path();
 
 error_t Create_First_Block(void * wsadata, void * socket);
 
-error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_size);
+error_t Verify_Block(void * wsadata, void * socket, _Block * block, int block_size, int from_history);
 
 //void BlockChain_Demo();
 
