@@ -28,6 +28,8 @@ typedef uint_t _Wallet_Address[32];
 
 double Calculate_Wallet_Value(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index);
 
+int Is_Wallet_Value_Greater(char * dir_path, _Wallet_Address pk, uint64_t up_to_block_index, double thresh);
+
 int Wallet_Chain_Contains_Address(struct Wallet_Piece * wallet_chain, _Wallet_Address wallet_address);
 int Wallet_Add_Address_To_Chain(struct Wallet_Piece * wallet_chain, _Wallet_Address wallet_address);
 int Wallet_Chain_Recursive_Free(struct Wallet_Piece * wallet_chain);
