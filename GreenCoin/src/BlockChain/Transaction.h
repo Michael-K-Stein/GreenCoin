@@ -4,7 +4,6 @@
 #define __TRANSACTION_H
 
 #include "../Wallet/Wallet.h"
-//#include "../Network/Network.h"
 
 typedef struct _Signature {
 	uint_t r[5];
@@ -33,7 +32,7 @@ typedef struct _Transaction {
 	_Wallet_Address Sender;
 
 	// Address of the reciever
-	_Wallet_Address Reciever;
+	_Wallet_Address Receiver;
 
 	// Fees - This can currently be disregarded
 	double Fee;

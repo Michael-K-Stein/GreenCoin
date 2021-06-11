@@ -2,6 +2,8 @@
 #include "ExternalCommandLine.h"
 
 int Execute_External_Commands(int argc, char ** argv) {
+	printf("'%s'\n", argv[0]);
+	
 	Load_Domain_Parameters();
 
 	if (argc == 2) {

@@ -182,7 +182,7 @@ void Wallet_Calculate_Values() {
 				Wallet_Add_Address_To_Chain(wallet_chain, wallet_address);
 			}
 
-			memcpy(wallet_address, b.Transactions[trans_ind].Reciever, sizeof(_Wallet_Address));
+			memcpy(wallet_address, b.Transactions[trans_ind].Receiver, sizeof(_Wallet_Address));
 
 			if (!Wallet_Chain_Contains_Address(wallet_chain, wallet_address)) {
 				Wallet_Add_Address_To_Chain(wallet_chain, wallet_address);

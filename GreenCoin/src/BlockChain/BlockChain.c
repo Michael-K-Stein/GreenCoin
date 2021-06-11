@@ -121,6 +121,8 @@ error_t Append_Transaction(void * wsadata, void * socket, _Block * block, _Trans
 	//_Transaction * target = &(block->Transactions[transaction_index]);
 	_Transaction * target = &(block->Transactions[0]);
 
+	if (transaction->Block_Index != block->Block_Index) { return ERROR_BLOCK_TRANSACTION_FAILED; }
+
 	_Transaction zero_transaction; memset(&zero_transaction, 0, sizeof(_Transaction));
 
 	int index = 0;

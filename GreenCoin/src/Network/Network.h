@@ -22,8 +22,7 @@
 
 	1) All communication is on TCP.
 	2) A connected node will always respond "MOON" {0x4d, 0x4f, 0x4f, 0x4e} to the message "GreenCoin" {0x47, 0x72, 0x65, 0x65, 0x6e, 0x43, 0x6f, 0x69, 0x6e}.
-	3) A connected node will volunteer their Node_List as a response to "QueryNetworkNodes".
-	4) Start a P2P channel by sending the string "Ahoy!" to a connected node on port 22110.
+	3) Start a P2P channel by sending the string "Ahoy!" to a connected node on port 22110.
 */
 
 char P2P_CHANNEL_CONNECTION_INIT_MESSAGE[5];
@@ -81,7 +80,7 @@ error_t Network_Broadcast_Transaction(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sendi
 error_t Network_Broadcast_Block(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * block, int block_size);
 
 error_t Network_Transaction_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * transaction, int transaction_size);
-error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * block, int block_size);
+error_t Network_Block_Recieved(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, _Block * block, int block_size);
 
 error_t Network_Block_Request(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket, void * data, int data_size, unsigned char * client_ip);
 

@@ -21,8 +21,8 @@ void Print_Transaction(FILE * fstream, _Transaction * transaction) {
 	fprintf(fstream, "=== === === Transaction @ %s === === ===\n", HumanFormatDateTimeInt(transaction->Time));
 	fprintf(fstream, "\tSender: \n");
 	Print_Transaction_Wallet_Address(fstream, transaction->Sender);
-	fprintf(fstream, "\tReciever: \n");
-	Print_Transaction_Wallet_Address(fstream, transaction->Reciever);
+	fprintf(fstream, "\tReceiver: \n");
+	Print_Transaction_Wallet_Address(fstream, transaction->Receiver);
 	fprintf(fstream, "\tValue: %.2f GC\n", transaction->Value);
 	fprintf(fstream, "\tFees: %.4f GC\n", transaction->Fee);
 	fprintf(fstream, "\tTotal Value: %.4f GC\n", transaction->Value + transaction->Fee);
@@ -77,6 +77,7 @@ void Transaction_Export_To_File(char * file_path, _Transaction * transaction) {
 	fclose(ft);
 }
 
+// pk = private key
 void Sign_Transaction(_Transaction * transaction, BN * pk) {
 	char * transaction_info = (char*)malloc(sizeof(_Transaction) - sizeof(_Signature));
 	memcpy(transaction_info, transaction, sizeof(_Transaction) - sizeof(_Signature));
@@ -129,7 +130,7 @@ double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Walle
 	if (memcmp(transaction->Sender, pk, 32 * sizeof(uint_t)) == 0) {
 		return -(transaction->Value + transaction->Fee);
 	}
-	else if (memcmp(transaction->Reciever, pk, 32 * sizeof(uint_t)) == 0) {
+	else if (memcmp(transaction->Receiver, pk, 32 * sizeof(uint_t)) == 0) {
 		return transaction->Value;
 	}
 	else {
@@ -139,10 +140,7 @@ double Calculate_Transaction_Change_To_Wallet(_Transaction * transaction, _Walle
 }
 
 void Transaction_Demo(void * wsadata, void * socket) {
-	Transaction_Demo_Spam(wsadata, socket);
-	
-	
-	//printf("=== Create Transaction ===\n");
+	printf("=== Create Transaction ===\n");
 
 	_Transaction transaction;
 
@@ -172,7 +170,7 @@ void Transaction_Demo(void * wsadata, void * socket) {
 	B64_Decode(reciever_64, &reciever);
 
 	memcpy(transaction.Sender, sender, sizeof(_Wallet_Address));
-	memcpy(transaction.Reciever, reciever, sizeof(_Wallet_Address));
+	memcpy(transaction.Receiver, reciever, sizeof(_Wallet_Address));
 
 	printf("Please enter your private key (as base64) in order to sign this transaction: \n");
 	char priv_key_64[180]; fgets(priv_key_64, 180, stdin);
@@ -202,7 +200,7 @@ void Transaction_Demo(void * wsadata, void * socket) {
 	if (strcmp(buffer, EXECUTE) == 0) {
 		printf_Success("Transaction executed!\n");
 
-		char export_path[256];// = "C:\\Users\\stein\\Desktop\\GreenCoin\\Globals\\Test6.GCT";
+		char export_path[256];
 		sprintf_s(export_path, 256, "Demo\\Transaction_%u.GCT", transaction.Time);
 
 		printf_Info("Now exporting to: '%s'\n", export_path);
@@ -247,7 +245,7 @@ void Transaction_Demo_Spam(void* wsadata, void* socket) {
 	B64_Decode(reciever_64, &reciever);
 
 	memcpy(transaction.Sender, sender, sizeof(_Wallet_Address));
-	memcpy(transaction.Reciever, reciever, sizeof(_Wallet_Address));
+	memcpy(transaction.Receiver, reciever, sizeof(_Wallet_Address));
 
 	printf("Please enter your private key (as base64) in order to sign this transaction: \n");
 	char priv_key_64[180]; fgets(priv_key_64, 180, stdin);

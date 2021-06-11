@@ -1,0 +1,2887 @@
+{
+  "name": null,
+  "style": "mla",
+  "styleVariation": "8th-edition",
+  "locale": "en-US",
+  "font": "Times New Roman",
+  "fontSize": 12,
+  "sources": [
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "YouTube",
+      "title": "How Bitcoin Wallets Work (Public & Private Key Explained)",
+      "url": "https://www.youtube.com/watch?v=GSTiKjnBaes",
+      "authors": [
+        {
+          "id": "bb4c60f0-be78-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Simply Explained",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2019",
+          "month": "08",
+          "day": "06"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:18:37.506Z",
+      "modifiedAt": "2021-05-26T23:18:37.506Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "YouTube",
+      "title": "How Bitcoin Wallets Work (Public & Private Key Explained)",
+      "url": "https://www.youtube.com/watch?v=GSTiKjnBaes",
+      "authors": [
+        {
+          "id": "d5c93b60-be78-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Simply Explained",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2019",
+          "month": "08",
+          "day": "06"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:19:16.580Z",
+      "modifiedAt": "2021-05-26T23:19:16.580Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Elliptic Curve Digital Signature Algorithm",
+      "url": "https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm",
+      "authors": [
+        {
+          "id": "13649050-be79-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "26"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:20:24.098Z",
+      "modifiedAt": "2021-05-26T23:20:24.098Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Bitcoin Wiki",
+      "title": "Elliptic Curve Digital Signature Algorithm - Bitcoin Wiki",
+      "url": "https://en.bitcoin.it/wiki/Elliptic_Curve_Digital_Signature_Algorithm",
+      "authors": [
+        {
+          "id": "184aaf00-be79-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2011"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:21:27.280Z",
+      "modifiedAt": "2021-05-26T23:21:27.280Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "PyCryptodome 3.9.9 documentation",
+      "title": "Digital Signature Algorithm (DSA and ECDSA) — PyCryptodome 3.9.9 documentation",
+      "url": "pycryptodome.readthedocs.io/en/latest/src/signature/dsa.html#:%7E:text=For%20ECDSA%2C%20the%20signature%20is,bytes%20for%20P%2D256",
+      "authors": [
+        {
+          "id": "448fd810-be79-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:22:41.554Z",
+      "modifiedAt": "2021-05-26T23:22:41.554Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Stack Overflow",
+      "title": "Compilation error, \"uses undefined struct\"",
+      "url": "https://stackoverflow.com/questions/14298417/compilation-error-uses-undefined-struct",
+      "authors": [
+        {
+          "id": "790e9090-be79-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2013",
+          "month": "01",
+          "day": "12"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:24:09.626Z",
+      "modifiedAt": "2021-05-26T23:24:09.626Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "GitHub",
+      "title": "ANSSI-FR/libecc",
+      "url": "https://github.com/ANSSI-FR/libecc/blob/master/src/sig/ecdsa.c",
+      "authors": [
+        {
+          "id": "87426dd0-be79-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "A.",
+          "given": "Anssi-Fr",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false,
+          "name": ""
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:24:25.208Z",
+      "modifiedAt": "2021-05-26T23:24:25.208Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "C data types",
+      "url": "https://en.wikipedia.org/wiki/C_data_types",
+      "authors": [
+        {
+          "id": "8e48d470-be79-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "04",
+          "day": "30"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:24:39.386Z",
+      "modifiedAt": "2021-05-26T23:24:39.386Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Double-precision floating-point format",
+      "url": "https://en.wikipedia.org/wiki/Double-precision_floating-point_format",
+      "authors": [
+        {
+          "id": "94741d50-be79-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "24"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:24:49.735Z",
+      "modifiedAt": "2021-05-26T23:24:49.735Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "YouTube",
+      "title": "Breaking ECDSA (Elliptic Curve Cryptography) - rhme2 Secure Filesystem v1.92r1 (crypto 150)",
+      "url": "https://www.youtube.com/watch?v=-UcCMjQab4w",
+      "authors": [
+        {
+          "id": "9c3177e0-be79-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "LiveOverflow",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2017",
+          "month": "05",
+          "day": "19"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:25:00.483Z",
+      "modifiedAt": "2021-05-26T23:25:00.483Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Xorbin",
+      "title": "SHA-256 hash calculator",
+      "url": "https://xorbin.com/tools/sha256-hash-calculator",
+      "authors": [
+        {
+          "id": "9f7e31e0-be79-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:25:14.110Z",
+      "modifiedAt": "2021-05-26T23:25:14.110Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Medium",
+      "title": "Implementing the sha256 and md5 hash functions in C",
+      "url": "https://medium.com/a-42-journey/implementing-the-sha256-and-md5-hash-functions-in-c-78c17e657794",
+      "authors": [
+        {
+          "id": "b5d9c440-be79-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "J.",
+          "given": "Jean-Baptiste",
+          "particle": "",
+          "family": "Terrazzoni",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false,
+          "name": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "04",
+          "day": "28"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:25:42.330Z",
+      "modifiedAt": "2021-05-26T23:25:42.330Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Elliptic-curve cryptography",
+      "url": "https://en.wikipedia.org/wiki/Elliptic-curve_cryptography",
+      "authors": [
+        {
+          "id": "bda68820-be79-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "04"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:25:58.309Z",
+      "modifiedAt": "2021-05-26T23:25:58.309Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "reddit",
+      "title": "How is the Generator Point \"G\" in ECDSA generated?",
+      "url": "https://www.reddit.com/r/cryptography/comments/cwh723/how_is_the_generator_point_g_in_ecdsa_generated/",
+      "authors": [
+        {
+          "id": "c30afe90-be79-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2019",
+          "month": "08",
+          "day": "28"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:26:13.753Z",
+      "modifiedAt": "2021-05-26T23:26:13.753Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Stack Overflow",
+      "title": "typedef fixed length array",
+      "url": "https://stackoverflow.com/questions/4523497/typedef-fixed-length-array/4523537",
+      "authors": [
+        {
+          "id": "379792a0-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2010",
+          "month": "12",
+          "day": "24"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:29:29.291Z",
+      "modifiedAt": "2021-05-26T23:29:29.291Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "NIST",
+      "title": "National Institute of Standards and Technology",
+      "url": "https://www.nist.gov/",
+      "authors": [
+        {
+          "id": "3ebb4540-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "20"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:29:41.268Z",
+      "modifiedAt": "2021-05-26T23:29:41.268Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Secure Programming Cookbook for C and C++: Recipes for Cryptography, Authentication, Input Validation & More",
+      "title": "7.15 Using the Digital Signature Algorithm (DSA)",
+      "url": "https://flylib.com/books/en/2.878.1.133/1/",
+      "authors": [
+        {
+          "id": "536c34e0-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:30:15.982Z",
+      "modifiedAt": "2021-05-26T23:30:15.982Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "ORYX",
+      "title": "dsa.c Source Code - DSA (Digital Signature Algorithm)",
+      "url": "https://oryx-embedded.com/doc/dsa_8c_source.html",
+      "authors": [
+        {
+          "id": "6d9faa40-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:30:59.940Z",
+      "modifiedAt": "2021-05-26T23:30:59.940Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Interview Cake: Programming Interview Questions and Tips",
+      "title": "Bit Shifting (left shift, right shift) | Interview Cake",
+      "url": "https://www.interviewcake.com/concept/java/bit-shift",
+      "authors": [
+        {
+          "id": "7d4f5210-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:31:26.257Z",
+      "modifiedAt": "2021-05-26T23:31:26.257Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Tutorials Point",
+      "title": "C library function - ceil() - Tutorialspoint",
+      "url": "https://www.tutorialspoint.com/c_standard_library/c_function_ceil.htm",
+      "authors": [
+        {
+          "id": "848ef120-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:31:38.418Z",
+      "modifiedAt": "2021-05-26T23:31:38.418Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "github",
+      "title": "SHA256 Online",
+      "url": "https://emn178.github.io/online-tools/sha256.html",
+      "authors": [
+        {
+          "id": "92ade6d0-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:32:02.111Z",
+      "modifiedAt": "2021-05-26T23:32:02.111Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "8gwifi",
+      "title": "DSA Generate Keys, Generate Signature and Verify Signature file",
+      "url": "https://8gwifi.org/DSAFunctionality?keysize=512",
+      "authors": [
+        {
+          "id": "a24db020-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2018",
+          "month": "03",
+          "day": "04"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:32:28.322Z",
+      "modifiedAt": "2021-05-26T23:32:28.322Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Digital Signature Algorithm",
+      "url": "https://en.wikipedia.org/wiki/Digital_Signature_Algorithm",
+      "authors": [
+        {
+          "id": "b12ee460-be7a-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "17"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:32:47.144Z",
+      "modifiedAt": "2021-05-26T23:32:47.144Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Modular exponentiation",
+      "url": "https://en.wikipedia.org/wiki/Modular_exponentiation",
+      "authors": [
+        {
+          "id": "b7421160-be7a-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "01",
+          "day": "15"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:33:00.750Z",
+      "modifiedAt": "2021-05-26T23:33:00.750Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Stack Overflow",
+      "title": "C: is there anyway i can get the modulo operator to work on non integer values?",
+      "url": "https://stackoverflow.com/questions/62597353/c-is-there-anyway-i-can-get-the-modulo-operator-to-work-on-non-integer-values",
+      "authors": [
+        {
+          "id": "bbf0cc60-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2020",
+          "month": "06",
+          "day": "26"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:33:11.335Z",
+      "modifiedAt": "2021-05-26T23:33:11.335Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "A Security Site",
+      "title": "Generate Random Prime Numbers",
+      "url": "https://asecuritysite.com/encryption/random3?val=8",
+      "authors": [
+        {
+          "id": "c3b5ef20-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:33:24.370Z",
+      "modifiedAt": "2021-05-26T23:33:24.370Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Cryptography Stack Exchange",
+      "title": "Are there public $p$ and $q$ numbers for use in DSA?",
+      "url": "https://crypto.stackexchange.com/questions/11655/are-there-public-p-and-q-numbers-for-use-in-dsa",
+      "authors": [
+        {
+          "id": "d26edae0-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2013",
+          "month": "11",
+          "day": "11"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:33:49.070Z",
+      "modifiedAt": "2021-05-26T23:33:49.070Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Tutorials Point",
+      "title": "The best way to check if a file exists using standard C/C++",
+      "url": "https://www.tutorialspoint.com/the-best-way-to-check-if-a-file-exists-using-standard-c-cplusplus",
+      "authors": [
+        {
+          "id": "db4bd640-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:34:03.940Z",
+      "modifiedAt": "2021-05-26T23:34:03.940Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Tutorials Point",
+      "title": "C library function - fopen() - Tutorialspoint",
+      "url": "https://www.tutorialspoint.com/c_standard_library/c_function_fopen.htm",
+      "authors": [
+        {
+          "id": "e758b4d0-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:34:24.159Z",
+      "modifiedAt": "2021-05-26T23:34:24.159Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Educative: Interactive Courses for Software Developers",
+      "title": "C: Reading data from a file using fread()",
+      "url": "https://www.educative.io/edpresso/c-reading-data-from-a-file-using-fread",
+      "authors": [
+        {
+          "id": "f655ae70-be7a-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Edpresso Team",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "04",
+          "day": "23"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:34:46.709Z",
+      "modifiedAt": "2021-05-26T23:34:46.709Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "GitHub",
+      "title": "littlstar/b64.c",
+      "url": "https://github.com/littlstar/b64.c/blob/master/decode.c",
+      "authors": [
+        {
+          "id": "fce5d3a0-be7a-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "L.",
+          "given": "Littlstar",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false,
+          "name": ""
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:34:56.867Z",
+      "modifiedAt": "2021-05-26T23:34:56.867Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Stack Overflow",
+      "title": "How do I base64 encode (decode) in C?",
+      "url": "https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c",
+      "authors": [
+        {
+          "id": "03cd8eb0-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2008",
+          "month": "12",
+          "day": "04"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:35:11.899Z",
+      "modifiedAt": "2021-05-26T23:35:11.899Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Base64 Decode",
+      "title": "Base64 Decode and Encode - Online",
+      "url": "https://www.base64decode.org/",
+      "authors": [
+        {
+          "id": "16fdaab0-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:35:44.091Z",
+      "modifiedAt": "2021-05-26T23:35:44.091Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Apache",
+      "title": "Index of /",
+      "url": "https://svn.apache.org/",
+      "authors": [
+        {
+          "id": "1f79e870-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:35:58.327Z",
+      "modifiedAt": "2021-05-26T23:35:58.327Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "YouTube",
+      "title": "Applied Cryptography: The Digital Signature Algorithm - Part 1",
+      "url": "https://www.youtube.com/watch?v=PQ8AruHaoLo",
+      "authors": [
+        {
+          "id": "47f51130-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Leandro Junes",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2016",
+          "month": "12",
+          "day": "01"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:36:56.132Z",
+      "modifiedAt": "2021-05-26T23:36:56.132Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "ASCII Table",
+      "title": "Ascii Table - ASCII character codes and html, octal, hex and decimal chart conversion",
+      "url": "http://www.asciitable.com/",
+      "authors": [
+        {
+          "id": "4e460a80-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:37:16.840Z",
+      "modifiedAt": "2021-05-26T23:37:16.840Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Printf format string",
+      "url": "https://en.wikipedia.org/wiki/Printf_format_string",
+      "authors": [
+        {
+          "id": "5d8dc8c0-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "04",
+          "day": "29"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:37:39.168Z",
+      "modifiedAt": "2021-05-26T23:37:39.168Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Quora",
+      "title": "What is the difference between fwrite and fprintf in C? - Quora",
+      "url": "https://www.quora.com/What-is-the-difference-between-fwrite-and-fprintf-in-C#:%7E:text=What%20is%20the%20difference%20between%20a%20fprintf%20()%20and%20a,other%20arrays",
+      "authors": [
+        {
+          "id": "69d73b20-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:38:03.091Z",
+      "modifiedAt": "2021-05-26T23:38:03.091Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Convergent series",
+      "url": "https://en.wikipedia.org/wiki/Convergent_series",
+      "authors": [
+        {
+          "id": "78009110-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "08"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:38:23.320Z",
+      "modifiedAt": "2021-05-26T23:38:23.320Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Bitcoin scalability problem",
+      "url": "https://en.wikipedia.org/wiki/Bitcoin_scalability_problem",
+      "authors": [
+        {
+          "id": "83c56a20-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "25"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:38:38.742Z",
+      "modifiedAt": "2021-05-26T23:38:38.742Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "O’Reilly Online Learning",
+      "title": "Mastering Bitcoin",
+      "url": "https://www.oreilly.com/library/view/mastering-bitcoin/9781491902639/ch08.html",
+      "authors": [
+        {
+          "id": "8b099d10-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:38:58.785Z",
+      "modifiedAt": "2021-05-26T23:38:58.785Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Satoshi Nakamoto",
+      "url": "https://en.wikipedia.org/wiki/Satoshi_Nakamoto",
+      "authors": [
+        {
+          "id": "983a3b20-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "24"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:39:18.022Z",
+      "modifiedAt": "2021-05-26T23:39:18.022Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Peer-to-peer",
+      "url": "https://en.wikipedia.org/wiki/Peer-to-peer",
+      "authors": [
+        {
+          "id": "a1a03ca0-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "09"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:39:32.047Z",
+      "modifiedAt": "2021-05-26T23:39:32.047Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Microsoft Docs",
+      "title": "Complete Winsock Server Code - Win32 apps",
+      "url": "https://docs.microsoft.com/en-us/windows/win32/winsock/complete-server-code",
+      "authors": [
+        {
+          "id": "a99b1560-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "S.",
+          "given": "Stevewhims",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false,
+          "name": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2018",
+          "month": "05",
+          "day": "31"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:39:44.560Z",
+      "modifiedAt": "2021-05-26T23:39:44.560Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "YouTube",
+      "title": "What is a Peer to Peer Network? Blockchain P2P Networks Explained",
+      "url": "https://www.youtube.com/watch?v=ie-qRQIQT4I",
+      "authors": [
+        {
+          "id": "b2877a10-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Lisk",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2019",
+          "month": "01",
+          "day": "15"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:39:57.949Z",
+      "modifiedAt": "2021-05-26T23:39:57.949Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "YouTube",
+      "title": "Peer-to-peer (P2P) Networks - Basic Algorithms",
+      "url": "https://www.youtube.com/watch?v=kXyVqk3EbwE",
+      "authors": [
+        {
+          "id": "b8bd7150-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Jakob Jenkov",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2012",
+          "month": "02",
+          "day": "20"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:40:12.849Z",
+      "modifiedAt": "2021-05-26T23:40:12.849Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "YouTube",
+      "title": "Creating a Peer to Peer Network in C",
+      "url": "https://www.youtube.com/watch?v=oHBi8k31fgM",
+      "authors": [
+        {
+          "id": "bf2a3000-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Eric O Meehan",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "03",
+          "day": "14"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:40:22.572Z",
+      "modifiedAt": "2021-05-26T23:40:22.572Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Hash function",
+      "url": "https://en.wikipedia.org/wiki/Hash_function#:%7E:text=A%20hash%20function%20is%20any,table%20called%20a%20hash%20table",
+      "authors": [
+        {
+          "id": "c4cc24a0-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:40:33.130Z",
+      "modifiedAt": "2021-05-26T23:40:33.130Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "SHA-2",
+      "url": "https://en.wikipedia.org/wiki/SHA-2",
+      "authors": [
+        {
+          "id": "cbcfa510-be7b-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "19"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:40:44.584Z",
+      "modifiedAt": "2021-05-26T23:40:44.584Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Stack Overflow",
+      "title": "Set an exe icon for my program",
+      "url": "https://stackoverflow.com/questions/2393863/set-an-exe-icon-for-my-program/26130514",
+      "authors": [
+        {
+          "id": "d0a59720-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2010",
+          "month": "03",
+          "day": "06"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:40:55.570Z",
+      "modifiedAt": "2021-05-26T23:40:55.570Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Clipart Library",
+      "title": "Free Cartoon Pictures Of Trees, Download Free Cartoon Pictures Of Trees png images, Free ClipArts on Clipart Library",
+      "url": "http://clipart-library.com/cartoon-pictures-of-trees.html",
+      "authors": [
+        {
+          "id": "d7cc2ff0-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:41:07.567Z",
+      "modifiedAt": "2021-05-26T23:41:07.567Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "hashtoolkit.com",
+      "title": "Reverse Sha256 Hash",
+      "url": "https://hashtoolkit.com/reverse-sha256-hash/65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5",
+      "authors": [
+        {
+          "id": "e7ca1ed0-be7b-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:41:34.397Z",
+      "modifiedAt": "2021-05-26T23:41:34.397Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Github",
+      "title": "SHA256 Online",
+      "url": "https://emn178.github.io/online-tools/sha256.html",
+      "authors": [
+        {
+          "id": "080ca280-be7c-11eb-99b9-3b2072af818a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "27"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-05-26T23:42:28.520Z",
+      "modifiedAt": "2021-05-26T23:42:28.520Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "One-way function",
+      "url": "https://en.wikipedia.org/wiki/One-way_function",
+      "authors": [
+        {
+          "id": "1373cb30-be7c-11eb-99b9-3b2072af818a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "19"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-05-26T23:42:44.804Z",
+      "modifiedAt": "2021-05-26T23:42:44.804Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Tutorials Point",
+      "title": "C library function - fgets() - Tutorialspoint",
+      "url": "https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm",
+      "authors": [
+        {
+          "id": "3f830900-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "06",
+          "day": "9"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-06-08T23:57:14.513Z",
+      "modifiedAt": "2021-06-08T23:57:14.513Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Khan Academy",
+      "title": "Transmission Control Protocol (TCP) (article)",
+      "url": "https://www.khanacademy.org/computing/computers-and-internet/xcae6f4a7ff015e7d:the-internet/xcae6f4a7ff015e7d:transporting-packets/a/transmission-control-protocol--tcp",
+      "authors": [
+        {
+          "id": "6423b6b0-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "06",
+          "day": "9"
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-06-08T23:58:15.964Z",
+      "modifiedAt": "2021-06-08T23:58:15.964Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Positive Money",
+      "title": "How do Banks Become Insolvent?",
+      "url": "https://positivemoney.org/how-money-works/advanced/how-do-banks-become-insolvent/#:%7E:text=For%20a%20bank%2C%20being%20insolvent,the%20availability%20of%20deposit%20insurance",
+      "authors": [
+        {
+          "id": "721d2300-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {
+          "year": "2018",
+          "month": "11",
+          "day": "09"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-06-08T23:58:39.408Z",
+      "modifiedAt": "2021-06-08T23:58:39.408Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Medium",
+      "title": "The Financial Crisis and History of Bitcoin - Noogin",
+      "url": "https://medium.com/@noogin/the-financial-crisis-and-history-of-bitcoin-27ebdb932b99#:%7E:text=Bitcoin%20was%20invented%20in%20the,the%20expense%20of%20their%20taxpayers",
+      "authors": [
+        {
+          "id": "81147750-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "person",
+          "title": "",
+          "initials": "N.",
+          "given": "Noogin",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false,
+          "name": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2018",
+          "month": "05",
+          "day": "15"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-06-08T23:58:53.416Z",
+      "modifiedAt": "2021-06-08T23:58:53.416Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Statista",
+      "title": "Bitcoin (BTC) price history from 2013 to June 8, 2021",
+      "url": "https://www.statista.com/statistics/326707/bitcoin-price-index/",
+      "authors": [
+        {
+          "id": "87163f30-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "organization",
+          "name": "Statista",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "06",
+          "day": "08"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-06-08T23:59:11.299Z",
+      "modifiedAt": "2021-06-08T23:59:11.299Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Statista",
+      "title": "United States - monthly inflation rate in April 2021",
+      "url": "https://www.statista.com/statistics/273418/unadjusted-monthly-inflation-rate-in-the-us/",
+      "authors": [
+        {
+          "id": "8eefd450-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "organization",
+          "name": "Statista",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "12"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-06-08T23:59:21.562Z",
+      "modifiedAt": "2021-06-08T23:59:21.562Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "CoinDesk",
+      "title": "What Is Bitcoin Halving? Here's Everything You Need to Know –",
+      "url": "https://www.coindesk.com/bitcoin-halving-explainer",
+      "authors": [
+        {
+          "id": "97602b30-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "person",
+          "title": "",
+          "initials": "A.",
+          "given": "Alyssa",
+          "particle": "",
+          "family": "Hertig",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false,
+          "name": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2020",
+          "month": "12",
+          "day": "17"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-06-08T23:59:38.488Z",
+      "modifiedAt": "2021-06-08T23:59:38.488Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Copyright mobilesoftjungle.com, MobileSoftJungle Ltd.",
+      "title": "Bitcoin (BTC) and United States dollar (USD) Year 2021 Exchange Rate History. free currency rates (FCR)",
+      "url": "https://freecurrencyrates.com/en/exchange-rate-history/BTC-USD/2021",
+      "authors": [
+        {
+          "id": "9ec63e00-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "06",
+          "day": "9"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-06-08T23:59:54.337Z",
+      "modifiedAt": "2021-06-08T23:59:54.337Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": true
+      },
+      "type": "webpage",
+      "containerTitle": "Learn CPP",
+      "title": "4.6 — Fixed-width integers and size_t | Learn C++",
+      "url": "https://www.learncpp.com/cpp-tutorial/fixed-width-integers-and-size-t/",
+      "authors": [
+        {
+          "id": "a7f466a0-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "person",
+          "title": "",
+          "initials": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "screenName": "",
+          "order": 1,
+          "role": "author",
+          "isAdvanced": false
+        }
+      ],
+      "issued": [
+        {}
+      ],
+      "accessed": [
+        {
+          "year": "2021",
+          "month": "06",
+          "day": "9"
+        }
+      ],
+      "publisher": {},
+      "locale": "en-US",
+      "createdAt": "2021-06-09T00:00:09.738Z",
+      "modifiedAt": "2021-06-09T00:00:09.738Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    },
+    {
+      "meta": {
+        "hasNoAuthor": false,
+        "hasNoIssued": false
+      },
+      "type": "webpage",
+      "containerTitle": "Wikipedia",
+      "title": "Natural number",
+      "url": "https://en.wikipedia.org/wiki/Natural_number",
+      "authors": [
+        {
+          "id": "b482f850-c8b5-11eb-94fa-4bdf9b35f74a",
+          "type": "organization",
+          "name": "Wikipedia contributors",
+          "screenName": "",
+          "role": "author",
+          "order": 1,
+          "title": "",
+          "given": "",
+          "particle": "",
+          "family": "",
+          "suffix": "",
+          "isAdvanced": false,
+          "initials": ""
+        }
+      ],
+      "issued": [
+        {
+          "year": "2021",
+          "month": "05",
+          "day": "26"
+        }
+      ],
+      "accessed": [
+        {
+          "year": "",
+          "month": "",
+          "day": ""
+        }
+      ],
+      "publisher": {},
+      "locale": "en",
+      "createdAt": "2021-06-09T00:00:27.456Z",
+      "modifiedAt": "2021-06-09T00:00:27.456Z",
+      "form": "WebpageForm",
+      "format": "digital"
+    }
+  ]
+}
