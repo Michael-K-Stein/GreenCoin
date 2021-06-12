@@ -261,6 +261,8 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 		}
 	}
 
+	buffer -= sizeof(GCNL_MAGIC);
+
 	if (size > 0) {
 		free(buffer);
 		free(handles);
