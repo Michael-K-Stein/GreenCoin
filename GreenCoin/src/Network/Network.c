@@ -232,6 +232,8 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 	char * buffer;
 	int size = Load_File(Network_Nodes_List_File_Path, &buffer);
 
+	buffer += sizeof(GCNL_MAGIC);
+
 	HANDLE * handles = (HANDLE*)calloc(size / 5, sizeof(HANDLE));
 	int handle_ind = 0;
 
@@ -426,6 +428,7 @@ error_t Network_Main_Server(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket,
 error_t Network_Add_New_Peer_To_Node_File(unsigned char * ip) {
 	FILE * f;
 	errno_t err = fopen_s(&f, Network_Nodes_List_File_Path, "r+b");
+	fseek(f, sizeof(GCNL_MAGIC), SEEK_SET);
 	if (err != 0) { return ERROR_FAILED; }
 	
 	unsigned char exbuf[5];

@@ -27,7 +27,9 @@ int Query_User_Input();
 
 int Help_Menu();
 
-void Preview_Item(byte * buffer);
+void Print_Node_List(byte * buffer, long * buffer_size);
+
+void Preview_Item(byte * buffer, long * buffer_size);
 
 int Command_Line();
 

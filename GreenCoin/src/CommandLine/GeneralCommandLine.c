@@ -57,7 +57,28 @@ int Help_Menu() {
 	return 0;
 }
 
-void Preview_Item(byte * buffer) {
+void Print_Node_List(byte * buffer, long * buffer_size) {
+	/*
+		The value of a node is a representation of how often they are online and if they send fraudulent blocks/transactions.
+		A node with a high value means it has been unreliable.
+		After a certain threshold, a node should no longer be connected to, and should be banned.
+		This will essentially remove malicious nodes from the network as after a few nefarious actions, they will be banned from the network indefinetly.
+	*/
+	long ind = 0;
+	unsigned char * ptr = buffer;
+
+	fprintf(stderr, "Known network nodes: \n");
+
+	while (ind < (*buffer_size) - 4) {
+
+		fprintf(stderr, "IP: %hhu.%hhu.%hhu.%hhu \t|\t Value: %hhu\n", ptr[0], ptr[1], ptr[2], ptr[3], ptr[4]);
+
+		ind += 5;
+		ptr += 5;
+	}
+}
+
+void Preview_Item(byte * buffer, long * buffer_size) {
 	if (memcmp(buffer, GCT_MAGIC, 4) == 0) {
 		// GCT file
 		Print_Transaction(stderr, (_Transaction*)(buffer+4));
@@ -65,6 +86,10 @@ void Preview_Item(byte * buffer) {
 	else if (memcmp(buffer, GCB_MAGIC, 4) == 0) {
 		// GCB file
 		Print_Block(stderr, (_Block*)(buffer + 4));
+	}
+	else if (memcmp(buffer, GCNL_MAGIC, 4) == 0) {
+		// GCNL file
+		Print_Node_List(buffer + 4, buffer_size);
 	}
 
 }
@@ -128,19 +153,5 @@ int Command_Line() {
 				COMMANDS[i]->function(wsadata, socket);
 			}
 		}
-
-		/*
-		if (strcmp(buffer, COMMAND_CREATE_TRANSACTION) == 0) {
-			Transaction_Demo(wsadata, socket);
-		}
-		else if (is_online && strcmp(buffer, COMMAND_START_SERVER) == 0) {
-			server_handle = Network_CommandLine_Server(wsadata, socket);
-		}
-		else if (is_online && strcmp(buffer, COMMAND_REQUEST_BLOCKS) == 0) {
-			Network_CommandLine_Request_Blocks(wsadata, socket);
-		}
-		else if (strcmp(buffer, COMMAND_WALLET) == 0) {
-			Wallet_CommandLine_General();
-		}*/
 	}
 }

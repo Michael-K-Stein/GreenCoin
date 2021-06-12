@@ -14,7 +14,7 @@ int Execute_External_Commands(int argc, char ** argv) {
 			byte * buffer;
 			long buffer_size = Load_File(file_path, &buffer);
 			if (buffer_size > 0) {
-				Preview_Item(buffer);
+				Preview_Item(buffer, &buffer_size);
 			}
 			else {
 				printf("Could not load or read file!\n");
