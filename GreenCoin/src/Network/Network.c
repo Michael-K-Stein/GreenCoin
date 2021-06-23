@@ -232,6 +232,8 @@ error_t Network_Locate_Nodes(WSADATA * ptr_WSA_Data, SOCKET * ptr_Sending_Socket
 	char * buffer;
 	int size = Load_File(Network_Nodes_List_File_Path, &buffer);
 
+	size -= 4;
+
 	buffer += sizeof(GCNL_MAGIC);
 
 	HANDLE * handles = (HANDLE*)calloc(size / 5, sizeof(HANDLE));
