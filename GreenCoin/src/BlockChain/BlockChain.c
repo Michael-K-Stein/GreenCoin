@@ -319,6 +319,7 @@ error_t Load_Block_History_Path() {
 		err = fopen_s(&f, "Block_History_Path.GCTXT", "w");
 		printf("Please enter directory path for Block History: ");
 		fgets(BLOCK_HISTORY_DIRECTORY_PATH, 256, stdin);
+		if (BLOCK_HISTORY_DIRECTORY_PATH[strlen(BLOCK_HISTORY_DIRECTORY_PATH) - 1] == '\n') { BLOCK_HISTORY_DIRECTORY_PATH[strlen(BLOCK_HISTORY_DIRECTORY_PATH) - 1] = 0x0; }
 		fwrite(BLOCK_HISTORY_DIRECTORY_PATH, sizeof(char), 256, f);
 	}
 	fclose(f);
